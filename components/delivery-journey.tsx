@@ -4,7 +4,7 @@ import {PRICE} from '../lib/menu';
 export default function DeliveryJourney({date}:{date:string}){
  return <section className="delivery-hero" aria-labelledby="welcome-heading">
   <div className="welcome-copy">
-   <h1 id="welcome-heading">Обед из четырёх блюд</h1>
+   <h1 id="welcome-heading">Обед на ваш вкус</h1>
    <p>Выберите суп, горячее, салат и десерт.</p>
    <a className="primary welcome-cta" href="#menu">Собрать обед за {PRICE} ₽ <ArrowDown size={18}/></a>
   </div>
