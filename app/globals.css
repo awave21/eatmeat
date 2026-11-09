@@ -35,9 +35,18 @@ body{background:#fafbfe}.shop-header{top:14px;height:70px;max-width:1280px;margi
 /* White food photography, frameless selection, static courier hero. */
 body{background:#fff}.product-image,.catalog-card:hover .product-image{background:#fff;border:0;box-shadow:0 5px 20px rgba(30,44,75,.045)}.product-image:after{display:none}.catalog-card.is-selected .product-image{border:0;box-shadow:0 9px 28px rgba(30,44,75,.13)}.product-toggle{border:0;background:transparent;box-shadow:none;backdrop-filter:none;visibility:hidden}.is-selected .product-toggle{visibility:visible;border:0;background:#fff;color:var(--accent);box-shadow:0 2px 9px rgba(30,44,75,.08)}.journey-static *{animation:none!important}.journey-static .courier-travel{left:50%;bottom:103px;width:202px;height:269px;transform:translateX(-50%);will-change:auto}.journey-static .courier-sprite{background-position:0 0;transform:none}.journey-static .journey-status .status-static{display:flex;opacity:1}.journey-static .daily-tag{margin-right:0}
 @media(max-width:850px){.journey-static .courier-travel{width:180px;height:240px;bottom:99px}}@media(max-width:760px){.journey-static .courier-travel{width:188px;height:251px;bottom:93px}}@media(max-width:560px){.journey-static .courier-travel{width:170px;height:227px;bottom:85px}}
-/* No image backing: the transparent container cutouts cast the selection shadow. */
-.product-image,.catalog-card:hover .product-image,.catalog-card.is-selected .product-image{background:transparent;border:0;border-radius:0;box-shadow:none;overflow:visible}.product-image .food-photo{background-color:transparent;filter:none;transition:filter 160ms}.catalog-card.is-selected .product-image .food-photo{filter:drop-shadow(0 7px 10px rgba(25,39,66,.18))}.product-toggle,.is-selected .product-toggle{background:transparent;box-shadow:none;border:0;backdrop-filter:none}.product-tag{border:0;box-shadow:none}
+/* Keep cutouts transparent and show selection around the whole card. */
+.product-image,.catalog-card:hover .product-image,.catalog-card.is-selected .product-image{background:transparent;border:0;border-radius:0;box-shadow:none;overflow:visible}.product-image .food-photo{background-color:transparent}.product-toggle,.is-selected .product-toggle{background:transparent;box-shadow:none;border:0;backdrop-filter:none}.product-tag{border:0;box-shadow:none}
 .dock-thumbs .food-photo{border:0;background-color:transparent}.flying-dish{box-shadow:none;filter:drop-shadow(0 5px 12px rgba(25,39,66,.15));background-color:transparent}
+.catalog-card::before{
+  content:'';
+  position:absolute;
+  inset:-4px;
+  border-radius:14px;
+  pointer-events:none;
+  transition:box-shadow 160ms var(--ease);
+}
+.catalog-card.is-selected::before{box-shadow:0 2px 6px rgba(0,0,0,.10),0 6px 16px rgba(0,0,0,.07)}
 
 /* Land in the matching slot before the courier packs the order. */
 .dock-caught .dock-checkout{animation:none}
@@ -80,9 +89,8 @@ body{background:#fff}.product-image,.catalog-card:hover .product-image{backgroun
     font-size:11px;
   }
   .rail-slot img{width:100%;height:100%;object-fit:contain}
-  .rail-slot .food-photo{filter:drop-shadow(0 4px 3px rgba(36,72,197,.65))}
-  .catalog-card.is-selected .product-image .food-photo{
-    filter:drop-shadow(0 9px 8px rgba(36,72,197,.48));
+  .category-rail nav>button:has(.rail-slot .food-photo){
+    box-shadow:0 1px 4px rgba(0,0,0,.12);
   }
   .dock-inner>.dock-catcher,.dock-label,.dock-delivery{display:none}
   .dock-inner{min-height:64px;padding:8px 16px;gap:12px}
