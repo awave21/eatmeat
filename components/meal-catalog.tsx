@@ -43,7 +43,7 @@ export default function MealCatalog(p:Props){
  <header className="shop-header"><a href="/" className="logo" aria-label="Питание Москва — на главную"><span className="logo-mark"><span className="brand-symbol" aria-hidden="true"><span/><span/><span/><span/></span></span><span className="company-name">Питание Москва</span><span className="logo-caption">готовая еда на каждый день</span></a><nav aria-label="Основная навигация"><a href="#menu">Меню</a><a href="#delivery">Доставка и оплата</a></nav><button className="shop-basket" onClick={p.onBasket}><ShoppingBag size={19}/><span>Мой обед</span><b>{count}/4</b></button></header>
  <div className="delivery-line"><span><Truck size={16}/> Привезём {p.date} с 12:00 до 13:00</span><span>Доставка бесплатно <i>·</i> Заказ до 20:00</span></div>
  <main className="shop-main"><DeliveryJourney date={p.date}/><div id="menu" className="catalog-anchor"/>
- <section className="catalog-intro"><div><span className="catalog-kicker">Завтра обедаем дома. Или в офисе.</span><h2>А что вы любите на обед?</h2><p>Выберите суп, гарнир, салат и десерт. Мы займёмся остальным.</p></div><div className="set-price"><b>{PRICE} <span>₽</span></b><span>четыре блюда<br/>напиток и приборы отдельно</span></div></section>
+ <section className="catalog-intro"><h2>Выберите блюда</h2><p>По одному блюду из каждой категории.</p></section>
  <div className="catalog-layout">
  <aside className="category-rail" aria-label="Разделы меню">
   <span className="rail-title">Соберите свой обед</span>
