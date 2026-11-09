@@ -221,15 +221,19 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   border-radius:var(--radius-compact);
   background:var(--surface) url('/courier/delivery-dock.webp') no-repeat 0 0 / 200% 100%;
 }
-.lunch-city{
+.lunch-city-frame{
   position:absolute;
   z-index:-1;
+  inset:0;
+  pointer-events:none;
+}
+.lunch-city{
+  position:absolute;
+  top:-8px;
   right:0;
-  bottom:-32px;
-  width:min(100%,640px);
+  width:min(100%,400px);
   aspect-ratio:480 / 248;
   container-type:size;
-  pointer-events:none;
   transform:scale(.92,.84) skew(-17deg,-8deg);
   color:#c4d3ed;
 }
@@ -303,8 +307,13 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 
 @media(min-width:761px){
   .delivery-hero{
+    position:relative;
+    isolation:isolate;
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
+  .welcome-copy{position:static;isolation:auto}
+  .lunch-city-frame{inset:calc(-1 * var(--space-16)) 0 0;overflow:clip}
+  .lunch-city{inset:0;width:auto;aspect-ratio:auto;transform:scale(.95,.90) skew(-13deg,-6deg)}
   .lunch-hero{width:100%;max-width:584px;justify-self:end}
   .lunch-visual{order:-2;width:100%;max-width:552px;align-self:center}
   .lunch-extras{order:-1}
@@ -323,7 +332,6 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 @media(max-width:760px){
   .delivery-hero{gap:16px;padding-top:18px}
   .welcome-copy{padding:0}
-  .lunch-city{top:-8px;bottom:auto;width:min(100%,400px)}
   .welcome-heading{font-size:clamp(32px,9vw,48px)}
   .welcome-copy>p:not(.welcome-heading){margin-top:var(--space-12);font-size:16px}
   .welcome-cta{width:100%;margin-top:var(--space-16)}

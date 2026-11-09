@@ -26,8 +26,9 @@ export default function LunchCity() {
     };
   }, []);
 
-  return <div ref={scene} className="lunch-city" aria-hidden="true" data-running={visible}>
-    <svg viewBox="0 0 480 248" focusable="false">
+  return <div className="lunch-city-frame" aria-hidden="true">
+   <div ref={scene} className="lunch-city" data-running={visible}>
+    <svg viewBox="0 0 480 248" preserveAspectRatio="none" focusable="false">
       <defs><g id={buildings}>
         <path d="M16 15h39v12H38v23H16z"/>
         <rect x="64" y="22" width="20" height="28" rx="3"/>
@@ -66,5 +67,6 @@ export default function LunchCity() {
       <use href={'#'+buildings} fill="currentColor"/>
     </svg>
     <span className="lunch-city-dot"/>
+   </div>
   </div>;
 }
