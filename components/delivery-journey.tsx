@@ -10,6 +10,7 @@ export default function DeliveryJourney({date}:{date:string}){
    <a className="primary welcome-cta" href="#menu">Собрать обед за {PRICE} ₽ <ArrowDown size={18}/></a>
    <p className="welcome-demo">Демо · оформление без оплаты и доставки</p>
   </div>
+  <LunchCity/>
   <div className="lunch-hero">
    <div className="lunch-delivery">
     <span className="lunch-delivery-courier" aria-hidden="true"/>
@@ -18,7 +19,6 @@ export default function DeliveryJourney({date}:{date:string}){
     <a className="lunch-cutoff" href="#delivery">Приём заказов до {ORDER_CUTOFF_HOUR}:00 МСК</a>
    </div>
    <div className="lunch-visual">
-    <LunchCity/>
     <img
      className="lunch-hero-photo"
      src="/food/lunch-set-angled-768.webp"

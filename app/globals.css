@@ -208,46 +208,52 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   height:64px;
   background:url('/courier/delivery-dock.webp') no-repeat 0 0 / 200% 100%;
 }
-.lunch-visual{position:relative;isolation:isolate}
+.lunch-route{
+  position:relative;
+  width:min(100%,480px);
+  height:112px;
+  border-radius:var(--radius-card);
+  background:#f7f9fd;
+}
 .lunch-city{
   position:absolute;
-  z-index:-1;
-  inset:-12px;
-  width:calc(100% + 24px);
-  height:calc(100% + 24px);
+  inset:0;
   container-type:size;
   pointer-events:none;
+  color:#e1eaf7;
 }
 .lunch-city svg{display:block;width:100%;height:100%}
 .lunch-city-dot{
   position:absolute;
-  inset:-4px auto auto -4px;
-  width:8px;
-  height:8px;
+  inset:-3px auto auto -3px;
+  width:6px;
+  height:6px;
   border-radius:50%;
-  background:rgba(36,72,197,.64);
+  background:rgba(36,72,197,.68);
   box-shadow:0 0 0 3px rgba(36,72,197,.10);
-  transform:translate(8cqw,4cqh);
-  animation:lunch-city-route 18s linear infinite paused;
+  transform:translate(8cqw,39cqh);
+  animation:lunch-city-route 22s linear infinite paused;
 }
 .lunch-city[data-running=true] .lunch-city-dot{animation-play-state:running;will-change:transform}
+/* Intersections sit in the gaps between the SVG blocks. */
 @keyframes lunch-city-route{
-  0%,100%{transform:translate(8cqw,4cqh)}
-  27%{transform:translate(92cqw,4cqh)}
-  28.5%{transform:translate(95.5cqw,6cqh)}
-  30%{transform:translate(97cqw,10cqh)}
-  47%{transform:translate(97cqw,90cqh)}
-  48.5%{transform:translate(95.5cqw,94cqh)}
-  50%{transform:translate(92cqw,96cqh)}
-  77%{transform:translate(8cqw,96cqh)}
-  78.5%{transform:translate(4.5cqw,94cqh)}
-  80%{transform:translate(3cqw,90cqh)}
-  97%{transform:translate(3cqw,10cqh)}
-  98.5%{transform:translate(4.5cqw,6cqh)}
+  0%,100%{transform:translate(8cqw,39cqh)}
+  8.0%{transform:translate(24cqw,39cqh)}
+  10.7%{transform:translate(24cqw,15cqh)}
+  27.6%{transform:translate(58cqw,15cqh)}
+  30.4%{transform:translate(58cqw,39cqh)}
+  39.4%{transform:translate(76cqw,39cqh)}
+  42.2%{transform:translate(76cqw,63cqh)}
+  50.1%{transform:translate(92cqw,63cqh)}
+  52.8%{transform:translate(92cqw,86cqh)}
+  77.6%{transform:translate(42cqw,86cqh)}
+  80.3%{transform:translate(42cqw,63cqh)}
+  97.2%{transform:translate(8cqw,63cqh)}
 }
 .lunch-motion-toggle{
   position:absolute;
   inset:0 0 auto auto;
+  z-index:1;
   display:grid;
   place-items:center;
   width:44px;
@@ -263,8 +269,15 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 .lunch-hero-photo{display:block;width:100%;height:auto}
 
 @media(min-width:761px){
-  .delivery-hero{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .lunch-hero{width:100%;max-width:584px;justify-self:end}
+  .delivery-hero{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-areas:"copy meal" "route meal";
+    grid-template-rows:minmax(min-content,1fr) minmax(min-content,.7fr);
+    row-gap:var(--space-20);
+  }
+  .welcome-copy{grid-area:copy;align-self:end;padding:0}
+  .lunch-route{grid-area:route;align-self:start}
+  .lunch-hero{grid-area:meal;width:100%;max-width:584px;justify-self:end}
   .lunch-visual{order:-1}
 }
 @media(max-width:1050px){
@@ -281,6 +294,7 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 @media(max-width:760px){
   .delivery-hero{gap:16px;padding-top:18px}
   .welcome-copy{padding:0}
+  .lunch-route{height:72px}
   .welcome-heading{font-size:clamp(32px,9vw,48px)}
   .welcome-copy>p:not(.welcome-heading){margin-top:var(--space-12);font-size:16px}
   .welcome-cta{width:100%;margin-top:var(--space-16)}

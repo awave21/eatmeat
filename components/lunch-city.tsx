@@ -29,23 +29,33 @@ export default function LunchCity() {
 
   const label = paused ? 'Продолжить анимацию маршрута' : 'Приостановить анимацию маршрута';
 
-  return <>
+  return <div className="lunch-route">
     <div ref={scene} className="lunch-city" aria-hidden="true" data-running={visible && !paused}>
-      <svg viewBox="0 0 620 426" preserveAspectRatio="none" focusable="false">
-        <g fill="#d9e5f6" opacity=".58">
-          <rect x="50" y="32" width="32" height="43" rx="6"/>
-          <rect x="102" y="37" width="58" height="42" rx="8"/>
-          <rect x="175" y="37" width="42" height="64" rx="7"/>
-          <rect x="34" y="121" width="31" height="62" rx="6"/>
-          <rect x="33" y="209" width="51" height="43" rx="7"/>
-          <rect x="36" y="275" width="35" height="66" rx="7"/>
-          <rect x="86" y="284" width="64" height="34" rx="6"/>
-          <rect x="91" y="358" width="45" height="42" rx="8"/>
-          <rect x="471" y="35" width="72" height="40" rx="8"/>
-          <rect x="558" y="27" width="37" height="64" rx="7"/>
-          <rect x="549" y="120" width="42" height="54" rx="7"/>
-          <rect x="553" y="318" width="39" height="66" rx="7"/>
-          <rect x="474" y="373" width="58" height="33" rx="7"/>
+      <svg viewBox="0 0 600 150" preserveAspectRatio="none" focusable="false">
+        <g fill="currentColor">
+          <rect x="61" y="31" width="29" height="20" rx="4"/>
+          <rect x="98" y="32" width="31" height="18" rx="4"/>
+          <rect x="157" y="31" width="41" height="19" rx="4"/>
+          <rect x="206" y="31" width="33" height="20" rx="5"/>
+          <rect x="269" y="32" width="65" height="17" rx="5"/>
+          <rect x="365" y="29" width="32" height="22" rx="4"/>
+          <rect x="406" y="34" width="36" height="17" rx="4"/>
+          <rect x="469" y="30" width="45" height="21" rx="5"/>
+          <rect x="63" y="67" width="63" height="19" rx="5"/>
+          <rect x="158" y="66" width="33" height="20" rx="4"/>
+          <rect x="200" y="70" width="37" height="17" rx="4"/>
+          <rect x="267" y="65" width="36" height="21" rx="4"/>
+          <rect x="311" y="70" width="24" height="16" rx="4"/>
+          <rect x="364" y="67" width="78" height="18" rx="5"/>
+          <rect x="468" y="66" width="65" height="20" rx="5"/>
+          <rect x="62" y="104" width="45" height="18" rx="4"/>
+          <rect x="116" y="106" width="47" height="16" rx="4"/>
+          <rect x="174" y="102" width="62" height="20" rx="5"/>
+          <rect x="266" y="104" width="68" height="18" rx="5"/>
+          <rect x="365" y="102" width="39" height="20" rx="4"/>
+          <rect x="412" y="107" width="30" height="14" rx="4"/>
+          <rect x="469" y="103" width="31" height="20" rx="4"/>
+          <rect x="508" y="106" width="30" height="16" rx="4"/>
         </g>
       </svg>
       <span className="lunch-city-dot"/>
@@ -53,5 +63,5 @@ export default function LunchCity() {
     <button className="lunch-motion-toggle" type="button" aria-label={label} title={label} onClick={() => setPaused(value => !value)}>
       {paused ? <Play size={14} aria-hidden="true"/> : <Pause size={14} aria-hidden="true"/>}
     </button>
-  </>;
+  </div>;
 }
