@@ -2,7 +2,13 @@
 
 Метод: встроенный ImageGen. Оригиналы сохранены генератором, рабочие JPEG сжаты для сайта. Hero и atlas находятся в public/food. Это концептуальные изображения, не фотографии фактической продукции кухни.
 
-## Новый набор на главной
+## Набор под углом
+
+Новая версия создана встроенным ImageGen на основе предыдущего изображения. Оригинал с прозрачностью сохранён в `public/food/lunch-set-angled.png`. Сайт использует три размера WebP.
+
+Rephotograph this exact complete lunch as a premium photorealistic food delivery hero on transparent PNG. Change only the camera perspective and arrangement: use a three-quarter overhead camera angle of approximately 50–55 degrees above the food, so the side walls and rims of the black takeaway containers are clearly visible and the food has natural depth. Arrange the four dishes as a compact, slightly diagonal composition with all foods easy to identify, and the black fork, spoon and knife on their light neutral folded napkin beside the dishes. Preserve exactly four dishes: ruby borscht with sour cream and dill in a round black takeaway bowl, sliced grilled chicken with mashed potatoes in a matte black rectangular tray, Greek salad in a second round black bowl, and one slice of berry cheesecake in another rectangular black tray. The two rectangular trays are identical in dimensions, profile and corner radius, as two copies of the same takeout container. Preserve the matte black fork, spoon and knife. Use realistic fresh textures, natural appetizing colors, soft directional studio light from upper left, and very subtle contact shadows fading to alpha. Maintain a wide 3:2 frame with the complete arrangement inside the canvas, modest transparent margin, no clipping. Real RGBA transparency between and around dishes, no surface, no table, no background fill, no lettering, no logos, no people, no extra dishes or props. This will sit on a very pale cool blue website panel.
+
+## Набор сверху
 
 Изображение создано и отредактировано встроенным ImageGen. PNG с прозрачностью сохранён в `public/food/lunch-set.png`. Сайт использует копии WebP шириной 768 и 1280 px.
 
