@@ -1,5 +1,179 @@
+/* eslint-disable @next/next/no-html-link-for-pages -- GitHub Pages uses plain links without the Next router. */
 'use client';
-import {useState} from 'react';
-import {ArrowLeft,ArrowRight,Check,Plus,Minus,Coffee,GlassWater} from 'lucide-react';
-const palette=[['Основной синий','#2448C5','Кнопки, выделение и фокус'],['Нажатие / hover','#18369C','Активное действие'],['Графит','#172443','Заголовки и основной текст'],['Вторичный текст','#5E6B83','Описания и пояснения'],['Фон страницы','#F5F7FB','Спокойная основа'],['Светлый синий','#EAF0FC','Информация и выбранные состояния'],['Поверхность','#FFFFFF','Карточки и поля'],['Граница','#DCE3EF','Разделение и структура']];
-export default function DesignSystem(){const [selected,setSelected]=useState(0),[count,setCount]=useState(1),[message,setMessage]=useState('Нажмите на компонент, чтобы проверить его поведение.');return <><header className="ds-header"><a className="logo" href="/"><span className="logo-mark"><span className="brand-symbol" aria-hidden="true"><span/><span/><span/><span/></span></span><span className="company-name">Питание Москва</span></a><a className="ds-back" href="/"><ArrowLeft size={17}/> К меню</a></header><main className="ds-page wrap"><div className="ds-intro"><p className="eyebrow">Фирменный интерфейс сервиса</p><h1>Дизайн-система<br/>«Питание Москва»</h1><p>Открытый каталог. Все блюда перед вами.<br/>Единые правила для всего пути от меню до заказа.</p><a href="/#menu" className="primary">Посмотреть в работе <ArrowRight size={18}/></a></div><section className="ds-section"><div className="ds-section-head"><h2>01 / Цвет</h2><p>Один синий акцент и холодные нейтральные поверхности. Цвет обозначает действие и состояние.</p></div><div className="ds-colors">{palette.map(([name,color,role])=><article key={name}><div className="ds-color" style={{background:color}}/><div><b>{name}</b><code>{color}</code><p>{role}</p></div></article>)}</div></section><section className="ds-section"><div className="ds-section-head"><h2>02 / Типографика</h2><p>Golos Text. Один шрифт с кириллицей, выразительные заголовки и читаемый интерфейс.</p></div><div className="ds-type"><span className="ds-type-label">Заголовок / 600</span><div className="ds-display">Завтра будет вкусно.</div><span className="ds-type-label">Раздел / 600</span><h2>Соберите свой обед</h2><span className="ds-type-label">Основной текст / 400</span><p>Суп, гарнир, салат и десерт — выбирайте то, что любите. Чай, компот или морс можно добавить по желанию.</p><span className="ds-type-label">Данные / табличные цифры</span><strong className="ds-price">390 ₽ <small>за полный обед</small></strong></div></section><section className="ds-section"><div className="ds-section-head"><h2>03 / Действия</h2><p>Высота основных целей — от 44 px. Hover затемняет цвет, нажатие даёт короткий отклик, фокус виден с клавиатуры.</p></div><div className="ds-component-grid"><div className="ds-demo"><span className="ds-type-label">Основное действие</span><button className="primary" onClick={()=>setMessage('Основное действие выполнено. Размеры блока сохранены.')}>Добавить в обед <Plus size={18}/></button><button className="primary" disabled>Сохраняем заказ…</button></div><div className="ds-demo"><span className="ds-type-label">Вторичное действие</span><a className="next-category" href="/#menu">Вернуться к меню <ArrowRight size={17}/></a><div className="quantity"><button aria-label="Уменьшить" disabled={count===1} onClick={()=>setCount(n=>n-1)}><Minus size={16}/></button><b>{count}</b><button aria-label="Увеличить" disabled={count===20} onClick={()=>setCount(n=>n+1)}><Plus size={16}/></button></div></div></div><p className="ds-feedback" role="status">{message}</p></section><section className="ds-section"><div className="ds-section-head"><h2>04 / Выбор</h2><p>Нажатие выделяет элемент. Повторное снимает выбор. Контент и соседние блоки остаются на месте.</p></div><div className="ds-choices">{['Чай','Компот','Морс'].map((label,i)=><button className={'drink-option '+(selected===i?'chosen-drink':'')} key={label} aria-pressed={selected===i} onClick={()=>setSelected(selected===i?-1:i)}>{i===0?<Coffee size={25}/>:<GlassWater size={25}/>}<b>{label}</b><span>К вашему обеду</span><Check className="drink-check" size={15}/></button>)}</div></section><section className="ds-section"><div className="ds-section-head"><h2>05 / Поля и сообщения</h2><p>Постоянная подпись над полем. Синий фокус. Ошибка выделяется отдельным цветом и объясняет следующий шаг.</p></div><div className="ds-component-grid"><div className="ds-demo"><label>Ваше имя<input placeholder="Как к вам обращаться" autoComplete="off"/></label><label>Адрес доставки<input placeholder="Улица, дом, квартира" autoComplete="off"/></label></div><div className="ds-demo"><div className="ds-success"><Check size={20}/><span>Выбор сохранён. Можно перейти к адресу.</span></div><div className="error" role="note">Укажите улицу и номер дома, чтобы продолжить.</div></div></div></section><section className="ds-section"><div className="ds-section-head"><h2>06 / Компоновка и движение</h2><p>Отступы внутри блоков идут с шагом 4 px. Скругления растут от компактных кнопок до крупных панелей.</p></div><div className="ds-rules"><div><b>Все 12 блюд</b><p>В карточках текст отступает на 12 px с каждой стороны. На телефоне каталог идёт в две колонки.</p></div><div><b>Нижняя панель</b><p>Во время выбора видны сумма и кнопка корзины. Боковые поля совпадают с полями каталога.</p></div><div><b>Reduced motion</b><p>Системная настройка отключает движение. Все действия продолжают работать.</p></div></div></section><a className="primary ds-end" href="/">Вернуться к обеду <ArrowRight size={18}/></a></main></>}
+
+import {useEffect, useRef, useState, type CSSProperties} from 'react';
+import {ArrowLeft, ArrowRight, Check, X} from 'lucide-react';
+import {DishCard, DrinkOptions} from '../../components/catalog-options';
+import {AddressFields, BasketBeverages, BasketIntro, DishDetails} from '../../components/order-components';
+import {categories} from '../../lib/menu';
+
+const colors = [
+ ['Синий', '--accent', 'Основное действие и выбранное состояние'],
+ ['Синий при наведении', '--accent-dark', 'Реакция кнопки на наведение'],
+ ['Графит', '--ink', 'Заголовки и основной текст'],
+ ['Вторичный текст', '--muted', 'Пояснения и характеристики'],
+ ['Фон страницы', '--canvas', 'Основной фон каталога'],
+ ['Поверхность', '--surface', 'Карточки и блоки'],
+ ['Светлый синий', '--tint', 'Информация и выбранные состояния'],
+ ['Разделитель', '--line', 'Границы и разделение'],
+] as const;
+
+const radii = [
+ ['Метка', '--radius-tag'],
+ ['Компактная кнопка', '--radius-compact'],
+ ['Кнопка и поле', '--radius-control'],
+ ['Вложенный блок', '--radius-inset'],
+ ['Карточка', '--radius-card'],
+ ['Секция', '--radius-section'],
+ ['Панель', '--radius-panel'],
+] as const;
+
+const spaces = [4, 8, 12, 16, 20, 24, 32, 40, 48, 64] as const;
+
+export default function DesignSystem(){
+ const [selected, setSelected] = useState<number|null>(1);
+ const [detailIndex, setDetailIndex] = useState(0);
+ const [drink, setDrink] = useState<string|null>(null);
+ const [basket, setBasket] = useState<(number|null)[]>(categories.map(()=>null));
+ const [submitted, setSubmitted] = useState(false);
+ const [tokens, setTokens] = useState<Record<string,string>>({});
+ const panel = useRef<HTMLDialogElement>(null);
+ const detailTrigger = useRef<HTMLButtonElement>(null);
+
+ useEffect(()=>{
+  const frame=requestAnimationFrame(()=>{
+   const css=getComputedStyle(document.documentElement);
+   setTokens(Object.fromEntries([...colors,...radii].map(([,token])=>[token,css.getPropertyValue(token).trim().toUpperCase()])));
+  });
+  return()=>cancelAnimationFrame(frame);
+ },[]);
+
+ function openDetails(index: number, trigger: HTMLButtonElement){
+  setDetailIndex(index);
+  const dialog=panel.current!;
+  detailTrigger.current=trigger;
+  dialog.showModal();
+  dialog.querySelector('h2')?.focus({preventScroll:true});
+  dialog.getBoundingClientRect();
+  dialog.dataset.visible='';
+ }
+ async function closeDetails(){
+  const dialog=panel.current!;
+  if(!dialog.hasAttribute('data-visible'))return;
+  delete dialog.dataset.visible;
+  await Promise.allSettled(dialog.getAnimations().map(animation=>animation.finished));
+  dialog.close();
+  detailTrigger.current?.focus({preventScroll:true});
+ }
+
+ return <>
+  <header className="ds-header">
+   <a className="logo" href="/">
+    <span className="logo-mark"><span className="brand-symbol" aria-hidden="true"><span/><span/><span/><span/></span></span>
+    <span className="company-name">Питание Москва</span>
+   </a>
+   <a className="ds-back" href="/"><ArrowLeft size={17}/> К меню</a>
+  </header>
+  <main className="ds-page wrap">
+   <div className="ds-intro">
+    <p className="eyebrow">Интерфейс сервиса</p>
+    <h1>Дизайн-система</h1>
+    <p>Цвета, отступы и рабочие компоненты каталога и оформления обеда.</p>
+    <a href="/#menu" className="primary">Открыть каталог <ArrowRight size={18}/></a>
+   </div>
+
+   <section className="ds-section">
+    <div className="ds-section-head"><h2>01 / Цвет и типографика</h2>
+     <p>Синий показывает действие и выбор. Golos Text используется во всём интерфейсе.</p>
+    </div>
+    <div className="ds-colors">
+     {colors.map(([name,token,role])=><article key={token}>
+      <div className="ds-color" style={{background:`var(${token})`}}/>
+      <div><b>{name}</b><code>{tokens[token]}</code><p>{role}</p></div>
+     </article>)}
+    </div>
+    <div className="ds-type welcome-copy">
+     <span className="ds-type-label">Заголовок первого экрана</span>
+     <p className="welcome-heading">Четыре блюда. <span>Ваш выбор.</span></p>
+     <p>В наборе суп, горячее, салат и десерт.</p>
+    </div>
+   </section>
+
+   <section className="ds-section">
+    <div className="ds-section-head"><h2>02 / Отступы и скругления</h2>
+     <p>Шкала отступов связывает элементы внутри блока. Радиус зависит от размера и роли поверхности.</p>
+    </div>
+    <ul className="ds-spaces">{spaces.map(space=><li key={space}>
+     <span style={{'--sample-space':`var(--space-${space})`} as CSSProperties}/>{space} px
+    </li>)}</ul>
+    <ul className="ds-radii">{radii.map(([name,token])=><li key={token}>
+     <span style={{borderRadius:`var(${token})`}}/>{name}<code>{tokens[token]?.toLowerCase()}</code>
+    </li>)}</ul>
+   </section>
+
+   <section className="ds-section">
+    <div className="ds-section-head"><h2>03 / Блюда и напитки</h2>
+     <p>Нажатие на блюдо переключает выбор. Состав открывается отдельно. На телефоне панель занимает экран, на компьютере выдвигается справа.</p>
+    </div>
+    <div className="ds-component-grid">
+     <div className="ds-demo">
+      <span className="ds-type-label">Обычная и выбранная карточки</span>
+      <div className="ds-dish-grid">
+       {[0,1].map(index=><DishCard key={index} cat={0} index={index} selected={selected===index}
+        onSelect={()=>setSelected(selected===index?null:index)} onDetails={trigger=>openDetails(index,trigger)}/>)}
+      </div>
+     </div>
+     <div className="ds-demo drinks-department">
+      <span className="ds-type-label">Напиток за дополнительную плату</span>
+      <button className="no-drink" aria-pressed={drink===null} onClick={()=>setDrink(null)}>
+       {drink===null&&<Check size={13}/>}Без напитка
+      </button>
+      <DrinkOptions drink={drink} onDrink={setDrink}/>
+     </div>
+    </div>
+   </section>
+
+   <section className="ds-section">
+    <div className="ds-section-head"><h2>04 / Корзина и адрес</h2>
+     <p>Состав показывает прогресс и недостающие блюда. Поля адреса используют штатную маску телефона и группируют необязательные данные.</p>
+    </div>
+    <div className="ds-component-grid">
+     <div className="ds-demo dialog-inner">
+      <span className="ds-type-label">Пустая, неполная и собранная корзина</span>
+      <BasketIntro selected={basket} onContinue={index=>setBasket(items=>items.map((item,i)=>i===index?0:item))}/>
+      <button className="back" onClick={()=>setBasket(categories.map(()=>null))}>Сбросить пример</button>
+      <BasketBeverages drink={drink} onDrink={setDrink}/>
+     </div>
+     <div className="ds-demo dialog-inner">
+      <span className="ds-type-label">Поля оформления</span>
+      <form onSubmit={event=>{event.preventDefault();setSubmitted(true)}} onInput={()=>setSubmitted(false)}>
+       <AddressFields draft={{}} onPhoneChange={()=>{}}/>
+       <button className="primary">Проверить поля <ArrowRight size={18}/></button>
+       {submitted&&<p className="ds-success" role="status"><Check size={20}/> Поля заполнены</p>}
+      </form>
+     </div>
+    </div>
+   </section>
+
+   <section className="ds-section">
+    <div className="ds-section-head"><h2>05 / Адаптивность и движение</h2>
+     <p>Компоненты сохраняют состояние и работают с клавиатурой. Системная настройка уменьшения движения отключает переходы и перелёт миниатюр.</p>
+    </div>
+    <div className="ds-rules">
+     <div><b>Каталог</b><p>Две колонки на телефоне и три на компьютере. Название, характеристики и состав выровнены по одному краю карточки.</p></div>
+     <div><b>Закреплённые панели</b><p>Мобильная шапка прилегает к краям. Полоса категорий показывает текущий раздел и выбранные блюда, корзина остаётся доступной внизу.</p></div>
+     <div><b>Состав блюда</b><p>Фокус переходит в панель при открытии и возвращается к кнопке состава при закрытии.</p></div>
+    </div>
+   </section>
+  </main>
+  <dialog ref={panel} aria-labelledby="dish-detail-title" className="drawer detail-drawer"
+   onCancel={event=>{event.preventDefault();void closeDetails()}}
+   onClick={event=>{if(event.target===event.currentTarget)void closeDetails()}}>
+   <div className="dialog-inner">
+    <button className="close" aria-label="Закрыть" onClick={closeDetails}><X size={22}/></button>
+    <DishDetails cat={0} index={detailIndex} selected={selected===detailIndex}
+     onAction={()=>{setSelected(detailIndex);void closeDetails()}}/>
+   </div>
+  </dialog>
+ </>;
+}

@@ -1,19 +1,21 @@
 import {ArrowDown} from 'lucide-react';
-import {PRICE} from '../lib/menu';
+import {DELIVERY_WINDOW, ORDER_CUTOFF_HOUR, PRICE} from '../lib/menu';
 import LunchCity from './lunch-city';
 
 export default function DeliveryJourney({date}:{date:string}){
  return <section className="delivery-hero" aria-labelledby="welcome-heading">
   <div className="welcome-copy">
-   <h1 id="welcome-heading">Четыре блюда. <span>Ваш выбор.</span></h1>
+   <h1 id="welcome-heading" className="welcome-heading">Четыре блюда. <span>Ваш выбор.</span></h1>
    <p>В наборе суп, горячее, салат и десерт.</p>
    <a className="primary welcome-cta" href="#menu">Собрать обед за {PRICE} ₽ <ArrowDown size={18}/></a>
+   <p className="welcome-demo">Демо · оформление без оплаты и доставки</p>
   </div>
   <div className="lunch-hero">
    <div className="lunch-delivery">
     <span className="lunch-delivery-courier" aria-hidden="true"/>
     <strong>Бесплатная доставка</strong>
-    <p>{date} · 12:00–13:00</p>
+    <p>{date?<>{date} · </>:null}{DELIVERY_WINDOW}</p>
+    <a className="lunch-cutoff" href="#delivery">Приём заказов до {ORDER_CUTOFF_HOUR}:00 МСК</a>
    </div>
    <div className="lunch-visual">
     <LunchCity/>
@@ -28,6 +30,7 @@ export default function DeliveryJourney({date}:{date:string}){
      fetchPriority="high"
     />
    </div>
+   <p className="lunch-extras">Приборы можно добавить отдельно</p>
   </div>
  </section>;
 }

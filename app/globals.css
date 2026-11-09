@@ -8,7 +8,7 @@ dialog{padding:0;border:1px solid var(--line);background:var(--canvas);color:var
 @media(max-width:760px){html{scroll-padding-top:155px}.shop-header{height:64px;padding-inline:20px;gap:15px}.shop-header .logo{font-size:29px}.logo-mark{width:31px;height:31px}.shop-header nav{gap:18px;font-size:11px}.shop-header nav a:last-child{display:none}.shop-basket{font-size:11px;gap:7px;padding:8px 10px;min-height:44px}.shop-basket svg{width:16px}.catalog-intro{display:block;padding:var(--space-24) 0;margin-bottom:0}.catalog-intro h1{font-size:36px;max-width:480px;margin-top:8px;letter-spacing:-1.4px}.catalog-intro p{font-size:12px;max-width:400px}.catalog-kicker{font-size:11px}.catalog-layout{display:block}.category-rail{position:sticky;top:64px;z-index:20;padding:var(--space-8) var(--page-gutter);background:#fffffff8;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}.rail-title,.category-rail>p{display:none}.category-rail nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}.category-rail nav>button{flex-direction:column;justify-content:center;gap:5px;text-align:center;min-height:58px;height:58px;padding:6px 3px;border-radius:var(--radius-compact)}.category-rail small{display:none}.category-rail b{font-size:11px;font-weight:500}.rail-count{width:21px;height:21px;font-size:9px}.rail-count svg{width:12px}.menu-department{scroll-margin-top:156px;margin-bottom:var(--space-32);padding-top:23px}.department-heading{margin-bottom:var(--space-16);min-height:30px;gap:13px}.department-heading h2{font-size:25px}.department-heading>div{gap:9px}.department-index{font-size:9px}.department-status{font-size:9px;width:119px}.catalog-grid{gap:var(--space-12)}.product-title{font-size:14px;line-height:1.5;height:44px;margin-top:11px;letter-spacing:-.25px}.product-meta{font-size:10px}.product-tag{font-size:8px;bottom:7px;left:7px}.product-details{font-size:9px;min-height:28px;padding-block:4px;gap:4px}.product-details svg{width:11px}.product-image{border-radius:11px}.product-toggle{width:22px;height:22px;top:8px;right:8px}.product-toggle svg{width:13px}.drinks-department{padding-top:24px;margin-top:7px}.drink-options{grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.drink-option{padding:17px 12px;min-height:140px}.drink-art{width:40px;height:40px}.drink-name{font-size:12px}.drink-name small{font-size:9px}.drink-indicator{width:17px;height:17px;right:10px;top:10px}.shop-help{grid-template-columns:1fr;gap:var(--space-32);margin-top:40px;padding-top:var(--space-32);padding-bottom:var(--space-32)}.help-delivery h2{font-size:30px}.help-delivery dl{display:grid;grid-template-columns:1fr 1fr;gap:20px}.help-delivery dl>div+div{margin-top:0}.help-delivery dt{font-size:12px}.help-delivery dd{font-size:10px;margin-left:0}.shop-footer{padding-top:27px;padding-bottom:118px}.footer-wordmark{font-size:62px}.shop-footer p{font-size:12px}.shop-footer-bottom{flex-wrap:wrap;justify-content:space-between;font-size:11px;gap:var(--space-12)}.dock-inner{padding:12px 20px;min-height:80px;gap:18px}.dock-thumbs{display:none}.dock-label{flex:1}.dock-label>span{font-size:12px}.dock-label b{font-size:9px}.dock-price>b{font-size:23px}.dock-price small{font-size:8px}.dock-checkout{width:164px;font-size:12px;min-height:47px;padding-inline:15px;gap:10px}.dialog-inner{padding:var(--space-32) var(--space-24) var(--space-24)}dialog.drawer{border-radius:var(--radius-section) 0 0 var(--radius-section)}.checkout-steps{gap:var(--space-12)}.center-dialog{max-width:calc(100% - 28px);width:calc(100% - 28px)}.basket-item>.food-photo,.empty-thumb{width:63px;height:63px}}
 @media(max-width:560px){.shop-header nav{display:none}.catalog-intro h1{font-size:35px;line-height:1.14;max-width:315px}.catalog-intro p{font-size:12px;max-width:320px}.category-rail nav{gap:4px}.category-rail b{font-size:10px}.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-12)}.catalog-card:nth-child(3){grid-column:auto}.product-title{font-size:13px;height:40px;margin-top:10px;line-height:1.5}.product-meta{font-size:9px}.product-meta span{margin-inline:3px}.product-details{font-size:9px}.product-image{border-radius:10px}.product-tag{font-size:7px;bottom:7px;left:6px;padding:4px 6px;max-width:calc(100% - 12px)}.product-toggle{width:21px;height:21px;top:8px;right:8px}.department-status{font-size:8px;width:111px}.department-heading h2{font-size:24px}.department-index{font-size:8px}.menu-department{margin-bottom:var(--space-32)}.drink-options{grid-template-columns:1fr 1fr;gap:10px}.drink-option{min-height:130px;padding:16px 13px;gap:12px}.drink-name{font-size:13px}.drink-name small{font-size:10px}.drink-art{width:40px;height:40px}.help-delivery h2{font-size:29px}.help-delivery dl{grid-template-columns:1fr;gap:18px}.help-delivery dt{font-size:13px}.help-delivery dd{font-size:11px;margin-left:26px}.help-questions summary{font-size:12px;min-height:57px}.help-questions details>p{font-size:12px}.footer-wordmark{font-size:59px}.shop-footer p{font-size:11px}.shop-footer-bottom{font-size:11px}.dock-inner{padding:11px 15px;gap:13px;min-height:78px}.dock-label>span{font-size:11px}.dock-label b{font-size:9px}.dock-price>b{font-size:22px}.dock-checkout{width:142px;font-size:11px;padding-inline:13px;gap:9px}.dock-checkout svg{width:16px}.dock-price small{font-size:8px}.dialog-inner{padding:var(--space-32) var(--space-16) var(--space-24)}dialog.drawer{border-radius:0}dialog h2{font-size:27px}.checkout-steps li{font-size:10px}.basket-item b{font-size:13px}.quantity button{min-width:36px;min-height:38px}.basket-drink select{font-size:16px}.detail>.food-photo{max-width:240px}.center-dialog{border-radius:20px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.primary:active,.primary:hover svg{transform:none}}
-.ds-page{padding-top:55px;padding-bottom:70px}.ds-back{display:flex;align-items:center;gap:9px;color:var(--accent);font-size:13px;min-height:44px}.ds-intro h1{font-size:66px;line-height:1.04;font-weight:600;letter-spacing:-3px;margin:15px 0 23px}.ds-intro>p:last-of-type{font-size:17px;line-height:1.8;color:var(--muted)}.ds-intro .primary{max-width:270px;margin-top:27px}.ds-section{margin-top:var(--space-48);padding-top:32px;border-top:1px solid var(--line)}.ds-section-head{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-bottom:27px}.ds-section-head h2{font-size:29px}.ds-section-head p{font-size:14px;line-height:1.8;color:var(--muted);max-width:500px}.ds-colors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.ds-colors article{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius-card);background:#fff}.ds-color{height:110px;border-bottom:1px solid var(--line)}.ds-colors article>div:last-child{padding:var(--space-16)}.ds-colors b{display:block;font-size:13px;font-weight:500}.ds-colors code{display:block;font:11px monospace;color:var(--muted);margin-top:7px}.ds-colors p{font-size:12px;line-height:1.6;color:var(--muted);margin-top:10px;min-height:39px}.ds-type{padding:var(--space-32);background:white;border:1px solid var(--line);border-radius:var(--radius-section)}.ds-type-label{display:block;font-size:11px;color:var(--muted);margin-bottom:15px}.ds-display{font-size:46px;line-height:1.15;font-weight:600;letter-spacing:-2px;margin-bottom:32px}.ds-type h2,.ds-type>p{margin-bottom:32px}.ds-type>p{font-size:16px;line-height:1.8;max-width:650px}.ds-price{font-size:34px;letter-spacing:-1px;font-weight:600;font-variant-numeric:tabular-nums}.ds-price small{font-size:12px;letter-spacing:0;font-weight:400;color:var(--muted)}.ds-component-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.ds-demo{padding:var(--space-24);background:white;border:1px solid var(--line);border-radius:var(--radius-card);display:flex;flex-direction:column;align-items:stretch;gap:19px}.ds-demo .ds-type-label{margin:0}.ds-demo .primary,.ds-demo .next-category{max-width:330px}.ds-demo .quantity{width:max-content}.ds-feedback{min-height:49px;padding:15px 0;color:var(--accent);font-size:13px}.ds-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;max-width:740px}.ds-success{display:flex;align-items:center;gap:10px;padding:14px;border-radius:12px;background:#eaf5ef;color:var(--success);font-size:13px;line-height:1.7}.ds-rules{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.ds-rules>div{padding:var(--space-24);background:white;border-radius:var(--radius-card);border:1px solid var(--line)}.ds-rules b{font-size:22px;font-weight:500;letter-spacing:-.5px}.ds-rules p{font-size:13px;line-height:1.8;color:var(--muted);margin-top:14px}.ds-end{max-width:270px;margin-top:40px}@media(max-width:800px){.ds-colors{grid-template-columns:repeat(2,1fr)}.ds-section-head{grid-template-columns:1fr;gap:15px}.ds-rules{grid-template-columns:1fr;gap:12px}.ds-component-grid{gap:14px}.ds-demo{padding:var(--space-16)}}@media(max-width:560px){.ds-page{padding-top:35px}.ds-intro h1{font-size:48px;letter-spacing:-2px}.ds-intro>p:last-of-type{font-size:15px}.ds-display{font-size:32px;letter-spacing:-1.3px}.ds-component-grid{grid-template-columns:1fr}.ds-section-head h2{font-size:27px}.ds-section{margin-top:var(--space-32)}.ds-colors{gap:10px}.ds-color{height:85px}.ds-colors article>div:last-child{padding:var(--space-12)}.ds-colors p{font-size:11px}.ds-choices{gap:8px}.ds-choices .drink-option{padding:15px 10px;min-height:130px}.ds-choices .drink-option>b{font-size:12px}.ds-choices .drink-option>span{font-size:10px}.ds-type{padding:var(--space-20)}.ds-back{font-size:12px}.ds-feedback{font-size:12px}}
+.ds-page{padding-top:55px;padding-bottom:70px}.ds-back{display:flex;align-items:center;gap:9px;color:var(--accent);font-size:13px;min-height:44px}.ds-intro h1{font-size:66px;line-height:1.04;font-weight:600;letter-spacing:-3px;margin:15px 0 23px}.ds-intro>p:last-of-type{font-size:17px;line-height:1.8;color:var(--muted)}.ds-intro .primary{max-width:270px;margin-top:27px}.ds-section{margin-top:var(--space-48);padding-top:32px;border-top:1px solid var(--line)}.ds-section-head{display:grid;grid-template-columns:1fr 1fr;gap:50px;margin-bottom:27px}.ds-section-head h2{font-size:29px}.ds-section-head p{font-size:14px;line-height:1.8;color:var(--muted);max-width:500px}.ds-colors{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}.ds-colors article{overflow:hidden;border:1px solid var(--line);border-radius:var(--radius-card);background:#fff}.ds-color{height:110px;border-bottom:1px solid var(--line)}.ds-colors article>div:last-child{padding:var(--space-16)}.ds-colors b{display:block;font-size:13px;font-weight:500}.ds-colors code{display:block;font:11px monospace;color:var(--muted);margin-top:7px}.ds-colors p{font-size:12px;line-height:1.6;color:var(--muted);margin-top:10px;min-height:39px}.ds-type{padding:var(--space-32);background:white;border:1px solid var(--line);border-radius:var(--radius-section)}.ds-type-label{display:block;font-size:11px;color:var(--muted);margin-bottom:15px}.ds-component-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}.ds-demo{padding:var(--space-24);background:white;border:1px solid var(--line);border-radius:var(--radius-card);display:flex;flex-direction:column;align-items:stretch;gap:19px}.ds-demo .ds-type-label{margin:0}.ds-demo .primary{max-width:330px}.ds-success{display:flex;align-items:center;gap:10px;padding:14px;border-radius:12px;background:#eaf5ef;color:var(--success);font-size:13px;line-height:1.7}.ds-rules{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.ds-rules>div{padding:var(--space-24);background:white;border-radius:var(--radius-card);border:1px solid var(--line)}.ds-rules b{font-size:22px;font-weight:500;letter-spacing:-.5px}.ds-rules p{font-size:13px;line-height:1.8;color:var(--muted);margin-top:14px}@media(max-width:800px){.ds-colors{grid-template-columns:repeat(2,1fr)}.ds-section-head{grid-template-columns:1fr;gap:15px}.ds-rules{grid-template-columns:1fr;gap:12px}.ds-component-grid{gap:14px}.ds-demo{padding:var(--space-16)}}@media(max-width:560px){.ds-page{padding-top:35px}.ds-intro h1{font-size:48px;letter-spacing:-2px}.ds-intro>p:last-of-type{font-size:15px}.ds-component-grid{grid-template-columns:1fr}.ds-section-head h2{font-size:27px}.ds-section{margin-top:var(--space-32)}.ds-colors{gap:10px}.ds-color{height:85px}.ds-colors article>div:last-child{padding:var(--space-12)}.ds-colors p{font-size:11px}.ds-type{padding:var(--space-20)}.ds-back{font-size:12px}}
 /* Anchor offsets include the header once; selection never scrolls the catalog. */
 html{scroll-padding-top:76px}.menu-department{scroll-margin-top:28px}.product-details{min-height:44px;font-size:11px}
 @media(max-width:760px){html{scroll-padding-top:64px}.menu-department{scroll-margin-top:92px}.product-details{min-height:36px;font-size:10px}}
@@ -31,7 +31,7 @@ body{background:#fafbfe}.shop-header{top:14px;height:70px;max-width:1280px;margi
 .drinks-department .drink-options{grid-template-columns:repeat(3,minmax(0,1fr))}.drinks-department .drink-option{text-align:center;align-items:center}.drinks-department .drink-name{text-align:center}.no-drink{display:flex;align-items:center;gap:6px;min-height:44px;padding:8px 0;color:var(--muted);font-size:11px;white-space:nowrap}.no-drink[aria-pressed=true]{color:var(--accent)}.no-drink:hover{color:var(--accent)}.drinks-department .drink-indicator{right:20%;top:17px}
 @media(max-width:560px){.drinks-department .drink-options{gap:8px}.drinks-department .drink-option{padding:var(--space-8);min-height:195px}.drinks-department .drink-art{height:139px}.drinks-department .drink-name{font-size:12px}.drinks-department .drink-name small{font-size:8px}.drinks-department .drink-indicator{right:10%;top:9px;width:16px;height:16px}.no-drink{font-size:10px}.drinks-department .department-heading{gap:10px}}
 /* White food photography and frameless selection. */
-body{background:#fff}.product-image,.catalog-card:hover .product-image{background:#fff;border:0;box-shadow:0 5px 20px rgba(30,44,75,.045)}.product-image:after{display:none}.catalog-card.is-selected .product-image{border:0;box-shadow:0 9px 28px rgba(30,44,75,.13)}.product-toggle{border:0;background:transparent;box-shadow:none;backdrop-filter:none;visibility:hidden}.is-selected .product-toggle{visibility:visible;border:0;background:#fff;color:var(--accent);box-shadow:0 2px 9px rgba(30,44,75,.08)}
+body{background:var(--canvas)}.product-image,.catalog-card:hover .product-image{background:#fff;border:0;box-shadow:0 5px 20px rgba(30,44,75,.045)}.product-image:after{display:none}.catalog-card.is-selected .product-image{border:0;box-shadow:0 9px 28px rgba(30,44,75,.13)}.product-toggle{border:0;background:transparent;box-shadow:none;backdrop-filter:none;visibility:hidden}.is-selected .product-toggle{visibility:visible;border:0;background:#fff;color:var(--accent);box-shadow:0 2px 9px rgba(30,44,75,.08)}
 /* Keep cutouts transparent and show selection around the whole card. */
 .product-image,.catalog-card:hover .product-image,.catalog-card.is-selected .product-image{background:transparent;border:0;border-radius:0;box-shadow:none;overflow:visible}.product-image .food-photo{background-color:transparent}.product-toggle,.is-selected .product-toggle{background:transparent;box-shadow:none;border:0;backdrop-filter:none}.product-tag{border:0;box-shadow:none}
 .dock-thumbs .food-photo{border:0;background-color:transparent}.flying-dish{box-shadow:none;filter:drop-shadow(0 5px 12px rgba(25,39,66,.15));background-color:transparent}
@@ -165,14 +165,14 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 }
 
 .welcome-copy{min-width:0;padding:24px 0}
-.welcome-copy h1{
+.welcome-heading{
   font-size:clamp(40px,4.8vw,64px);
   font-weight:600;
   line-height:1.03;
   letter-spacing:-.045em;
 }
-.welcome-copy h1 span{display:block;color:var(--accent)}
-.welcome-copy>p{margin-top:var(--space-16);color:var(--muted);font-size:18px;line-height:1.5}
+.welcome-heading span{display:block;color:var(--accent)}
+.welcome-copy>p:not(.welcome-heading){margin-top:var(--space-16);color:var(--muted);font-size:18px;line-height:1.5}
 .welcome-cta{width:fit-content;max-width:100%;min-height:52px;margin-top:var(--space-24);font-size:15px}
 
 .lunch-hero{
@@ -190,9 +190,9 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   z-index:1;
   display:grid;
   grid-template-columns:auto minmax(0,1fr) auto;
-  grid-template-areas:"courier title time";
+  grid-template-areas:"courier title time" "courier cutoff cutoff";
   align-items:center;
-  gap:12px;
+  gap:4px 12px;
   min-width:0;
   max-width:100%;
   padding:8px 12px 8px 16px;
@@ -270,7 +270,7 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 @media(max-width:1050px){
   .lunch-delivery{
     grid-template-columns:minmax(0,1fr) auto;
-    grid-template-areas:"title courier" "time courier";
+    grid-template-areas:"title courier" "time courier" "cutoff courier";
     align-items:start;
     align-content:center;
     row-gap:4px;
@@ -281,8 +281,8 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 @media(max-width:760px){
   .delivery-hero{gap:16px;padding-top:18px}
   .welcome-copy{padding:0}
-  .welcome-copy h1{font-size:clamp(32px,9vw,48px)}
-  .welcome-copy>p{margin-top:var(--space-12);font-size:16px}
+  .welcome-heading{font-size:clamp(32px,9vw,48px)}
+  .welcome-copy>p:not(.welcome-heading){margin-top:var(--space-12);font-size:16px}
   .welcome-cta{width:100%;margin-top:var(--space-16)}
   .lunch-hero{gap:6px;padding:var(--space-12);border-radius:var(--radius-section)}
   .lunch-delivery{padding:6px 10px 6px 12px;border-radius:var(--radius-inset)}
@@ -338,3 +338,92 @@ input:not([type=checkbox],[type=radio]),textarea{
 :is(input:not([type=checkbox],[type=radio]),textarea)::placeholder{color:var(--muted);opacity:1}
 :is(input:not([type=checkbox],[type=radio]),textarea):focus{border-color:#5875c4;background:#fff}
 textarea{min-height:80px;resize:vertical}
+
+/* Ordering context and compact mobile navigation. */
+.welcome-copy>p.welcome-demo{margin-top:var(--space-12);font-size:13px;line-height:1.45}
+.lunch-cutoff{
+  grid-area:cutoff;
+  width:fit-content;
+  padding-block:4px;
+  color:var(--accent);
+  font-size:13px;
+  line-height:1.3;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.lunch-extras{padding-inline:var(--space-4);color:var(--muted);font-size:13px;line-height:1.4}
+#delivery{scroll-margin-top:var(--space-16)}
+.department-heading h2:focus,.dialog-inner h2:focus{outline:none}
+
+.dock-unit{margin-inline-start:var(--space-4);color:var(--muted);font-size:11px;font-weight:400;letter-spacing:0}
+.basket-intro .primary{margin-top:var(--space-16)}
+.basket-missing{margin-top:var(--space-8);color:var(--ink);line-height:1.5}
+.address-fields{min-width:0;margin:0;padding:0;border:0}
+.address-fields legend{padding:0;font-size:16px;font-weight:600}
+.address-city{margin-top:var(--space-8);font-size:15px;font-weight:500}
+.address-fields .form-note{margin:var(--space-4) 0 var(--space-12);text-align:left}
+.field-required{color:var(--muted);font-size:12px;font-weight:400}
+.address-extras{
+  padding:var(--space-12);
+  border:1px solid var(--line);
+  border-radius:var(--radius-inset);
+  background:var(--surface);
+}
+.address-extras summary{min-height:24px;cursor:pointer;font-weight:500}
+.address-extras summary span{color:var(--muted);font-size:12px;font-weight:400}
+.address-extras[open] .form-split{margin-top:var(--space-12)}
+.address-extras>label{margin-top:var(--space-12)}
+
+@media(max-width:760px){
+  .product-tag{display:none}
+  dialog.drawer{background:#f1f5fc}
+}
+@media(max-width:360px){
+  .shop-header{gap:var(--space-8)}
+  .shop-header .company-name{font-size:14px;white-space:nowrap}
+  .shop-basket{padding-inline:var(--space-8);white-space:nowrap}
+}
+@media(max-width:760px) and (max-height:650px){
+  :root{--mobile-header-inset:calc(var(--space-8) + env(safe-area-inset-top,0px))}
+  .category-rail{padding-block:var(--space-4)}
+  .category-rail nav>button{height:50px;min-height:50px}
+  .rail-slot{width:24px;height:24px}
+  .dock-inner{min-height:56px;padding-block:var(--space-4)}
+  .menu-department{scroll-margin-top:54px}
+}
+
+/* The component gallery uses the shop components and their tokens. */
+.ds-page .ds-type{margin-top:var(--space-16);padding:var(--space-24);overflow-wrap:anywhere}
+.ds-type .welcome-heading{font-size:clamp(28px,4vw,56px)}
+.ds-type .ds-type-label{margin-bottom:var(--space-12)}
+.ds-spaces,.ds-radii{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(96px,1fr));
+  gap:var(--space-8);
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.ds-radii{margin-top:var(--space-16)}
+.ds-spaces li,.ds-radii li{
+  display:grid;
+  justify-items:start;
+  align-content:start;
+  gap:var(--space-8);
+  padding:var(--space-12);
+  border:1px solid var(--line);
+  border-radius:var(--radius-inset);
+  color:var(--muted);
+  font-size:13px;
+}
+.ds-spaces span{width:var(--sample-space);height:8px;border-radius:var(--radius-tag);background:var(--accent)}
+.ds-radii span{width:56px;height:36px;border:1px solid var(--accent);background:var(--tint)}
+.ds-dish-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-12)}
+.ds-demo{min-width:0}
+.ds-demo .no-drink,.ds-demo .back{align-self:flex-start}
+.ds-demo.drinks-department .drink-option{min-height:0}
+.ds-demo.drinks-department .drink-art{height:clamp(70px,9vw,135px)}
+@media(max-width:760px){
+  .ds-intro h1{font-size:clamp(34px,9vw,52px);letter-spacing:-.04em}
+  .ds-component-grid{grid-template-columns:minmax(0,1fr)}
+}
