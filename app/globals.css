@@ -307,13 +307,11 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 
 @media(min-width:761px){
   .delivery-hero{
-    position:relative;
-    isolation:isolate;
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
-  .welcome-copy{position:static;isolation:auto}
-  .lunch-city-frame{inset:calc(-1 * var(--space-16)) 0 0;overflow:clip}
-  .lunch-city{inset:0;width:auto;aspect-ratio:auto;transform:scale(.95,.90) skew(-13deg,-6deg)}
+  .welcome-copy{align-self:stretch;display:flex;flex-direction:column;justify-content:center}
+  .lunch-city-frame{inset:-34px 0 -28px;overflow:clip}
+  .lunch-city{inset:0;width:auto;aspect-ratio:auto;transform:scale(.90,.94) skew(-8deg,-6deg)}
   .lunch-hero{width:100%;max-width:584px;justify-self:end}
   .lunch-visual{order:-2;width:100%;max-width:552px;align-self:center}
   .lunch-extras{order:-1}
