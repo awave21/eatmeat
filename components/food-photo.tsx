@@ -1,4 +1,5 @@
 import {dishes} from '../lib/menu';
+import SitePhoto from './site-photo';
 
 export default function FoodPhoto({cat, variant, lazy = false}: {
   cat: number;
@@ -7,7 +8,7 @@ export default function FoodPhoto({cat, variant, lazy = false}: {
 }) {
   const dish = dishes[cat][variant];
   return (
-    <img
+    <SitePhoto
       className="food-photo"
       src={'/food/' + dish.id + '.webp'}
       alt={dish.name + ' в чёрном контейнере'}

@@ -3,6 +3,7 @@ import {ArrowRight, Check, Minus, Plus} from 'lucide-react';
 import {categories, DELIVERY_CITY, dishes, drinks, DRINK_PRICE, PRICE} from '../lib/menu';
 import FoodPhoto from './food-photo';
 import PhoneInput from './phone-input';
+import SitePhoto from './site-photo';
 
 export function BasketIntro({selected, onContinue}: {
  selected: (number|null)[];
@@ -92,7 +93,7 @@ export function BasketBeverages({drink, onDrink}: {
     const checked = (drink||'')===item.id;
     return <label key={item.id} className={'basket-beverage'+(checked?' is-checked':'')}>
      <input type="radio" name={group} value={item.id} checked={checked} onChange={()=>onDrink(item.id||null)}/>
-     {item.id?<img src={'/drinks/'+item.id+'.webp'} alt=""/>:<span className="beverage-none"><Minus size={20}/></span>}
+     {item.id?<SitePhoto src={'/drinks/'+item.id+'.webp'} alt=""/>:<span className="beverage-none"><Minus size={20}/></span>}
      <span className="beverage-copy"><b>{item.name}</b><small>{item.description}</small></span>
      <span className="beverage-check" aria-hidden="true">{checked&&<Check size={12}/>}</span>
     </label>;

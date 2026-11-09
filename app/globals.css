@@ -478,3 +478,11 @@ textarea{min-height:80px;resize:vertical}
   .ds-intro h1{font-size:clamp(34px,9vw,52px);letter-spacing:-.04em}
   .ds-component-grid{grid-template-columns:minmax(0,1fr)}
 }
+
+[data-site-photo]{
+  -webkit-touch-callout:none;
+  user-select:none;
+}
+@media(pointer:coarse){
+  [data-site-photo]{pointer-events:none}
+}

@@ -1,6 +1,7 @@
 import {ArrowDown, CalendarOff, Utensils} from 'lucide-react';
 import {DELIVERY_WINDOW, ORDER_CUTOFF_HOUR, PRICE} from '../lib/menu';
 import LunchCity from './lunch-city';
+import SitePhoto from './site-photo';
 
 export default function DeliveryJourney({date}:{date:string}){
  return <section className="delivery-hero" aria-labelledby="welcome-heading">
@@ -19,7 +20,7 @@ export default function DeliveryJourney({date}:{date:string}){
     <a className="lunch-cutoff" href="#delivery">Приём заказов до {ORDER_CUTOFF_HOUR}:00 МСК</a>
    </div>
    <div className="lunch-visual">
-    <img
+    <SitePhoto
      className="lunch-hero-photo"
      src="/food/lunch-set-angled-768.webp"
      srcSet={'/food/lunch-set-angled-768.webp 768w, ' + '/food/lunch-set-angled-1024.webp 1024w, ' + '/food/lunch-set-angled-1280.webp 1280w'}
