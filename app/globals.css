@@ -40,10 +40,12 @@ body{background:#fff}.product-image,.catalog-card:hover .product-image{backgroun
   position:absolute;
   inset:-4px;
   border-radius:14px;
+  box-shadow:0 0 18px rgba(25,39,66,.09);
+  opacity:0;
   pointer-events:none;
-  transition:box-shadow 160ms var(--ease);
+  transition:opacity 220ms ease;
 }
-.catalog-card.is-selected::before{box-shadow:0 2px 6px rgba(0,0,0,.10),0 6px 16px rgba(0,0,0,.07)}
+.catalog-card.is-selected::before{opacity:1}
 
 /* Land in the matching slot before the courier packs the order. */
 .dock-caught .dock-checkout{animation:none}
@@ -73,6 +75,7 @@ body{background:#fff}.product-image,.catalog-card:hover .product-image{backgroun
     align-items:center;
     gap:6px;
     padding-block:6px;
+    box-shadow:none;
   }
   .rail-catcher{display:block;width:36px;height:48px;margin:0;align-self:center}
   .rail-catcher .dock-courier-figure{left:0;width:100%;height:100%}
@@ -89,9 +92,7 @@ body{background:#fff}.product-image,.catalog-card:hover .product-image{backgroun
     font-size:11px;
   }
   .rail-slot img{width:100%;height:100%;object-fit:contain}
-  .category-rail nav>button:has(.rail-slot .food-photo){
-    box-shadow:0 1px 4px rgba(0,0,0,.12);
-  }
+  .category-rail nav>button:has(:where(.rail-slot .food-photo)){background-color:#fff}
   .dock-inner>.dock-catcher,.dock-label,.dock-delivery{display:none}
   .dock-inner{min-height:64px;padding:8px 16px;gap:12px}
   .dock-price{flex:1;text-align:left}
