@@ -164,7 +164,7 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   .detail-drawer .detail-info{margin:16px 0;padding:12px;border-radius:var(--radius-inset)}
 }
 
-.welcome-copy{min-width:0;padding:24px 0}
+.welcome-copy{position:relative;isolation:isolate;min-width:0;padding:24px 0}
 .welcome-heading{
   font-size:clamp(40px,4.8vw,64px);
   font-weight:600;
@@ -209,79 +209,86 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   background:url('/courier/delivery-dock.webp') no-repeat 0 0 / 200% 100%;
 }
 .lunch-route{
-  position:relative;
-  width:min(100%,448px);
-  aspect-ratio:4 / 1;
-  border-radius:var(--radius-card);
-  background:#f7f9fd;
+  position:absolute;
+  inset:0;
+  pointer-events:none;
 }
 .lunch-city{
   position:absolute;
-  inset:0;
+  z-index:-1;
+  right:0;
+  bottom:-24px;
+  width:min(84%,460px);
+  aspect-ratio:480 / 248;
   container-type:size;
-  pointer-events:none;
-  color:#e1eaf7;
+  color:#c4d3ed;
 }
-.lunch-city svg{display:block;width:100%;height:100%}
+.lunch-city svg{
+  display:block;
+  width:100%;
+  height:100%;
+  opacity:.32;
+  mask-image:linear-gradient(100deg,transparent 3%,#000 58%,#000 85%,transparent);
+}
 .lunch-city-dot{
   position:absolute;
   inset:-3px auto auto -3px;
   width:6px;
   height:6px;
   border-radius:50%;
-  background:rgba(36,72,197,.68);
-  box-shadow:0 0 0 2px rgba(36,72,197,.14);
-  transform:translate(20.833cqw,22.000cqh);
+  background:rgba(36,72,197,.42);
+  box-shadow:0 0 0 2px rgba(36,72,197,.09);
+  transform:translate(22.917cqw,25.806cqh);
   animation:lunch-city-route 22s linear infinite paused;
 }
 .lunch-city[data-running=true] .lunch-city-dot{animation-play-state:running;will-change:transform}
-/* Waypoints follow the center of the streets, with rounded corners at intersections. */
+/* Keep the rounded turns and SVG streets in the same 480 × 248 coordinates. */
 @keyframes lunch-city-route{
-  0%,100%{transform:translate(20.833cqw,22.000cqh)}
-  21.53%{transform:translate(54.667cqw,22.000cqh)}
-  21.94%{transform:translate(55.304cqw,22.507cqh)}
-  22.36%{transform:translate(55.845cqw,23.953cqh)}
-  22.77%{transform:translate(56.206cqw,26.115cqh)}
-  23.19%{transform:translate(56.333cqw,28.667cqh)}
-  25.73%{transform:translate(56.333cqw,44.667cqh)}
-  26.14%{transform:translate(56.460cqw,47.218cqh)}
-  26.56%{transform:translate(56.821cqw,49.381cqh)}
-  26.97%{transform:translate(57.362cqw,50.826cqh)}
-  27.39%{transform:translate(58.000cqw,51.333cqh)}
-  44.14%{transform:translate(84.333cqw,51.333cqh)}
-  44.56%{transform:translate(84.971cqw,51.841cqh)}
-  44.97%{transform:translate(85.512cqw,53.286cqh)}
-  45.39%{transform:translate(85.873cqw,55.449cqh)}
-  45.80%{transform:translate(86.000cqw,58.000cqh)}
-  48.34%{transform:translate(86.000cqw,74.000cqh)}
-  48.76%{transform:translate(85.873cqw,76.551cqh)}
-  49.17%{transform:translate(85.512cqw,78.714cqh)}
-  49.59%{transform:translate(84.971cqw,80.159cqh)}
-  50.00%{transform:translate(84.333cqw,80.667cqh)}
-  78.85%{transform:translate(39.000cqw,80.667cqh)}
-  79.26%{transform:translate(38.362cqw,80.159cqh)}
-  79.68%{transform:translate(37.821cqw,78.714cqh)}
-  80.09%{transform:translate(37.460cqw,76.551cqh)}
-  80.50%{transform:translate(37.333cqw,74.000cqh)}
-  83.05%{transform:translate(37.333cqw,58.000cqh)}
-  83.46%{transform:translate(37.206cqw,55.449cqh)}
-  83.88%{transform:translate(36.845cqw,53.286cqh)}
-  84.29%{transform:translate(36.304cqw,51.841cqh)}
-  84.70%{transform:translate(35.667cqw,51.333cqh)}
-  94.14%{transform:translate(20.833cqw,51.333cqh)}
-  94.56%{transform:translate(20.196cqw,50.826cqh)}
-  94.97%{transform:translate(19.655cqw,49.381cqh)}
-  95.39%{transform:translate(19.294cqw,47.218cqh)}
-  95.80%{transform:translate(19.167cqw,44.667cqh)}
-  98.34%{transform:translate(19.167cqw,28.667cqh)}
-  98.76%{transform:translate(19.294cqw,26.115cqh)}
-  99.17%{transform:translate(19.655cqw,23.953cqh)}
-  99.59%{transform:translate(20.196cqw,22.507cqh)}
+  0%,100%{transform:translate(22.917cqw,25.806cqh)}
+  21.68%{transform:translate(61.250cqw,25.806cqh)}
+  22.14%{transform:translate(62.047cqw,26.113cqh)}
+  22.60%{transform:translate(62.723cqw,26.987cqh)}
+  23.06%{transform:translate(63.175cqw,28.296cqh)}
+  23.51%{transform:translate(63.333cqw,29.839cqh)}
+  28.93%{transform:translate(63.333cqw,48.387cqh)}
+  29.39%{transform:translate(63.492cqw,49.930cqh)}
+  29.85%{transform:translate(63.944cqw,51.238cqh)}
+  30.31%{transform:translate(64.619cqw,52.112cqh)}
+  30.77%{transform:translate(65.417cqw,52.419cqh)}
+  41.14%{transform:translate(83.750cqw,52.419cqh)}
+  41.60%{transform:translate(84.547cqw,52.726cqh)}
+  42.06%{transform:translate(85.223cqw,53.600cqh)}
+  42.52%{transform:translate(85.675cqw,54.909cqh)}
+  42.98%{transform:translate(85.833cqw,56.452cqh)}
+  48.16%{transform:translate(85.833cqw,74.194cqh)}
+  48.62%{transform:translate(85.675cqw,75.737cqh)}
+  49.08%{transform:translate(85.223cqw,77.045cqh)}
+  49.54%{transform:translate(84.547cqw,77.919cqh)}
+  50.00%{transform:translate(83.750cqw,78.226cqh)}
+  72.27%{transform:translate(44.375cqw,78.226cqh)}
+  72.72%{transform:translate(43.578cqw,77.919cqh)}
+  73.18%{transform:translate(42.902cqw,77.045cqh)}
+  73.64%{transform:translate(42.450cqw,75.737cqh)}
+  74.10%{transform:translate(42.292cqw,74.194cqh)}
+  79.29%{transform:translate(42.292cqw,56.452cqh)}
+  79.75%{transform:translate(42.133cqw,54.909cqh)}
+  80.21%{transform:translate(41.681cqw,53.600cqh)}
+  80.67%{transform:translate(41.006cqw,52.726cqh)}
+  81.13%{transform:translate(40.208cqw,52.419cqh)}
+  90.90%{transform:translate(22.917cqw,52.419cqh)}
+  91.36%{transform:translate(22.119cqw,52.112cqh)}
+  91.82%{transform:translate(21.444cqw,51.238cqh)}
+  92.28%{transform:translate(20.992cqw,49.930cqh)}
+  92.74%{transform:translate(20.833cqw,48.387cqh)}
+  98.16%{transform:translate(20.833cqw,29.839cqh)}
+  98.62%{transform:translate(20.992cqw,28.296cqh)}
+  99.08%{transform:translate(21.444cqw,26.987cqh)}
+  99.54%{transform:translate(22.119cqw,26.113cqh)}
 }
 .lunch-motion-toggle{
   position:absolute;
-  inset:0 0 auto auto;
-  z-index:1;
+  inset:auto 0 0 auto;
+  pointer-events:auto;
   display:grid;
   place-items:center;
   width:44px;
@@ -289,7 +296,7 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   border-radius:var(--radius-compact);
   color:#576988;
 }
-.lunch-motion-toggle:hover{background:rgba(255,255,255,.66);color:var(--accent)}
+.lunch-motion-toggle:hover{color:var(--accent)}
 @media(prefers-reduced-motion:reduce){
   .lunch-motion-toggle{display:none}
   .lunch-city[data-running=true] .lunch-city-dot{will-change:auto}
@@ -299,13 +306,8 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 @media(min-width:761px){
   .delivery-hero{
     grid-template-columns:repeat(2,minmax(0,1fr));
-    grid-template-areas:"copy meal" "route meal";
-    grid-template-rows:minmax(min-content,1fr) minmax(min-content,.7fr);
-    row-gap:var(--space-20);
   }
-  .welcome-copy{grid-area:copy;align-self:end;padding:0}
-  .lunch-route{grid-area:route;align-self:start}
-  .lunch-hero{grid-area:meal;width:100%;max-width:584px;justify-self:end}
+  .lunch-hero{width:100%;max-width:584px;justify-self:end}
   .lunch-visual{order:-1}
 }
 @media(max-width:1050px){
@@ -322,7 +324,8 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 @media(max-width:760px){
   .delivery-hero{gap:16px;padding-top:18px}
   .welcome-copy{padding:0}
-  .lunch-route{width:min(100%,328px)}
+  .lunch-city{top:0;bottom:auto;width:min(76%,270px)}
+  .lunch-motion-toggle{inset:var(--space-32) 0 auto auto}
   .welcome-heading{font-size:clamp(32px,9vw,48px)}
   .welcome-copy>p:not(.welcome-heading){margin-top:var(--space-12);font-size:16px}
   .welcome-cta{width:100%;margin-top:var(--space-16)}

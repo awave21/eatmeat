@@ -9,8 +9,8 @@ export default function DeliveryJourney({date}:{date:string}){
    <p>В наборе суп, горячее, салат и десерт.</p>
    <a className="primary welcome-cta" href="#menu">Собрать обед за {PRICE} ₽ <ArrowDown size={18}/></a>
    <p className="welcome-demo">Демо · оформление без оплаты и доставки</p>
+   <LunchCity/>
   </div>
-  <LunchCity/>
   <div className="lunch-hero">
    <div className="lunch-delivery">
     <span className="lunch-delivery-courier" aria-hidden="true"/>
