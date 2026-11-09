@@ -180,14 +180,26 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   min-width:0;
   flex-direction:column;
   gap:var(--space-12);
-  padding:var(--space-16);
-  border:1px solid #dce5f6;
-  border-radius:var(--radius-panel);
-  background:#eef3fb;
 }
+.lunch-benefits{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:var(--space-8);
+}
+.lunch-benefit{
+  display:flex;
+  align-items:center;
+  gap:var(--space-8);
+  min-height:48px;
+  padding:var(--space-8) var(--space-12);
+  border-radius:var(--radius-control);
+  background:var(--tint);
+  color:var(--ink);
+  font-size:14px;
+  font-weight:500;
+}
+.lunch-benefit svg{flex:none;color:var(--accent)}
 .lunch-delivery{
-  position:relative;
-  z-index:1;
   display:grid;
   grid-template-columns:auto minmax(0,1fr) auto;
   grid-template-areas:"courier title time" "courier cutoff cutoff";
@@ -196,22 +208,18 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   min-width:0;
   max-width:100%;
   padding:8px 12px 8px 16px;
-  border:1px solid #fff;
   border-radius:var(--radius-card);
-  background:#fff;
+  background:var(--accent);
+  color:var(--surface);
 }
-.lunch-delivery strong{grid-area:title;color:var(--accent);font-size:18px;line-height:1.25}
-.lunch-delivery p{grid-area:time;color:var(--ink);font-size:15px;line-height:1.35}
+.lunch-delivery strong{grid-area:title;font-size:18px;line-height:1.25}
+.lunch-delivery p{grid-area:time;font-size:15px;line-height:1.35}
 .lunch-delivery-courier{
   grid-area:courier;
   width:48px;
   height:64px;
-  background:url('/courier/delivery-dock.webp') no-repeat 0 0 / 200% 100%;
-}
-.lunch-route{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
+  border-radius:var(--radius-compact);
+  background:var(--surface) url('/courier/delivery-dock.webp') no-repeat 0 0 / 200% 100%;
 }
 .lunch-city{
   position:absolute;
@@ -221,6 +229,8 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   width:min(84%,460px);
   aspect-ratio:480 / 248;
   container-type:size;
+  pointer-events:none;
+  transform:scale(.92,.84) skew(-17deg,-8deg);
   color:#c4d3ed;
 }
 .lunch-city svg{
@@ -228,7 +238,7 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   width:100%;
   height:100%;
   opacity:.32;
-  filter:blur(1.5px);
+  filter:blur(1px);
   mask-image:radial-gradient(ellipse 48% 50% at 52% 50%,#000 24%,rgb(0 0 0 / .72) 53%,rgb(0 0 0 / .24) 77%,transparent 100%);
 }
 .lunch-city-dot{
@@ -286,20 +296,7 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   99.08%{transform:translate(21.444cqw,26.987cqh)}
   99.54%{transform:translate(22.119cqw,26.113cqh)}
 }
-.lunch-motion-toggle{
-  position:absolute;
-  inset:auto 0 0 auto;
-  pointer-events:auto;
-  display:grid;
-  place-items:center;
-  width:44px;
-  height:44px;
-  border-radius:var(--radius-compact);
-  color:#576988;
-}
-.lunch-motion-toggle:hover{color:var(--accent)}
 @media(prefers-reduced-motion:reduce){
-  .lunch-motion-toggle{display:none}
   .lunch-city[data-running=true] .lunch-city-dot{will-change:auto}
 }
 .lunch-hero-photo{display:block;width:100%;height:auto}
@@ -309,7 +306,8 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
   .lunch-hero{width:100%;max-width:584px;justify-self:end}
-  .lunch-visual{order:-1}
+  .lunch-visual{order:-2;width:100%;max-width:552px;align-self:center}
+  .lunch-extras{order:-1}
 }
 @media(max-width:1050px){
   .lunch-delivery{
@@ -326,17 +324,18 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   .delivery-hero{gap:16px;padding-top:18px}
   .welcome-copy{padding:0}
   .lunch-city{top:0;bottom:auto;width:min(76%,270px)}
-  .lunch-motion-toggle{inset:var(--space-32) 0 auto auto}
   .welcome-heading{font-size:clamp(32px,9vw,48px)}
   .welcome-copy>p:not(.welcome-heading){margin-top:var(--space-12);font-size:16px}
   .welcome-cta{width:100%;margin-top:var(--space-16)}
-  .lunch-hero{gap:6px;padding:var(--space-12);border-radius:var(--radius-section)}
+  .lunch-hero{gap:var(--space-8)}
+  .lunch-benefit{font-size:13px}
   .lunch-delivery{padding:6px 10px 6px 12px;border-radius:var(--radius-inset)}
 }
 @media(max-width:360px){
   .lunch-delivery{column-gap:8px;padding-inline:10px}
   .lunch-delivery strong{font-size:16px}
   .lunch-delivery-courier{width:42px;height:56px}
+  .lunch-benefit{gap:var(--space-4);padding-inline:var(--space-8)}
 }
 
 .dialog-inner .quantity button,.ds-demo .quantity button{min-width:44px;min-height:44px}
@@ -391,13 +390,14 @@ textarea{min-height:80px;resize:vertical}
   grid-area:cutoff;
   width:fit-content;
   padding-block:4px;
-  color:var(--accent);
+  color:inherit;
   font-size:13px;
   line-height:1.3;
   text-decoration:underline;
   text-underline-offset:3px;
 }
-.lunch-extras{padding-inline:var(--space-4);color:var(--muted);font-size:13px;line-height:1.4}
+.lunch-delivery a:focus-visible{outline-color:var(--surface)}
+.lunch-extras{color:var(--muted);font-size:13px;line-height:1.4}
 #delivery{scroll-margin-top:var(--space-16)}
 .department-heading h2:focus,.dialog-inner h2:focus{outline:none}
 

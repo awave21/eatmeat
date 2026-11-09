@@ -1,4 +1,4 @@
-import {ArrowDown} from 'lucide-react';
+import {ArrowDown, CalendarOff, Utensils} from 'lucide-react';
 import {DELIVERY_WINDOW, ORDER_CUTOFF_HOUR, PRICE} from '../lib/menu';
 import LunchCity from './lunch-city';
 
@@ -23,7 +23,7 @@ export default function DeliveryJourney({date}:{date:string}){
      className="lunch-hero-photo"
      src="/food/lunch-set-angled-768.webp"
      srcSet={'/food/lunch-set-angled-768.webp 768w, ' + '/food/lunch-set-angled-1024.webp 1024w, ' + '/food/lunch-set-angled-1280.webp 1280w'}
-     sizes="(max-width: 760px) calc(100vw - 58px), (max-width: 1100px) calc(50vw - 70px), (max-width: 1278px) calc(50vw - 89px), 550px"
+     sizes="(max-width: 760px) calc(100vw - 32px), (max-width: 1100px) calc(50vw - 36px), (max-width: 1214px) calc(50vw - 55px), 552px"
      width={1536}
      height={1024}
      alt="Пример обеда из борща, курицы с пюре, греческого салата и ягодного чизкейка в чёрных контейнерах"
@@ -31,6 +31,10 @@ export default function DeliveryJourney({date}:{date:string}){
     />
    </div>
    <p className="lunch-extras">Приборы можно добавить отдельно</p>
+   <div className="lunch-benefits" aria-label="Преимущества сервиса" role="group">
+    <div className="lunch-benefit"><Utensils size={17} aria-hidden="true"/>От одного обеда</div>
+    <div className="lunch-benefit"><CalendarOff size={17} aria-hidden="true"/>Без подписки</div>
+   </div>
   </div>
  </section>;
 }
