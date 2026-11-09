@@ -1,11 +1,10 @@
 'use client';
 
-import {useEffect, useId, useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 
 export default function LunchCity() {
   const scene = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
-  const buildings = useId();
 
   useEffect(() => {
     const element = scene.current;
@@ -29,7 +28,7 @@ export default function LunchCity() {
   return <div className="lunch-city-frame" aria-hidden="true">
    <div ref={scene} className="lunch-city" data-running={visible}>
     <svg viewBox="0 0 480 248" preserveAspectRatio="none" focusable="false">
-      <defs><g id={buildings}>
+      <g fill="currentColor">
         <path d="M16 15h39v12H38v23H16z"/>
         <rect x="64" y="22" width="20" height="28" rx="3"/>
         <rect x="116" y="12" width="33" height="36" rx="4"/>
@@ -61,10 +60,7 @@ export default function LunchCity() {
         <rect x="265" y="218" width="24" height="21" rx="3"/>
         <path d="M321 208h75v29h-20v-15h-55z"/>
         <rect x="431" y="208" width="31" height="24" rx="3"/>
-      </g></defs>
-      <use href={'#'+buildings} transform="translate(2 6)" fill="#7894c4"/>
-      <use href={'#'+buildings} transform="translate(1 3)" fill="#7894c4"/>
-      <use href={'#'+buildings} fill="currentColor"/>
+      </g>
     </svg>
     <span className="lunch-city-dot"/>
    </div>

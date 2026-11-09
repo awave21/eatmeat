@@ -234,7 +234,6 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   width:min(100%,400px);
   aspect-ratio:480 / 248;
   container-type:size;
-  transform:scale(.92,.84) skew(-17deg,-8deg);
   color:#c4d3ed;
 }
 .lunch-city svg{
@@ -311,7 +310,7 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   }
   .welcome-copy{align-self:stretch;display:flex;flex-direction:column;justify-content:center}
   .lunch-city-frame{inset:-34px 0 -28px;overflow:clip}
-  .lunch-city{inset:0;width:auto;aspect-ratio:auto;transform:scale(.90,.94) skew(-8deg,-6deg)}
+  .lunch-city{inset:0;width:auto;aspect-ratio:auto}
   .lunch-hero{width:100%;max-width:584px;justify-self:end}
   .lunch-visual{order:-2;width:100%;max-width:552px;align-self:center}
   .lunch-extras{order:-1}
