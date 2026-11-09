@@ -18,7 +18,7 @@ export default function DeliveryJourney({date}:{date:string}){
     className="lunch-hero-photo"
     src="/food/lunch-set-angled-768.webp"
     srcSet={'/food/lunch-set-angled-768.webp 768w, ' + '/food/lunch-set-angled-1024.webp 1024w, ' + '/food/lunch-set-angled-1280.webp 1280w'}
-    sizes="(max-width: 760px) calc(100vw - 58px), (max-width: 850px) calc(50vw - 50px), (max-width: 1360px) 50vw, 688px"
+    sizes="(max-width: 760px) calc(100vw - 58px), (max-width: 1100px) calc(50vw - 70px), (max-width: 1278px) calc(50vw - 89px), 550px"
     width={1536}
     height={1024}
     alt="Пример обеда из борща, курицы с пюре, греческого салата и ягодного чизкейка в чёрных контейнерах"
