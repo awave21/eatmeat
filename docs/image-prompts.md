@@ -2,7 +2,13 @@
 
 Метод: встроенный ImageGen. Оригиналы сохранены генератором, рабочие JPEG сжаты для сайта. Hero и atlas находятся в public/food. Это концептуальные изображения, не фотографии фактической продукции кухни.
 
-## Hero — финальный промпт
+## Новый набор на главной
+
+Изображение создано и отредактировано встроенным ImageGen. PNG с прозрачностью сохранён в `public/food/lunch-set.png`. Сайт использует копии WebP шириной 768 и 1280 px.
+
+Precise isolated geometry edit to this transparent overhead food photo. Edit ONLY the upper rectangular black chicken-and-mashed-potato container. The lower cheesecake tray is the exact physical mold to copy. Make a duplicate of that lower tray and place the duplicate above it, with exactly the same outer width, outer height, lip and rounded corners. Specifically keep the upper tray's left, right and bottom edges where they are, and move its top edge about 65 pixels downward so the upper tray is the same height as the dessert tray. Rearrange the grilled chicken and mashed potatoes to fit the shorter tray naturally, with appetizing realistic texture. Keep the lower tray, cheesecake, soup, salad, matte black fork, matte black spoon and matte black knife and the napkin unchanged. Keep the 1536 by 1024 framing, photography style, and real transparent PNG alpha, including the newly freed space above the shorter upper tray. No other changes.
+
+## Первый вариант для главной
 
 Photorealistic premium food delivery commercial photograph. Horizontal 3:2 wide image, overhead view on pale warm peach tabletop, four open matte BLACK plastic rectangular takeaway meal containers with rounded corners, arranged tightly as a beautiful complete lunch, subtle diagonal natural composition. Largest container center right contains sliced grilled chicken breast with mashed potato and dill garnish. Upper left black round soup container contains vibrant red borscht with sour cream dollop and dill. Lower left black rectangular container contains fresh Greek salad with tomato cucumber feta olives. Small black container lower right contains a single beautiful berry cheesecake slice. All food clearly visible and appetizing in realistic portion sizes. No ceramic plates. Clean modern ecommerce product photograph, warm daylight, soft shadows, olive linen napkin partly entering edge, no hands, no lids over food, no text, no logo, no watermark. Four distinct black takeaway containers clearly visible, framing leaves a small perimeter of peach tabletop. Rich natural food colors, high detail.
 

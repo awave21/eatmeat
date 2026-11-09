@@ -1,27 +1,30 @@
-'use client';
-import {ArrowDown,Check,Home,ShoppingBag,Truck} from 'lucide-react';
-import {categories,dishes,PRICE,DRINK_PRICE,CUTLERY_PRICE} from '../lib/menu';
+import {ArrowDown,Truck} from 'lucide-react';
+import {CUTLERY_PRICE,PRICE} from '../lib/menu';
+
 export default function DeliveryJourney({date}:{date:string}){
  return <section className="delivery-hero" aria-labelledby="welcome-heading">
- <div className="welcome-copy">
-  <span className="welcome-label"><span/> Каждый день. Без подписки.</span>
-  <h1 id="welcome-heading">Обед на ваш вкус</h1>
-  <section className="welcome-set" aria-labelledby="welcome-set-title">
-   <div className="welcome-set-heading">
-    <h2 id="welcome-set-title">Набор из четырёх блюд</h2>
-    <strong>{PRICE} ₽</strong>
-   </div>
-   <p className="welcome-set-caption" id="welcome-set-caption">Примеры из меню</p>
-   <ul className="welcome-set-dishes" aria-labelledby="welcome-set-caption">
-    {categories.map((category,index)=><li key={category}>
-     <b>{category}</b>
-     <span>{dishes[index][0].name}</span>
-    </li>)}
-   </ul>
-   <p className="welcome-set-extras">Дополнительно можно взять напиток за {DRINK_PRICE} ₽ и набор приборов за {CUTLERY_PRICE} ₽.</p>
-  </section>
-  <a className="primary welcome-cta" href="#menu">Собрать обед <ArrowDown size={18}/></a>
-  <div className="welcome-delivery"><Truck size={18}/><span>{date} · 12:00–13:00<small>Доставка 0 ₽</small></span></div>
- </div>
- <div className="journey-scene journey-static" role="group" aria-label="Курьер без бороды в городе укладывает обед в сумку"><div className="scene-viewport"><div className="scene-heading"><span>Из нашей кухни.<br/><b>К вашему столу.</b></span><span className="daily-tag">доставка каждый день</span></div><div className="scene-city" aria-hidden="true"><span className="city-block city-one"><i/><i/><i/><i/></span><span className="city-block city-two"><i/><i/><i/></span><span className="city-block city-three"><i/><i/><i/><i/></span><span className="city-tree"/></div><div className="route-line" aria-hidden="true"/><div className="route-origin" aria-hidden="true"><ShoppingBag size={17}/><span>наша кухня</span></div><div className="route-destination" aria-hidden="true"><Home size={18}/><span>ваш обед</span></div><div className="courier-travel" aria-hidden="true"><img className="courier-sprite" src="/courier/delivery-hero.webp" alt="" width={543} height={724} fetchPriority="high"/></div><div className="journey-status"><span className="status-static"><Check size={15}/> Бесплатно. Каждый день.</span></div><div className="free-delivery-stamp"><b>0 ₽</b><span>за доставку.<br/>Всегда.</span></div></div></div></section>
+  <div className="welcome-copy">
+   <span className="welcome-label"><span/> Каждый день. Без подписки.</span>
+   <h1 id="welcome-heading">Обед на ваш вкус</h1>
+   <p>Соберите четыре любимых блюда.{' '}<br/>Наш курьер привезёт их бесплатно —<br className="welcome-break"/> домой или в офис.</p>
+   <a className="primary welcome-cta" href="#menu">Собрать обед за {PRICE} ₽ <ArrowDown size={18}/></a>
+   <div className="welcome-delivery"><Truck size={18}/><span>{date} · 12:00–13:00<small>Доставка 0 ₽</small></span></div>
+  </div>
+  <figure className="lunch-hero">
+   <p className="lunch-hero-label">Пример обеда</p>
+   <img
+    src="/food/lunch-set-768.webp"
+    srcSet={'/food/lunch-set-768.webp 768w, ' + '/food/lunch-set-1280.webp 1280w'}
+    sizes="(max-width: 560px) calc(100vw - 60px), (max-width: 760px) calc(100vw - 74px), (max-width: 1356px) 43vw, 600px"
+    width={1536}
+    height={1024}
+    alt="Борщ со сметаной, курица с пюре, греческий салат и ягодный чизкейк в чёрных контейнерах рядом с чёрными приборами"
+    fetchPriority="high"
+   />
+   <figcaption>
+    <span>Суп · горячее · салат · десерт</span>
+    <span>Приборы отдельно · {CUTLERY_PRICE} ₽</span>
+   </figcaption>
+  </figure>
+ </section>;
 }
