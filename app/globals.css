@@ -225,8 +225,8 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   position:absolute;
   z-index:-1;
   right:0;
-  bottom:-24px;
-  width:min(84%,460px);
+  bottom:-32px;
+  width:min(100%,640px);
   aspect-ratio:480 / 248;
   container-type:size;
   pointer-events:none;
@@ -323,7 +323,7 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 @media(max-width:760px){
   .delivery-hero{gap:16px;padding-top:18px}
   .welcome-copy{padding:0}
-  .lunch-city{top:0;bottom:auto;width:min(76%,270px)}
+  .lunch-city{top:-8px;bottom:auto;width:min(100%,400px)}
   .welcome-heading{font-size:clamp(32px,9vw,48px)}
   .welcome-copy>p:not(.welcome-heading){margin-top:var(--space-12);font-size:16px}
   .welcome-cta{width:100%;margin-top:var(--space-16)}
