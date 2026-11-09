@@ -15,16 +15,55 @@ export default function Home(){
  useEffect(()=>{localStorage.setItem('obed-basket',JSON.stringify({selected,quantity,drink}))},[selected,quantity,drink]);
  const modalOpen=drawer||detail!==null;
  useEffect(()=>{if(drawer&&stage==='address'){const id=requestAnimationFrame(()=>dialog.current?.querySelector('input')?.focus());return()=>cancelAnimationFrame(id)}},[drawer,stage]);
- useEffect(()=>{if(modalOpen){previousFocus.current=document.activeElement as HTMLElement;dialog.current?.showModal();document.body.style.overflow='hidden'}else{dialog.current?.close();document.body.style.overflow='';previousFocus.current?.focus()}return()=>{document.body.style.overflow=''}},[modalOpen]);
- async function close(){if(closing.current)return;closing.current=true;if(dialog.current?.open&&!matchMedia('(prefers-reduced-motion: reduce)').matches){try{await dialog.current.animate([{opacity:1,transform:'translate(0,0)'},{opacity:0,transform:'translateX(14px)'}],{duration:160,easing:'cubic-bezier(.4,0,1,1)'}).finished}catch{}}setDrawer(false);setDetail(null);setError('');closing.current=false}
+ useEffect(()=>{
+  const panel=dialog.current;
+  if(!panel)return;
+  if(modalOpen){
+   const title=panel.querySelector<HTMLElement>('#dish-detail-title');
+   if(!title)previousFocus.current=document.activeElement as HTMLElement;
+   panel.showModal();
+   document.body.style.overflow='hidden';
+   if(title){
+    title.focus({preventScroll:true});
+    // Establish the closed styles before starting the entrance transition.
+    panel.getBoundingClientRect();
+    panel.dataset.visible='';
+   }
+  }else{
+   panel.close();
+   delete panel.dataset.visible;
+   previousFocus.current?.focus({preventScroll:true});
+   previousFocus.current=null;
+  }
+  return()=>{document.body.style.overflow=''};
+ },[modalOpen]);
+
+ async function close(){
+  if(closing.current)return;
+  closing.current=true;
+  const panel=dialog.current;
+  if(panel?.open&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+   if(panel.hasAttribute('data-visible')){
+    delete panel.dataset.visible;
+    await Promise.allSettled(panel.getAnimations().map(animation=>animation.finished));
+   }else{
+    await panel.animate([{opacity:1,transform:'translate(0,0)'},{opacity:0,transform:'translateX(14px)'}],
+     {duration:160,easing:'cubic-bezier(.4,0,1,1)',fill:'forwards'}).finished.catch(()=>{});
+   }
+  }
+  setDrawer(false);
+  setDetail(null);
+  setError('');
+  closing.current=false;
+ }
  function choose(cat:number,index:number){const removing=selected[cat]===index;setSelected(s=>s.map((v,i)=>i===cat?(removing?null:index):v));setNotice(dishes[cat][index].name+(removing?' — убрано из обеда':' — добавлено в обед'))}
  function openBasket(){setStage('basket');setDrawer(true)}
  async function submit(e:React.FormEvent<HTMLFormElement>){e.preventDefault();setBusy(true);setError('');const f=Object.fromEntries(new FormData(e.currentTarget));try{if(process.env.NEXT_PUBLIC_GITHUB_PAGES==='true'){const id=crypto.randomUUID();sessionStorage.setItem('obed-demo-order',JSON.stringify({id,selected,quantity,drink,date}));setOrder(id);setStage('done');return}const r=await fetch('/api/orders',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...f,selected,quantity,drink,date,key:sessionStorage.getItem('obed-order-key')||(()=>{const k=crypto.randomUUID();sessionStorage.setItem('obed-order-key',k);return k})()})});const data=await r.json() as {id:string,error?:string};if(!r.ok)throw new Error(data.error||'Не удалось сохранить заказ. Попробуйте ещё раз.');setOrder(data.id);setStage('done');sessionStorage.removeItem('obed-order-key')}catch(err){setError(err instanceof Error?err.message:'Ошибка соединения. Попробуйте снова.')}finally{setBusy(false)}}
  function goToCategory(i:number){setTab(i);const behavior:ScrollBehavior=matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth';document.getElementById(i===4?'drinks':'category-'+i)?.scrollIntoView({behavior,block:'start'})}
  const niceDate=date?new Date(date+'T12:00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'long'}):'завтра';
- return <><MealCatalog selected={selected} quantity={quantity} drink={drink} activeCategory={tab} date={niceDate} notice={notice} onChoose={choose} onDrink={setDrink} onQuantity={setQuantity} onDetails={(cat,index)=>setDetail({cat,index})} onBasket={openBasket} onCategory={goToCategory}/>
- <dialog ref={dialog} aria-label={drawer?"Оформление обеда":"Состав блюда"} className={'drawer '+(detail?'detail-drawer':'')} onCancel={e=>{e.preventDefault();void close()}} onClick={e=>{if(e.target===dialog.current)close()}}><div className="dialog-inner" key={drawer?stage:"detail"}><button className="close" aria-label="Закрыть" onClick={close}><X size={22}/></button>
- {detail&&(()=>{const d=dishes[detail.cat][detail.index];return <div className="detail"><FoodPhoto cat={detail.cat} variant={detail.index}/><div className="eyebrow">{categories[detail.cat]} · {d.weight} Г</div><h2>{d.name}</h2><p>{d.desc}</p><div className="detail-info"><b>{d.kcal} ккал</b><span>Аллергены: {d.allergens}</span></div><small>Пример блюда. Состав, вес и пищевая ценность требуют подтверждения кухни.</small><button className="primary" onClick={async()=>{if(selected[detail.cat]!==detail.index)choose(detail.cat,detail.index);await close()}}>{selected[detail.cat]===detail.index?"Вернуться к меню":"Добавить в обед"} <Plus size={18}/></button></div>})()}
+ return <><MealCatalog selected={selected} quantity={quantity} drink={drink} activeCategory={tab} date={niceDate} notice={notice} onChoose={choose} onDrink={setDrink} onQuantity={setQuantity} onDetails={(cat,index,trigger)=>{previousFocus.current=trigger;setDetail({cat,index})}} onBasket={openBasket} onCategory={goToCategory}/>
+ <dialog ref={dialog} aria-label={drawer?"Оформление обеда":undefined} aria-labelledby={detail?"dish-detail-title":undefined} className={'drawer '+(detail?'detail-drawer':'')} onCancel={e=>{e.preventDefault();void close()}} onClick={e=>{if(e.target===dialog.current)close()}}><div className="dialog-inner" key={drawer?stage:"detail"}><button className="close" aria-label="Закрыть" onClick={close}><X size={22}/></button>
+ {detail&&(()=>{const d=dishes[detail.cat][detail.index];return <div className="detail"><div className="eyebrow">{categories[detail.cat]} · {d.weight} Г</div><h2 id="dish-detail-title" tabIndex={-1}>{d.name}</h2><FoodPhoto cat={detail.cat} variant={detail.index}/><p>{d.desc}</p><div className="detail-info"><b>{d.kcal} ккал</b><span>Аллергены: {d.allergens}</span></div><small>Пример блюда. Состав, вес и пищевая ценность требуют подтверждения кухни.</small><button className="primary" onClick={async()=>{if(selected[detail.cat]!==detail.index)choose(detail.cat,detail.index);await close()}}>{selected[detail.cat]===detail.index?"Вернуться к меню":"Добавить в обед"} <Plus size={18}/></button></div>})()}
  {drawer&&<ol className="checkout-steps" aria-label="Шаги заказа">{["Состав","Адрес","Готово"].map((step,i)=><li key={step} aria-current={i===({basket:0,address:1,done:2}[stage])?"step":undefined}><span>{i+1}</span>{step}</li>)}</ol>}
  {drawer&&stage==='basket'&&<><div className="eyebrow">Ваш выбор</div><h2>Ваш обед собран</h2><p className="muted">Полный обед из четырёх блюд</p><div className="basket-items">{categories.map((c,i)=><div key={c} className="basket-item">{selected[i]!==null?<FoodPhoto cat={i} variant={selected[i]!}/>:<span className="empty-thumb"><Plus/></span>}<div><small>{c}</small><b>{selected[i]!==null?dishes[i][selected[i]!].name:'Ещё не выбрано'}</b><button onClick={async()=>{await close();goToCategory(i)}}>Изменить</button></div>{selected[i]!==null&&<button className="remove" aria-label={'Убрать '+c} onClick={()=>{setSelected(s=>s.map((v,k)=>k===i?null:v));setNotice(categories[i]+" — убрано из обеда")}}><X size={17}/></button>}</div>)}</div><fieldset className="basket-beverages"><legend>Напиток к обеду</legend><p>Один к каждому комплекту · без доплаты</p><div className="basket-beverage-options">{[{id:'',name:'Без напитка',description:'Только блюда'},...drinks].map(d=><label key={d.id} className={'basket-beverage '+((drink||'')===d.id?'is-checked':'')}><input type="radio" name="basket-beverage" value={d.id} checked={(drink||'')===d.id} onChange={()=>setDrink(d.id||null)}/>{d.id?<img src={'/drinks/'+d.id+'.webp'} alt=""/>:<span className="beverage-none"><Minus size={20}/></span>}<span className="beverage-copy"><b>{d.name}</b><small>{d.description}</small></span><span className="beverage-check" aria-hidden="true">{(drink||'')===d.id&&<Check size={12}/>}</span></label>)}</div></fieldset><div className="quantity-row"><div><b>Количество обедов</b><small>Одинаковые комплекты</small></div><div className="quantity"><button aria-label="Уменьшить количество" disabled={quantity<=1} onClick={()=>setQuantity(q=>q-1)}><Minus size={16}/></button><b>{quantity}</b><button aria-label="Увеличить количество" disabled={quantity>=20} onClick={()=>setQuantity(q=>q+1)}><Plus size={16}/></button></div></div><div className="basket-summary"><span>Обеды <b>{total} ₽</b></span><span>Доставка <b>Бесплатно</b></span><strong>Итого <b>{total} ₽</b></strong></div><button className="primary" disabled={count<4} onClick={()=>setStage('address')}>Указать адрес <ArrowRight size={18}/></button>{count<4&&<p className="form-note">Выберите все четыре блюда, чтобы продолжить.</p>}<p className="form-note">Тестовый заказ · Без оплаты и реальной доставки</p></>}
  {drawer&&stage==='address'&&<><button className="back" onClick={()=>setStage('basket')}>← К составу обеда</button><h2>Куда привезти?</h2><div className="delivery-recap"><Truck size={21}/><span>{niceDate} · 12:00–13:00<small>Доставка бесплатно · {quantity} {lunchWord} · {total} ₽</small><small>Напиток: {drinkName}</small></span></div><form onSubmit={submit} onInput={e=>{const field=e.target as HTMLInputElement;if(field.name)formDraft.current[field.name]=field.value}}><label>Ваше имя<input name="name" defaultValue={formDraft.current.name||""} required minLength={2} maxLength={80} autoComplete="given-name" placeholder="Как к вам обращаться"/></label><label>Телефон<input name="phone" defaultValue={formDraft.current.phone||""} required type="tel" pattern={"[+0-9\\(\\) \\-]{10,20}"} minLength={10} maxLength={20} autoComplete="tel" placeholder="+7 (999) 123-45-67"/></label><label>Город<input name="city" defaultValue={formDraft.current.city||""} required minLength={2} maxLength={80} autoComplete="address-level2" placeholder="Ваш город"/></label><label>Улица и дом<input name="address" defaultValue={formDraft.current.address||""} required minLength={5} maxLength={200} autoComplete="street-address" placeholder="Например, Лесная, 12"/></label><div className="form-split"><label>Квартира / офис<input name="apartment" defaultValue={formDraft.current.apartment||""} maxLength={30} placeholder="42"/></label><label>Подъезд, этаж<input name="entrance" defaultValue={formDraft.current.entrance||""} maxLength={40} placeholder="2, 5"/></label></div><label>Комментарий курьеру<textarea name="comment" defaultValue={formDraft.current.comment||""} maxLength={400} placeholder="Домофон, ориентир или пожелания"/></label><label className="consent"><input type="checkbox" required/>Понимаю, что это тестовый заказ: данные сохраняются для проверки формы, реальной доставки не будет.</label>{error&&<p role="alert" className="error">{error}</p>}<button className="primary" disabled={busy}>{busy?'Сохраняем…':'Подтвердить тестовый заказ'}{!busy&&<ArrowRight size={18}/>}</button><p className="form-note">Используйте вымышленные контактные данные для проверки.</p></form></>}
