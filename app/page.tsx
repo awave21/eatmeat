@@ -17,7 +17,15 @@ export default function Home(){
  useEffect(()=>{setDate(deliveryDate());try{const saved=JSON.parse(localStorage.getItem('obed-basket')||'null');if(saved&&Array.isArray(saved.selected)&&saved.selected.length===4&&saved.selected.every((x:unknown)=>x===null||(Number.isInteger(x)&&Number(x)>=0&&Number(x)<3)))setSelected(saved.selected);if(Number.isInteger(saved?.quantity)&&saved.quantity>=1&&saved.quantity<=MAX_ORDER_QUANTITY)setQuantity(saved.quantity);if(saved?.version===2){if(drinks.some(d=>d.id===saved.drink))setDrink(saved.drink);if(Number.isInteger(saved.cutleryQuantity)&&saved.cutleryQuantity>=0&&saved.cutleryQuantity<=MAX_ORDER_QUANTITY)setCutleryQuantity(saved.cutleryQuantity);}localStorage.removeItem('obed-brand')}catch{}},[]);
  useEffect(()=>{localStorage.setItem('obed-basket',JSON.stringify({version:2,selected,quantity,drink,cutleryQuantity}))},[selected,quantity,drink,cutleryQuantity]);
  const modalOpen=drawer||detail!==null;
- useEffect(()=>{if(drawer&&stage==='address'){const id=requestAnimationFrame(()=>dialog.current?.querySelector('input')?.focus());return()=>cancelAnimationFrame(id)}},[drawer,stage]);
+ useEffect(()=>{
+  const panel=dialog.current;
+  if(!drawer||!panel)return;
+  panel.scrollTop=0;
+  if(stage==='address'){
+   const id=requestAnimationFrame(()=>panel.querySelector('input')?.focus({preventScroll:true}));
+   return()=>cancelAnimationFrame(id);
+  }
+ },[drawer,stage]);
  useEffect(()=>{
   const panel=dialog.current;
   if(!panel)return;
