@@ -210,8 +210,8 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 }
 .lunch-route{
   position:relative;
-  width:min(100%,480px);
-  height:112px;
+  width:min(100%,448px);
+  aspect-ratio:4 / 1;
   border-radius:var(--radius-card);
   background:#f7f9fd;
 }
@@ -230,25 +230,53 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
   height:6px;
   border-radius:50%;
   background:rgba(36,72,197,.68);
-  box-shadow:0 0 0 3px rgba(36,72,197,.10);
-  transform:translate(8cqw,39cqh);
+  box-shadow:0 0 0 2px rgba(36,72,197,.14);
+  transform:translate(20.833cqw,22.000cqh);
   animation:lunch-city-route 22s linear infinite paused;
 }
 .lunch-city[data-running=true] .lunch-city-dot{animation-play-state:running;will-change:transform}
-/* Intersections sit in the gaps between the SVG blocks. */
+/* Waypoints follow the center of the streets, with rounded corners at intersections. */
 @keyframes lunch-city-route{
-  0%,100%{transform:translate(8cqw,39cqh)}
-  8.0%{transform:translate(24cqw,39cqh)}
-  10.7%{transform:translate(24cqw,15cqh)}
-  27.6%{transform:translate(58cqw,15cqh)}
-  30.4%{transform:translate(58cqw,39cqh)}
-  39.4%{transform:translate(76cqw,39cqh)}
-  42.2%{transform:translate(76cqw,63cqh)}
-  50.1%{transform:translate(92cqw,63cqh)}
-  52.8%{transform:translate(92cqw,86cqh)}
-  77.6%{transform:translate(42cqw,86cqh)}
-  80.3%{transform:translate(42cqw,63cqh)}
-  97.2%{transform:translate(8cqw,63cqh)}
+  0%,100%{transform:translate(20.833cqw,22.000cqh)}
+  21.53%{transform:translate(54.667cqw,22.000cqh)}
+  21.94%{transform:translate(55.304cqw,22.507cqh)}
+  22.36%{transform:translate(55.845cqw,23.953cqh)}
+  22.77%{transform:translate(56.206cqw,26.115cqh)}
+  23.19%{transform:translate(56.333cqw,28.667cqh)}
+  25.73%{transform:translate(56.333cqw,44.667cqh)}
+  26.14%{transform:translate(56.460cqw,47.218cqh)}
+  26.56%{transform:translate(56.821cqw,49.381cqh)}
+  26.97%{transform:translate(57.362cqw,50.826cqh)}
+  27.39%{transform:translate(58.000cqw,51.333cqh)}
+  44.14%{transform:translate(84.333cqw,51.333cqh)}
+  44.56%{transform:translate(84.971cqw,51.841cqh)}
+  44.97%{transform:translate(85.512cqw,53.286cqh)}
+  45.39%{transform:translate(85.873cqw,55.449cqh)}
+  45.80%{transform:translate(86.000cqw,58.000cqh)}
+  48.34%{transform:translate(86.000cqw,74.000cqh)}
+  48.76%{transform:translate(85.873cqw,76.551cqh)}
+  49.17%{transform:translate(85.512cqw,78.714cqh)}
+  49.59%{transform:translate(84.971cqw,80.159cqh)}
+  50.00%{transform:translate(84.333cqw,80.667cqh)}
+  78.85%{transform:translate(39.000cqw,80.667cqh)}
+  79.26%{transform:translate(38.362cqw,80.159cqh)}
+  79.68%{transform:translate(37.821cqw,78.714cqh)}
+  80.09%{transform:translate(37.460cqw,76.551cqh)}
+  80.50%{transform:translate(37.333cqw,74.000cqh)}
+  83.05%{transform:translate(37.333cqw,58.000cqh)}
+  83.46%{transform:translate(37.206cqw,55.449cqh)}
+  83.88%{transform:translate(36.845cqw,53.286cqh)}
+  84.29%{transform:translate(36.304cqw,51.841cqh)}
+  84.70%{transform:translate(35.667cqw,51.333cqh)}
+  94.14%{transform:translate(20.833cqw,51.333cqh)}
+  94.56%{transform:translate(20.196cqw,50.826cqh)}
+  94.97%{transform:translate(19.655cqw,49.381cqh)}
+  95.39%{transform:translate(19.294cqw,47.218cqh)}
+  95.80%{transform:translate(19.167cqw,44.667cqh)}
+  98.34%{transform:translate(19.167cqw,28.667cqh)}
+  98.76%{transform:translate(19.294cqw,26.115cqh)}
+  99.17%{transform:translate(19.655cqw,23.953cqh)}
+  99.59%{transform:translate(20.196cqw,22.507cqh)}
 }
 .lunch-motion-toggle{
   position:absolute;
@@ -294,7 +322,7 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 @media(max-width:760px){
   .delivery-hero{gap:16px;padding-top:18px}
   .welcome-copy{padding:0}
-  .lunch-route{height:72px}
+  .lunch-route{width:min(100%,328px)}
   .welcome-heading{font-size:clamp(32px,9vw,48px)}
   .welcome-copy>p:not(.welcome-heading){margin-top:var(--space-12);font-size:16px}
   .welcome-cta{width:100%;margin-top:var(--space-16)}

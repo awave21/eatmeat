@@ -33,29 +33,48 @@ export default function LunchCity() {
     <div ref={scene} className="lunch-city" aria-hidden="true" data-running={visible && !paused}>
       <svg viewBox="0 0 600 150" preserveAspectRatio="none" focusable="false">
         <g fill="currentColor">
-          <rect x="61" y="31" width="29" height="20" rx="4"/>
-          <rect x="98" y="32" width="31" height="18" rx="4"/>
-          <rect x="157" y="31" width="41" height="19" rx="4"/>
-          <rect x="206" y="31" width="33" height="20" rx="5"/>
-          <rect x="269" y="32" width="65" height="17" rx="5"/>
-          <rect x="365" y="29" width="32" height="22" rx="4"/>
-          <rect x="406" y="34" width="36" height="17" rx="4"/>
-          <rect x="469" y="30" width="45" height="21" rx="5"/>
-          <rect x="63" y="67" width="63" height="19" rx="5"/>
-          <rect x="158" y="66" width="33" height="20" rx="4"/>
-          <rect x="200" y="70" width="37" height="17" rx="4"/>
-          <rect x="267" y="65" width="36" height="21" rx="4"/>
-          <rect x="311" y="70" width="24" height="16" rx="4"/>
-          <rect x="364" y="67" width="78" height="18" rx="5"/>
-          <rect x="468" y="66" width="65" height="20" rx="5"/>
-          <rect x="62" y="104" width="45" height="18" rx="4"/>
-          <rect x="116" y="106" width="47" height="16" rx="4"/>
-          <rect x="174" y="102" width="62" height="20" rx="5"/>
-          <rect x="266" y="104" width="68" height="18" rx="5"/>
-          <rect x="365" y="102" width="39" height="20" rx="4"/>
-          <rect x="412" y="107" width="30" height="14" rx="4"/>
-          <rect x="469" y="103" width="31" height="20" rx="4"/>
-          <rect x="508" y="106" width="30" height="16" rx="4"/>
+          <g opacity=".76">
+            <rect x="19" y="9" width="38" height="10" rx="3"/>
+            <rect x="67" y="7" width="30" height="12" rx="3"/>
+            <rect x="133" y="8" width="70" height="11" rx="4"/>
+            <rect x="244" y="6" width="34" height="13" rx="4"/>
+            <rect x="286" y="9" width="34" height="10" rx="3"/>
+            <rect x="356" y="7" width="51" height="12" rx="4"/>
+            <rect x="417" y="10" width="29" height="9" rx="3"/>
+            <rect x="456" y="7" width="42" height="12" rx="4"/>
+            <rect x="535" y="9" width="49" height="10" rx="3"/>
+          </g>
+          <g>
+            <rect x="23" y="48" width="71" height="14" rx="4"/>
+            <rect x="133" y="47" width="34" height="16" rx="4"/>
+            <rect x="176" y="50" width="30" height="13" rx="3"/>
+            <rect x="242" y="49" width="78" height="14" rx="5"/>
+            <rect x="355" y="47" width="33" height="16" rx="4"/>
+            <rect x="397" y="49" width="44" height="13" rx="3"/>
+            <rect x="451" y="47" width="48" height="16" rx="4"/>
+            <rect x="535" y="48" width="48" height="14" rx="4"/>
+          </g>
+          <g>
+            <rect x="20" y="93" width="32" height="12" rx="3"/>
+            <rect x="63" y="91" width="34" height="16" rx="4"/>
+            <rect x="134" y="91" width="70" height="16" rx="4"/>
+            <rect x="242" y="92" width="35" height="15" rx="4"/>
+            <rect x="287" y="94" width="34" height="12" rx="3"/>
+            <rect x="356" y="91" width="58" height="16" rx="4"/>
+            <rect x="425" y="93" width="31" height="14" rx="3"/>
+            <rect x="467" y="91" width="32" height="16" rx="4"/>
+            <rect x="534" y="92" width="50" height="15" rx="4"/>
+          </g>
+          <g opacity=".76">
+            <rect x="22" y="135" width="73" height="10" rx="4"/>
+            <rect x="135" y="137" width="29" height="9" rx="3"/>
+            <rect x="174" y="135" width="31" height="10" rx="3"/>
+            <rect x="243" y="135" width="77" height="11" rx="4"/>
+            <rect x="357" y="136" width="40" height="10" rx="3"/>
+            <rect x="406" y="135" width="49" height="11" rx="4"/>
+            <rect x="466" y="137" width="32" height="8" rx="3"/>
+            <rect x="536" y="135" width="46" height="10" rx="4"/>
+          </g>
         </g>
       </svg>
       <span className="lunch-city-dot"/>
