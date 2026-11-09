@@ -18,7 +18,7 @@ body{background:#fafbfe}.shop-header{top:14px;height:70px;max-width:1280px;margi
 .delivery-hero{display:grid;grid-template-columns:.95fr 1.05fr;gap:30px;align-items:center;margin-top:14px;margin-bottom:10px;padding:18px 0 28px;border-bottom:1px solid var(--line)}
 @media(max-width:1100px){.delivery-hero{gap:23px}.drinks-department .drink-option{padding:11px;min-height:220px}.drinks-department .drink-art{height:145px}}
 @media(max-width:850px){.delivery-hero{grid-template-columns:1fr 1fr;gap:18px}}
-@media(max-width:760px){html{scroll-padding-top:84px}.shop-header{top:9px;margin-top:9px;height:61px;width:calc(100% - 24px);padding-inline:var(--space-16);border-radius:var(--radius-card)}.category-rail{top:80px;background:rgba(236,242,253,.87);backdrop-filter:blur(22px) saturate(120%);margin:0 calc(0px - var(--page-gutter));padding:var(--space-8) var(--page-gutter);border-radius:0;border-left:0;border-right:0;box-shadow:inset 0 1px 0 white}.menu-department{scroll-margin-top:68px}.delivery-hero{grid-template-columns:1fr;gap:22px;padding:23px 0 29px;margin-top:0}.catalog-intro{padding-top:var(--space-24)}.catalog-intro h2{font-size:31px;letter-spacing:-1px;margin:8px 0 12px}.drinks-department .drink-art{height:155px}.drinks-department .drink-option{min-height:235px;padding:12px}.detail-drawer .detail>.food-photo{max-width:100%;width:100%}.detail-drawer .detail>h2{font-size:28px}.detail-drawer .detail{padding-top:15px}.detail-drawer .detail-info{padding:17px}}
+@media(max-width:760px){html{scroll-padding-top:calc(var(--mobile-rail-top) + var(--space-4))}.shop-header{top:var(--mobile-header-top);margin-top:var(--mobile-header-top);height:var(--mobile-header-height);width:calc(100% - 24px);padding-inline:var(--space-16);border-radius:var(--radius-card)}.category-rail{top:var(--mobile-rail-top);background:rgba(236,242,253,.87);backdrop-filter:blur(22px) saturate(120%);margin:0 calc(0px - var(--page-gutter));padding:var(--space-8) var(--page-gutter);border-radius:0;border-left:0;border-right:0;box-shadow:inset 0 1px 0 white}.menu-department{scroll-margin-top:68px}.delivery-hero{grid-template-columns:1fr;gap:22px;padding:23px 0 29px;margin-top:0}.catalog-intro{padding-top:var(--space-24)}.catalog-intro h2{font-size:31px;letter-spacing:-1px;margin:8px 0 12px}.drinks-department .drink-art{height:155px}.drinks-department .drink-option{min-height:235px;padding:12px}.detail-drawer .detail>.food-photo{max-width:100%;width:100%}.detail-drawer .detail>h2{font-size:28px}.detail-drawer .detail{padding-top:15px}.detail-drawer .detail-info{padding:17px}}
 @media(max-width:560px){.catalog-intro h2{font-size:30px;max-width:310px}.drinks-department .drink-option{padding:10px;min-height:242px}.drinks-department .drink-art{height:164px}.drinks-department .drink-name{font-size:13px}.drinks-department .drink-name small{font-size:9px}.detail-drawer .detail>.food-photo{margin-top:12px}.detail-drawer .detail>h2{font-size:27px}}
 @supports not (backdrop-filter:blur(1px)){.shop-header,.category-rail,.meal-dock{background:#f1f5fc}dialog.drawer{background:#f2f6fd}}
 .catalog-anchor{scroll-margin-top:32px}
@@ -259,13 +259,18 @@ dialog.detail-drawer[open][data-visible]::backdrop{opacity:1;transition-duration
 .dialog-inner .quantity button,.ds-demo .quantity button{min-width:44px;min-height:44px}
 @media(max-width:1100px){:root{--page-gutter:var(--space-24)}}
 @media(max-width:760px){
-  :root{--page-gutter:var(--space-16)}
+  :root{
+    --page-gutter:var(--space-16);
+    --mobile-header-top:calc(var(--space-16) + env(safe-area-inset-top,0px));
+    --mobile-header-height:61px;
+    --mobile-rail-top:calc(var(--mobile-header-top) + var(--mobile-header-height) + var(--space-8));
+  }
   .shop-header::before{
     content:'';
     position:absolute;
-    inset:-10px auto auto 50%;
+    inset:calc(-1px - var(--mobile-header-top)) auto auto 50%;
     width:100vw;
-    height:10px;
+    height:var(--mobile-header-top);
     transform:translateX(-50%);
     background:var(--canvas);
     pointer-events:none;
