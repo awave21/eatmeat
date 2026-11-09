@@ -80,7 +80,10 @@ body{background:#fff}.product-image,.catalog-card:hover .product-image{backgroun
     font-size:11px;
   }
   .rail-slot img{width:100%;height:100%;object-fit:contain}
-  .rail-slot .food-photo{filter:drop-shadow(0 3px 4px rgba(25,39,66,.28))}
+  .rail-slot .food-photo{filter:drop-shadow(0 4px 3px rgba(36,72,197,.65))}
+  .catalog-card.is-selected .product-image .food-photo{
+    filter:drop-shadow(0 9px 8px rgba(36,72,197,.48));
+  }
   .dock-inner>.dock-catcher,.dock-label,.dock-delivery{display:none}
   .dock-inner{min-height:64px;padding:8px 16px;gap:12px}
   .dock-price{flex:1;text-align:left}
