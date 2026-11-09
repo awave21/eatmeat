@@ -15,6 +15,13 @@
       "when": 1794155134701,
       "tag": "0001_secret_goliath",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1794207739415,
+      "tag": "0002_striped_omega_red",
+      "breakpoints": true
     }
   ]
 }

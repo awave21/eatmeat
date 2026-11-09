@@ -1,0 +1,1 @@
+ALTER TABLE `orders` ADD `cutlery_quantity` integer DEFAULT 0 NOT NULL;
