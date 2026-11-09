@@ -7,7 +7,7 @@ export default function DeliveryJourney({date}:{date:string}){
  return <section className="delivery-hero" aria-labelledby="welcome-heading">
   <div className="welcome-copy">
    <h1 id="welcome-heading" className="welcome-heading">Четыре блюда. <span>Ваш выбор.</span></h1>
-   <p>В наборе суп, горячее, салат и десерт.</p>
+   <p>Исполняем три желания: первое, второе, третье и десерт.</p>
    <a className="primary welcome-cta" href="#menu">Собрать обед за {PRICE} ₽ <ArrowDown size={18}/></a>
    <p className="welcome-demo">Демо · оформление без оплаты и доставки</p>
    <LunchCity/>

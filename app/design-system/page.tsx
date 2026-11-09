@@ -95,7 +95,7 @@ export default function DesignSystem(){
     <div className="ds-type welcome-copy">
      <span className="ds-type-label">Заголовок первого экрана</span>
      <p className="welcome-heading">Четыре блюда. <span>Ваш выбор.</span></p>
-     <p>В наборе суп, горячее, салат и десерт.</p>
+     <p>Исполняем три желания: первое, второе, третье и десерт.</p>
     </div>
    </section>
 
