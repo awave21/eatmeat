@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Документы: политика и условия | Питание Москва</title>
+<meta name="description" content="Политика обработки персональных данных и условия сервиса доставки обедов «Питание Москва». Демонстрационный проект.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/favicon.svg?v=4" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/golos-cyr.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/styles.css?v=28">
+<style>
+  .legal-hero{padding:40px 0 26px;border-bottom:1px solid var(--line)}
+  .legal-hero h1{font-size:clamp(32px,4vw,48px)}
+  .legal-hero p{color:var(--muted);font-size:14px;margin-top:10px;max-width:54ch}
+  .legal-wrap{display:grid;grid-template-columns:210px minmax(0,1fr);gap:48px;padding:38px 0 80px}
+  .legal-nav{position:sticky;top:88px;align-self:start;display:flex;flex-direction:column;gap:2px}
+  .legal-nav a{font-size:13px;padding:9px 10px;border-radius:9px;color:var(--muted);transition:background var(--dur-1),color var(--dur-1)}
+  .legal-nav a:hover{background:#fff;color:var(--ink)}
+  .legal-body{max-width:72ch}
+  .legal-body h2{font-size:24px;margin:34px 0 12px;scroll-margin-top:96px}
+  .legal-body h2:first-child{margin-top:0}
+  .legal-body h3{font-size:16px;margin:22px 0 8px}
+  .legal-body p{font-size:14.5px;line-height:1.7;color:var(--ink-soft);margin-bottom:10px}
+  .legal-body ul{list-style:disc;padding-left:20px;margin:0 0 12px}
+  .legal-body li{font-size:14.5px;line-height:1.7;color:var(--ink-soft);margin-bottom:6px}
+  .legal-body a{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+  .legal-note{padding:14px 16px;border-radius:var(--r-control);background:var(--accent-wash);border:1px solid rgba(var(--accent-rgb),.16);font-size:13px;line-height:1.6;margin-bottom:24px}
+  @media(max-width:900px){.legal-wrap{grid-template-columns:1fr;gap:20px}.legal-nav{position:static;flex-direction:row;overflow-x:auto}}
+</style>
+</head>
+<body>
+<a class="skip" href="#doc">Перейти к документу</a>
+
+<header class="header">
+  <div class="wrap header-inner">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="18" fill="currentColor"/><g fill="none" stroke="#fff" stroke-width="2.5"><rect x="17" y="17" width="12" height="12" rx="3"/><rect x="35" y="17" width="12" height="12" rx="3"/><rect x="17" y="35" width="12" height="12" rx="3"/><rect x="35" y="35" width="12" height="12" rx="3"/></g></svg>
+      </span>
+      <span class="brand-name">Питание Москва</span>
+    </a>
+    <nav class="nav" aria-label="Основная навигация">
+      <a href="index.html#menu">Меню</a>
+      <a href="index.html#how">Как это работает</a>
+      <a href="index.html#faq">Доставка</a>
+    </nav>
+    <a class="cart-btn" href="index.html#menu">К меню</a>
+  </div>
+</header>
+
+<main>
+  <section class="legal-hero">
+    <div class="wrap">
+      <h1>Документы сервиса</h1>
+      <p>Демонстрационный проект. Тексты ниже показывают, как выглядели бы реальные документы, но не создают юридических обязательств.</p>
+    </div>
+  </section>
+
+  <div class="wrap legal-wrap">
+    <aside class="legal-nav" aria-label="Содержание">
+      <a href="#privacy">Политика конфиденциальности</a>
+      <a href="#terms">Условия сервиса</a>
+      <a href="#contacts">Контакты</a>
+    </aside>
+
+    <div class="legal-body" id="doc">
+      <p class="legal-note">Это концепт, а не действующий сервис. Заказы сохраняются только в браузере посетителя. Оплата, кухня и доставка не подключены.</p>
+
+      <h2 id="privacy">Политика конфиденциальности</h2>
+      <p>Сервис «Питание Москва» уважает приватность посетителей. Ниже описано, какие данные используются и как долго хранятся.</p>
+
+      <h3>Какие данные собираются</h3>
+      <ul>
+        <li>Данные, которые вы вводите в форме заказа: адрес, имя, телефон, детали доставки и комментарий.</li>
+        <li>Технические данные: тип устройства, браузер и обезличенная статистика посещений.</li>
+        <li>Содержимое корзины, которое сохраняется в локальном хранилище браузера.</li>
+      </ul>
+
+      <h3>Как используются данные</h3>
+      <p>В демонстрационной версии данные формы не отправляются на сервер. Они попадают только в память вкладки и исчезают при её закрытии. Корзина сохраняется в localStorage, чтобы не потерять выбор при обновлении страницы.</p>
+      <p>В рабочей версии данные использовались бы для передачи заказа на кухню, связи с курьером и поддержки. Мы не продаём данные третьим лицам.</p>
+
+      <h3>Срок хранения</h3>
+      <p>Корзина хранится до очистки хранилища браузера. Данные заказа в демо не сохраняются. В рабочей версии заказы хранились бы не дольше срока, нужного для бухгалтерии и разбора обращений.</p>
+
+      <h3>Ваши права</h3>
+      <p>Вы можете запросить сведения о своих данных, исправление или удаление. Напишите на <a href="mailto:hello@pitanie.msk">hello@pitanie.msk</a>, и мы ответим в течение рабочего дня.</p>
+
+      <h3>Cookies и аналитика</h3>
+      <p>Сайт не устанавливает рекламные cookies. Для оценки посещаемости могла бы использоваться обезличенная аналитика без идентификации конкретного человека.</p>
+
+      <h2 id="terms">Условия сервиса</h2>
+      <p>Условия описывают работу доставки готовых обедов: состав, сроки, стоимость и порядок решения спорных ситуаций.</p>
+
+      <h3>Состав и стоимость</h3>
+      <p>Обед включает три блюда: суп, горячее и салат. Стоимость одного обеда 390 ₽. Напиток стоит 30 ₽ и добавляется по желанию, приборы стоят 10 ₽ за набор. Доставка по Москве бесплатная.</p>
+
+      <h3>Приём и доставка заказов</h3>
+      <ul>
+        <li>Заказы принимаются до 20:00 по московскому времени.</li>
+        <li>Заказ, оформленный до 20:00, доставляется на следующий день с 12:00 до 13:00.</li>
+        <li>Заказ после 20:00 доставляется через день в том же интервале.</li>
+        <li>Курьер звонит за 30 минут до прибытия.</li>
+      </ul>
+
+      <h3>Замена и возврат</h3>
+      <p>Если доставка задерживается больше чем на 15 минут, стоимость обеда возвращается. Если блюдо не соответствует описанию, заменим его в следующем заказе или вернём деньги за позицию.</p>
+
+      <h3>Исключения</h3>
+      <p>Доставка возможна не во все районы Москвы. Если адрес вне зоны, мы сообщаем об этом до подтверждения заказа. Демонстрационная версия не проверяет адрес и не подключает оплату.</p>
+
+      <h3>Изменения</h3>
+      <p>Условия могут меняться. Актуальная версия всегда на этой странице. Продолжая пользоваться сервисом, вы принимаете новую редакцию.</p>
+
+      <h2 id="contacts">Контакты</h2>
+      <p>Телефон: <a href="tel:+74951204567">+7 495 120-45-67</a>, ежедневно с 09:00 до 20:00.<br>
+      Почта: <a href="mailto:hello@pitanie.msk">hello@pitanie.msk</a><br>
+      Telegram: <a href="https://t.me/pitanie_msk">@pitanie_msk</a></p>
+      <p>Реквизиты и юридический адрес в демонстрационной версии не указаны, потому что сервис не работает как компания.</p>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-bottom">
+    <p>© 2026 Питание Москва</p>
+    <p class="footer-note">Концепт. Заказы сохраняются только в браузере. Контакты демонстрационные.</p>
+    <p class="footer-legal"><a href="legal.html#privacy">Политика конфиденциальности</a><a href="legal.html#terms">Условия сервиса</a></p>
+  </div>
+</footer>
+</body>
+</html>
