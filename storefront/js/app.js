@@ -1,7 +1,8 @@
 /* Питание Москва 2.0
    Single-file UI for the concept landing. No framework, no build step. */
 
-const PRICE = 390;
+const MIN_ORDER = 390;
+const DISH_PRICE = 130;
 const DRINK_PRICE = 30;
 const CUTLERY_PRICE = 10;
 const MAX_QTY = 20;
@@ -56,9 +57,9 @@ const DRINKS = [
 
 /* ---------- state ---------- */
 const state = {
-  picked: [null, null, null],
+  quantities: {},
   drink: null,
-  qty: 1,
+  drinkQty: 0,
   cutlery: 0,
   deliveryDate: null,
   order: null,
@@ -190,14 +191,23 @@ function cutoffLeft(now = new Date()) {
 
 /* ---------- pricing ---------- */
 function totals() {
-  const meals = state.qty * PRICE;
-  const beverages = state.drink ? state.qty * DRINK_PRICE : 0;
+  const meals = pickedCount() * DISH_PRICE;
+  const beverages = state.drinkQty * DRINK_PRICE;
   const cutlery = state.cutlery * CUTLERY_PRICE;
   return { meals, beverages, cutlery, total: meals + beverages + cutlery };
 }
-const pickedCount = () => state.picked.filter((v) => v !== null).length;
-const isComplete = () => pickedCount() === COURSES.length;
-const missing = () => COURSES.map((c, i) => (state.picked[i] === null ? c.name : null)).filter(Boolean);
+const quantity = (id) => state.quantities[id] || 0;
+const pickedCount = () => Object.values(state.quantities).reduce((sum, count) => sum + count, 0);
+const isComplete = () => pickedCount() > 0 && totals().total >= MIN_ORDER;
+const orderHint = (total) => total < MIN_ORDER
+  ? `До минимального заказа ещё ${MIN_ORDER - total} ₽`
+  : pickedCount() ? 'Готов к оформлению' : 'Добавьте хотя бы одно блюдо';
+const dishesById = Object.fromEntries(COURSES.flatMap((course, cat) =>
+  course.dishes.map((dish) => [dish.id, { ...dish, cat }]),
+));
+const selectedDishes = () => Object.keys(state.quantities).map((id) => dishesById[id]);
+const categoryThumb = (cat) => selectedDishes().findLast((dish) => dish.cat === cat);
+const validQuantity = (value) => Number.isInteger(value) && value >= 1 && value <= MAX_QTY;
 const plural = (n, one, few, many) => {
   const m10 = n % 10, m100 = n % 100;
   if (m10 === 1 && m100 !== 11) return one;
@@ -209,7 +219,8 @@ const plural = (n, one, few, many) => {
 function save() {
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify({
-      version: 1, picked: state.picked, drink: state.drink, qty: state.qty, cutlery: state.cutlery,
+      version: 2, quantities: state.quantities, drink: state.drink, drinkQty: state.drinkQty,
+      cutlery: state.cutlery, deliveryDate: state.deliveryDate,
     }));
   } catch { /* storage disabled */ }
 }
@@ -218,26 +229,44 @@ function restore() {
   try {
     const raw = JSON.parse(localStorage.getItem(STORE_KEY) || 'null');
     if (!raw) return;
-    if (Array.isArray(raw.picked) && raw.picked.length === COURSES.length &&
-      raw.picked.every((v, i) => v === null || (Number.isInteger(v) && v >= 0 && v < COURSES[i].dishes.length))) {
-      state.picked = raw.picked;
+    if (raw.version === 2) {
+      for (const [id, count] of Object.entries(raw.quantities || {})) {
+        if (Object.hasOwn(dishesById, id) && validQuantity(count)) state.quantities[id] = count;
+      }
+      if (deliveryChoices().includes(raw.deliveryDate)) state.deliveryDate = raw.deliveryDate;
+    } else if (Array.isArray(raw.picked)) {
+      const count = validQuantity(raw.qty) ? raw.qty : 1;
+      COURSES.forEach((course, cat) => {
+        const variant = raw.picked[cat];
+        if (Number.isInteger(variant) && course.dishes[variant]) {
+          state.quantities[course.dishes[variant].id] = count;
+        }
+      });
     }
-    if (DRINKS.some((d) => d.id === raw.drink) || raw.drink === null) state.drink = raw.drink;
-    if (Number.isInteger(raw.qty) && raw.qty >= 1 && raw.qty <= MAX_QTY) state.qty = raw.qty;
+    const drinkQty = raw.version === 2 ? raw.drinkQty : (validQuantity(raw.qty) ? raw.qty : 1);
+    if (DRINKS.some((drink) => drink.id === raw.drink) && validQuantity(drinkQty)) {
+      state.drink = raw.drink;
+      state.drinkQty = drinkQty;
+    }
     if (Number.isInteger(raw.cutlery) && raw.cutlery >= 0 && raw.cutlery <= MAX_QTY) state.cutlery = raw.cutlery;
   } catch { /* ignore */ }
 }
 
 /* ---------- menu render ---------- */
+function stepper(id, name, count) {
+  return `<div class="stepper" role="group" aria-label="Количество: ${esc(name)}">
+    <button type="button" data-item="${id}" data-delta="-1" aria-label="Уменьшить количество: ${esc(name)}" ${count === 0 ? 'disabled' : ''}>${icon('minus')}</button>
+    <b data-quantity aria-live="polite">${count}</b>
+    <button type="button" data-item="${id}" data-delta="1" aria-label="Увеличить количество: ${esc(name)}" ${count >= MAX_QTY ? 'disabled' : ''}>${icon('plus')}</button>
+  </div>`;
+}
+
 function renderMenu() {
   const rail = $('#rail');
   rail.innerHTML = COURSES.map((course, i) => {
-    const v = state.picked[i];
-    const dish = v === null ? null : course.dishes[v];
     return `<button class="rail-btn" type="button" data-jump="${i}">
-      <span class="rail-thumb">${v === null ? String(i + 1).padStart(2, '0')
-        : `<img src="${dishPhoto(course.dishes[v])}" alt="" width="36" height="36" loading="lazy" decoding="async">`}</span>
-      <span class="rail-copy"><b>${course.name}</b><small>${dish ? esc(dish.name) : 'Не выбрано'}</small></span>
+      <span class="rail-thumb">${String(i + 1).padStart(2, '0')}</span>
+      <span class="rail-copy"><b>${course.name}</b><small>Не выбрано</small></span>
       ${icon('check', 'rail-check')}
     </button>`;
   }).join('') + `<button class="rail-btn rail-drink" type="button" data-jump="${COURSES.length}">
@@ -282,18 +311,23 @@ function renderMenu() {
     </div>
     <div class="dishes">
       ${course.dishes.map((dish, vi) => `<article class="dish" data-cat="${i}" data-variant="${vi}">
-        <button class="dish-plate" type="button" data-pick="${i}:${vi}" aria-pressed="false" aria-label="${esc(dish.name)}">
+        <button class="dish-plate" type="button" data-pick="${dish.id}" aria-label="Добавить порцию: ${esc(dish.name)}">
           <img src="${dishPhoto(dish)}" alt="" width="362" height="362" loading="lazy" decoding="async">
           <span class="dish-tag">${dish.tag}</span>
           <span class="dish-pick">${icon('check')}</span>
         </button>
-        <span class="dish-body">
+        <div class="dish-body">
           <span class="dish-name">${dish.name}</span>
           <span class="dish-meta mono">${dish.weight} г · ${dish.kcal} ккал</span>
           <span class="dish-foot">
             <button class="dish-more" type="button" data-more="${i}:${vi}" aria-label="Состав и аллергены: ${esc(dish.name)}">Состав${icon('up-right')}</button>
           </span>
-        </span>
+          <div class="dish-buy">
+            <b>${DISH_PRICE} ₽</b>
+            <button type="button" class="btn btn-ghost dish-add" data-pick="${dish.id}" aria-label="Добавить порцию: ${esc(dish.name)}">Добавить</button>
+            ${stepper(dish.id, dish.name, 0)}
+          </div>
+        </div>
       </article>`).join('')}
     </div>
   </section>`).join('') + drinksCard;
@@ -303,35 +337,39 @@ function renderMenu() {
 
 function syncMenu() {
   COURSES.forEach((course, i) => {
-    const picked = state.picked[i];
+    const dish = categoryThumb(i);
+    const count = course.dishes.reduce((sum, item) => sum + quantity(item.id), 0);
     const section = document.getElementById('course-' + i);
-    section.classList.toggle('is-done', picked !== null);
+    section.classList.toggle('is-done', count > 0);
     const stateEl = $(`[data-state="${i}"]`, section);
-    stateEl.innerHTML = picked === null ? 'Не выбрано' : `${icon('check')}В обеде`;
+    stateEl.innerHTML = count ? `${icon('check')}${count} порц.` : 'Не выбрано';
     stateEl.hidden = false;
 
     $$('.dish', section).forEach((card) => {
       const vi = Number(card.dataset.variant);
-      const on = picked === vi;
+      const qty = quantity(course.dishes[vi].id);
+      const on = qty > 0;
       card.classList.toggle('is-picked', on);
       const plate = $('.dish-plate', card);
-      plate.setAttribute('aria-pressed', String(on));
-      plate.setAttribute('aria-label', on ? `${course.dishes[vi].name}. В обеде. Убрать` : `${course.dishes[vi].name}. Добавить в обед`);
-      $('.dish-tag', card).textContent = on ? 'В обеде' : course.dishes[vi].tag;
+      plate.disabled = qty >= MAX_QTY;
+      $('.dish-tag', card).textContent = on ? `В обеде · ${qty}` : course.dishes[vi].tag;
+      $('[data-quantity]', card).textContent = qty;
+      $('[data-delta="-1"]', card).disabled = !on;
+      $('[data-delta="1"]', card).disabled = qty >= MAX_QTY;
     });
 
     const railBtn = $(`.rail-btn[data-jump="${i}"]`);
     if (railBtn) {
-      railBtn.classList.toggle('done', picked !== null);
+      railBtn.classList.toggle('done', Boolean(dish));
       const thumb = $('.rail-thumb', railBtn);
-      const src = picked === null ? '' : dishPhoto(course.dishes[picked]);
+      const src = dish ? dishPhoto(dish) : '';
       const existing = $('img', thumb);
-      if (picked === null) {
+      if (!dish) {
         if (existing) thumb.innerHTML = String(i + 1).padStart(2, '0');
       } else if (!existing || existing.getAttribute('src') !== src) {
         thumb.innerHTML = `<img src="${src}" alt="" width="36" height="36" loading="lazy" decoding="async">`;
       }
-      $('.rail-copy small', railBtn).textContent = picked === null ? 'Не выбрано' : course.dishes[picked].name;
+      $('.rail-copy small', railBtn).textContent = count ? `${count} порц.` : 'Не выбрано';
     }
   });
 
@@ -364,32 +402,31 @@ function syncMenu() {
   }
 
   const count = pickedCount();
-  const dollars = totals();
+  const { total } = totals();
+  const hint = orderHint(total);
 
-  $('#progress-text').textContent = `${count} / ${COURSES.length}`;
-  $('#progress-bar').setAttribute('aria-valuenow', String(count));
-  $$('#progress-bar i').forEach((seg, i) => seg.classList.toggle('on', i < count));
+  $('#progress-text').textContent = `${total} ₽`;
+  $('#progress-hint').textContent = hint;
+  $('#progress-bar').value = Math.min(total, MIN_ORDER);
 
-  $('#header-count').textContent = `${count}/${COURSES.length}`;
+  $('#header-count').textContent = count;
   $('#header-cart').classList.toggle('has-items', count > 0);
 
-  $('#bar-count').textContent = count === COURSES.length ? 'Обед собран' : `${count} из ${COURSES.length} блюд`;
-  $('#bar-hint').textContent = count === COURSES.length ? 'Готов к оформлению' : `Осталось ${COURSES.length - count} ${plural(COURSES.length - count, 'блюдо', 'блюда', 'блюд')}`;
-  $('#bar-total').textContent = `${count === COURSES.length ? dollars.total : PRICE} ₽`;
-  $('#bar-label').textContent = count === COURSES.length ? 'итого' : 'за обед';
-  $('#bar-cta').firstChild.textContent = count === COURSES.length ? 'Мой обед' : 'Собрать обед';
+  $('#bar-count').textContent = `${count} ${plural(count, 'порция', 'порции', 'порций')}`;
+  $('#bar-hint').textContent = hint;
+  $('#bar-total').textContent = `${total} ₽`;
 
   const dishSlots = COURSES.map((course, i) => {
-    const v = state.picked[i];
+    const dish = categoryThumb(i);
     const flight = basketFlights.get(i);
-    if (flight && flight.variant !== v) flight.animation.cancel();
-    const dish = v === null ? null : course.dishes[v];
+    if (flight && !quantity(flight.variant)) flight.animation.cancel();
     const content = dish ? basketThumb(dishPhoto(dish)) : String(i + 1);
-    return orderbarSlot(i, v, content, dish?.name);
+    const count = course.dishes.reduce((sum, item) => sum + quantity(item.id), 0);
+    return orderbarSlot(i, dish?.id ?? null, content, dish?.name, count);
   });
   const drink = DRINKS.find((item) => item.id === state.drink);
   $('#bar-thumbs').innerHTML = dishSlots.join('') +
-    orderbarSlot('drink', state.drink, drinkSlotContent(), drink?.name);
+    orderbarSlot('drink', state.drink, drinkSlotContent(), drink?.name, state.drinkQty);
 
   if ($('#cart').open) renderCart();
 }
@@ -400,11 +437,11 @@ function basketSlotClass(key, selection) {
   return incoming ? 'basket-slot filled incoming' : 'basket-slot filled';
 }
 
-function orderbarSlot(key, selection, content, name) {
+function orderbarSlot(key, selection, content, name, count) {
   const attrs = `data-dish-slot="${key}" class="${basketSlotClass(key, selection)}"`;
   if (selection === null) return `<span ${attrs} aria-hidden="true">${content}</span>`;
   return `<button type="button" ${attrs} data-remove-slot="${key}" aria-label="Убрать из обеда: ${esc(name)}">
-    ${content}<span class="basket-remove" aria-hidden="true">${icon('x')}</span>
+    ${content}<span class="basket-count" aria-hidden="true">${count}</span><span class="basket-remove" aria-hidden="true">${icon('x')}</span>
   </button>`;
 }
 
@@ -434,7 +471,7 @@ function flyToBasket(key, selection, photo) {
 
   const isDrink = key === 'drink';
   const cart = photo.closest('#cart[open]');
-  const slotSelector = cart ? '#cart-drink-slot' : `[data-dish-slot="${key}"]`;
+  const slotSelector = cart && isDrink ? '#cart-drink-slot' : `[data-dish-slot="${key}"]`;
   const slot = $(slotSelector);
   if (!slot?.offsetWidth) return;
   const courier = cart ? $('#cart-courier') : $('#bar-courier');
@@ -470,8 +507,9 @@ function flyToBasket(key, selection, photo) {
     { transform: `translate(${dx}px, ${dy}px) scale(${endScale})`, offset: 1 },
   ], { duration: 950, easing: 'cubic-bezier(.35,0,.35,1)', fill: 'forwards' });
 
+  basketFlights.get(key)?.animation.cancel();
   basketFlights.set(key, { variant: selection, animation });
-  slot.classList.add('incoming');
+  if (isDrink || categoryThumb(key)?.id === selection) slot.classList.add('incoming');
   const finish = (event) => {
     flying.remove();
     if (basketFlights.get(key)?.animation !== animation) return;
@@ -481,8 +519,8 @@ function flyToBasket(key, selection, photo) {
       $('[data-dish-slot="drink"]')?.classList.remove('incoming');
       $('#cart-drink-slot')?.classList.remove('incoming');
     }
-    const current = isDrink ? state.drink : state.picked[key];
-    if (event.type === 'finish' && courier?.offsetWidth && (!cart || cart.open) && current === selection) {
+    const kept = isDrink ? state.drink === selection : quantity(selection) > 0;
+    if (event.type === 'finish' && courier?.offsetWidth && (!cart || cart.open) && kept) {
       showCourierCatch(courier);
     }
   };
@@ -490,38 +528,41 @@ function flyToBasket(key, selection, photo) {
   animation.oncancel = finish;
 }
 
-function removeDish(cat) {
-  const variant = state.picked[cat];
-  if (variant === null) return;
-  state.picked[cat] = null;
+function removeDish(id) {
+  const previous = quantity(id);
+  if (!previous) return;
+  delete state.quantities[id];
   syncMenu();
   save();
-  showToast(`${COURSES[cat].dishes[variant].name} убрано из обеда`, () => {
-    if (state.picked[cat] !== null) return;
-    state.picked[cat] = variant;
+  showToast(`Убрано: ${dishesById[id].name}`, () => {
+    if (quantity(id)) return;
+    state.quantities[id] = previous;
     syncMenu();
     save();
   });
 }
 
-function pick(cat, variant, trigger) {
-  if (state.picked[cat] === variant) {
-    removeDish(cat);
-    return;
-  }
-  state.picked[cat] = variant;
+function changeDish(id, delta, trigger) {
+  const old = quantity(id);
+  const count = old + delta;
+  if (count < 0 || count > MAX_QTY) return;
+  const card = trigger?.closest('.dish');
+  const photo = card && $('.dish-plate img', card);
+  if (count === 0) { removeDish(id); return; }
+  state.quantities[id] = count;
   syncMenu();
   save();
-  flyToBasket(cat, variant, $('img', trigger));
-  showToast(`${COURSES[cat].dishes[variant].name} в обеде`);
+  if (delta > 0 && photo) flyToBasket(dishesById[id].cat, id, photo);
 }
 
-function setDrink(id, trigger) {
+function setDrink(id, trigger, count = 1) {
   const drink = id === 'none' ? null : id;
   const previous = state.drink;
+  const previousQty = state.drinkQty;
   if (previous === drink) return;
   basketFlights.get('drink')?.animation.cancel();
   state.drink = drink;
+  state.drinkQty = drink ? count : 0;
 
   const cart = trigger?.closest('#cart[open]');
   const cartBody = cart ? $('#cart-body') : null;
@@ -535,7 +576,7 @@ function setDrink(id, trigger) {
   save();
   if (drink === null) {
     showToast('Напиток убран из обеда', () => {
-      if (state.drink === null) setDrink(previous);
+      if (state.drink === null) setDrink(previous, null, previousQty);
     });
   }
 }
@@ -625,29 +666,24 @@ function renderCart() {
 function cartStage() {
   const count = pickedCount();
   const sum = totals();
-  const miss = missing();
-  return `<h2 class="sheet-title" id="cart-title" tabindex="-1">${count === COURSES.length ? 'Ваш обед собран' : 'Соберите обед'}</h2>
-    <p class="sheet-sub">${count === COURSES.length ? 'Три блюда, доставка бесплатная.' : `Выбрано ${count} из ${COURSES.length}. ${miss.length ? 'Осталось: ' + miss.join(', ').toLowerCase() + '.' : ''}`}</p>
+  return `<h2 class="sheet-title" id="cart-title" tabindex="-1">Мой обед</h2>
+    <p class="sheet-sub" id="cart-minimum">${orderHint(sum.total)} · Минимум ${MIN_ORDER} ₽</p>
     <p class="delivery-window"><b>Доставка</b> · ${deliveryWindowLabel()}</p>
-    ${miss.length ? `<div class="hint">${icon('clock')}<span>Можно добрать позже: обед сохраняется в этом браузере.</span></div>` : ''}
     <div class="cart-list">
-      ${COURSES.map((course, i) => {
-        const v = state.picked[i];
-        return `<div class="cart-row${v === null ? ' cart-row-missing' : ''}">
-          <span class="cart-thumb">${v === null ? icon('plus') : `<img src="${dishPhoto(course.dishes[v])}" alt="" width="58" height="58" loading="lazy" decoding="async">`}</span>
+      ${selectedDishes().map((dish) => `<div class="cart-row">
+          <span class="cart-thumb"><img src="${dishPhoto(dish)}" alt="" width="58" height="58" loading="lazy" decoding="async"></span>
           <span class="cart-row-copy">
-            <small>${course.name}</small>
-            <b>${v === null ? 'Ещё не выбрано' : esc(course.dishes[v].name)}</b>
-            <button type="button" data-goto="${i}">${v === null ? 'Выбрать' : 'Изменить'}</button>
+            <b>${esc(dish.name)}</b>
+            <small>${quantity(dish.id) * DISH_PRICE} ₽</small>
           </span>
-          ${v === null ? '' : `<button class="icon-btn" type="button" data-remove="${i}" aria-label="Убрать ${course.name}">${icon('x')}</button>`}
-        </div>`;
-      }).join('')}
+          ${stepper(dish.id, dish.name, quantity(dish.id))}
+        </div>`).join('')}
     </div>
+    ${count ? '' : '<p class="sheet-sub">Выберите хотя бы одно блюдо из меню.</p>'}
 
     <div style="margin-top:22px">
       <p class="field-title">Напиток к обеду</p>
-      <p class="field-hint">По одному на каждый обед, ${DRINK_PRICE} ₽</p>
+      <p class="field-hint">${DRINK_PRICE} ₽ за штуку</p>
       <div class="drink-choices">
         <button class="drink-choice${state.drink === null ? ' is-picked' : ''}" type="button" data-drink="none">
           <span class="choice-none">${icon('prohibit')}</span>
@@ -662,30 +698,22 @@ function cartStage() {
       </div>
     </div>
 
-    <div class="opt-row">
-      <div><b>Количество обедов</b><small>Одинаковые комплекты</small></div>
-      <div class="stepper">
-        <button type="button" data-qty="-1" aria-label="Уменьшить количество" ${state.qty <= 1 ? 'disabled' : ''}>${icon('minus')}</button>
-        <b aria-live="polite">${state.qty}</b>
-        <button type="button" data-qty="1" aria-label="Увеличить количество" ${state.qty >= MAX_QTY ? 'disabled' : ''}>${icon('plus')}</button>
-      </div>
-    </div>
+    ${state.drink ? `<div class="opt-row">
+      <div><b>${DRINKS.find((drink) => drink.id === state.drink).name}</b><small>${DRINK_PRICE} ₽ за штуку</small></div>
+      ${stepper('drink', 'напиток', state.drinkQty)}
+    </div>` : ''}
     <div class="opt-row">
       <div><b>Приборы</b><small>${CUTLERY_PRICE} ₽ за набор</small></div>
-      <div class="stepper">
-        <button type="button" data-cutlery="-1" aria-label="Убрать набор приборов" ${state.cutlery <= 0 ? 'disabled' : ''}>${icon('minus')}</button>
-        <b aria-live="polite">${state.cutlery}</b>
-        <button type="button" data-cutlery="1" aria-label="Добавить набор приборов" ${state.cutlery >= MAX_QTY ? 'disabled' : ''}>${icon('plus')}</button>
-      </div>
+      ${stepper('cutlery', 'приборы', state.cutlery)}
     </div>
 
     <div class="summary">
-      <span>Обеды · ${state.qty} ${plural(state.qty, 'комплект', 'комплекта', 'комплектов')} <b>${sum.meals} ₽</b></span>
-      ${state.drink ? `<span>Напитки · ${state.qty} шт. <b>${sum.beverages} ₽</b></span>` : ''}
+      <span>Блюда · ${count} порц. <b>${sum.meals} ₽</b></span>
+      ${state.drink ? `<span>Напитки · ${state.drinkQty} шт. <b>${sum.beverages} ₽</b></span>` : ''}
       ${state.cutlery > 0 ? `<span>Приборы · ${state.cutlery} наб. <b>${sum.cutlery} ₽</b></span>` : ''}
       <span class="free">Доставка <b>0 ₽</b></span>
       <span class="total">Итого <b>${sum.total} ₽</b></span>
-      <span class="total-note">Цена фиксированная. Оплата не нужна, это демо.</span>
+      <span class="total-note">Оплата не нужна, это демо.</span>
     </div>`;
 }
 
@@ -696,22 +724,32 @@ function cartFoot() {
       <div class="foot-sum"><span>Итого</span><b>${sum.total} ₽</b></div>
       <span class="mono" style="font-size:11px;color:var(--muted)">доставка 0 ₽</span>
     </div>
-    <button class="btn btn-primary" type="button" id="cart-next" ${complete ? '' : 'data-incomplete="1"'}>
-      ${complete ? 'Указать адрес' : `Добрать ${missing()[0].toLowerCase()}`}${icon('arrow')}
+    <button class="btn btn-primary" type="button" id="cart-next" ${complete ? '' : 'aria-describedby="cart-minimum"'}>
+      ${complete ? 'Указать адрес' : 'Вернуться к меню'}${icon('arrow')}
     </button>`;
 }
 
+function orderLines(items, drink, cutlery) {
+  return [
+    ...items.map(({ id, quantity: count }) => [dishesById[id].name, `${count} порц.`]),
+    ...(drink ? [[DRINKS.find((item) => item.id === drink.id).name, `${drink.quantity} шт.`]] : []),
+    ...(cutlery ? [['Приборы', `${cutlery} наб.`]] : []),
+  ];
+}
+
+const dishItems = () => selectedDishes().map(({ id }) => ({ id, quantity: quantity(id) }));
+const drinkItem = () => state.drink ? { id: state.drink, quantity: state.drinkQty } : null;
+
 function addressStage() {
   const sum = totals();
-  const drink = state.drink ? DRINKS.find((d) => d.id === state.drink).name : 'Без напитка';
   return `<button class="link-arrow" type="button" data-back="cart" style="margin-bottom:12px">К составу обеда</button>
     <h2 class="sheet-title" id="cart-title" tabindex="-1">Куда привезти?</h2>
     <p class="sheet-sub">Адрес и телефон нужны курьеру. Это демо, данные никуда не отправляются.</p>
     <div class="recap">
       ${icon('truck')}
-      <span class="recap-main">${state.qty} ${plural(state.qty, 'обед', 'обеда', 'обедов')} · ${sum.total} ₽
+      <span class="recap-main">Ваш заказ · ${sum.total} ₽
         <small id="checkout-delivery">${deliveryWindowLabel()}</small>
-        <small>Напиток: ${drink}${state.drink ? ` · ${state.qty} шт.` : ''}${state.cutlery ? ` · приборы: ${state.cutlery} наб.` : ''}</small>
+        ${orderLines(dishItems(), drinkItem(), state.cutlery).map(([name, count]) => `<small>${esc(name)} · ${count}</small>`).join('')}
       </span>
     </div>
     <form class="form" id="address-form" novalidate>
@@ -759,9 +797,7 @@ function addressFoot() {
 }
 
 function doneStage() {
-  const sum = totals();
-  const drink = state.drink ? DRINKS.find((d) => d.id === state.drink).name : 'Без напитка';
-  const { code, date } = state.order;
+  const { code, date, items, drink, cutlery, total } = state.order;
   return `<div class="success">
     <span class="success-mark">${icon('check')}</span>
     <h2 id="cart-title" tabindex="-1">Заказ сохранён</h2>
@@ -770,10 +806,9 @@ function doneStage() {
       <p class="receipt-label">Номер заказа</p>
       <p class="receipt-code">${code}</p>
       <div class="receipt-row"><span>Доставка</span><b>${dateLabel(date)} · ${WINDOW_TEXT}</b></div>
-      <div class="receipt-row"><span>Состав</span><b>${state.qty} ${plural(state.qty, 'обед', 'обеда', 'обедов')}</b></div>
-      <div class="receipt-row"><span>Напиток</span><b>${drink}</b></div>
-      ${state.cutlery ? `<div class="receipt-row"><span>Приборы</span><b>${state.cutlery} наб.</b></div>` : ''}
-      <div class="receipt-row receipt-total"><span>Итого</span><b>${sum.total} ₽</b></div>
+      ${orderLines(items, drink, cutlery).map(([name, count]) =>
+        `<div class="receipt-row"><span>${esc(name)}</span><b>${count}</b></div>`).join('')}
+      <div class="receipt-row receipt-total"><span>Итого</span><b>${total} ₽</b></div>
     </div>
     <p class="form-note">Данные никуда не отправлены и хранятся только в этом браузере.</p>
     <button class="btn btn-primary" type="button" data-close-cart style="margin-top:16px">Вернуться к меню${icon('arrow')}</button>
@@ -856,6 +891,12 @@ function bindPhone() {
 }
 
 function submitOrder() {
+  if (!isComplete()) {
+    state.stage = 'cart';
+    renderCart();
+    $('#cart-title').focus();
+    return;
+  }
   const dates = deliveryChoices();
   if (!dates.includes(state.deliveryDate)) {
     syncDeliveryCalendar(dates);
@@ -867,9 +908,8 @@ function submitOrder() {
   const payload = {
     code: (crypto.randomUUID?.() || String(Date.now())).slice(0, 8).toUpperCase(),
     date: state.deliveryDate,
-    picked: state.picked,
-    qty: state.qty,
-    drink: state.drink,
+    items: dishItems(),
+    drink: drinkItem(),
     cutlery: state.cutlery,
     total: totals().total,
   };
@@ -883,7 +923,6 @@ function submitOrder() {
 /* ---------- detail ---------- */
 function openDetail(cat, variant, trigger) {
   const dish = COURSES[cat].dishes[variant];
-  const on = state.picked[cat] === variant;
   $('#detail-body').innerHTML = `<div class="detail">
     <div class="detail-hero"><img src="${dishPhoto(dish)}" alt="" width="440" height="380" decoding="async"></div>
     <p class="mono" style="margin-top:16px;color:var(--muted)">${COURSES[cat].name} · ${dish.weight} г</p>
@@ -896,13 +935,10 @@ function openDetail(cat, variant, trigger) {
     </div>
     <p class="detail-note">Пример блюда. Состав, вес и пищевая ценность уточняются на кухне.</p>
   </div>`;
-  $('#detail-foot').innerHTML = `<button class="btn btn-primary" type="button" id="detail-action">${on ? 'Убрать из обеда' : 'Добавить в обед'}${icon(on ? 'x' : 'plus')}</button>`;
+  $('#detail-foot').innerHTML = `<button class="btn btn-primary" type="button" id="detail-action" ${quantity(dish.id) >= MAX_QTY ? 'disabled' : ''}>Добавить порцию · ${DISH_PRICE} ₽${icon('plus')}</button>`;
   $('#detail-action').addEventListener('click', () => {
-    state.picked[cat] = on ? null : variant;
-    syncMenu();
-    save();
-    showToast(on ? `${dish.name} убрано из обеда` : `${dish.name} в обеде`, on ? () => { state.picked[cat] = variant; syncMenu(); save(); } : undefined);
     closeSheet('detail');
+    changeDish(dish.id, 1, trigger);
   });
   openSheet('detail', trigger);
 }
@@ -977,8 +1013,11 @@ function bind() {
     }
     const pickBtn = event.target.closest('[data-pick]');
     if (pickBtn) {
-      const [cat, variant] = pickBtn.dataset.pick.split(':').map(Number);
-      pick(cat, variant, pickBtn);
+      const id = pickBtn.dataset.pick;
+      changeDish(id, 1, pickBtn);
+      const card = pickBtn.closest('.dish');
+      if (pickBtn.matches('.dish-add')) $('[data-delta="1"]', card).focus({ preventScroll: true });
+      else if (pickBtn.disabled) $('[data-delta="-1"]', card).focus({ preventScroll: true });
       return;
     }
     const more = event.target.closest('[data-more]');
@@ -997,7 +1036,7 @@ function bind() {
       const restoreFocus = document.activeElement === removeSlot;
       const key = removeSlot.dataset.removeSlot;
       if (key === 'drink') setDrink('none');
-      else removeDish(Number(key));
+      else removeDish(categoryThumb(Number(key))?.id);
       if (restoreFocus) {
         const nextButton = $('#bar-thumbs [data-remove-slot]') || $('#bar-cta');
         nextButton.focus({ preventScroll: true });
@@ -1006,33 +1045,46 @@ function bind() {
     }
     const jump = event.target.closest('[data-jump]');
     if (jump) { goToCourse(Number(jump.dataset.jump)); return; }
-    const goto = event.target.closest('[data-goto]');
-    if (goto) {
-      const i = Number(goto.dataset.goto);
-      closeSheet('cart');
-      setTimeout(() => goToCourse(i, 760), 220);
-      return;
-    }
-    const remove = event.target.closest('[data-remove]');
-    if (remove) {
-      removeDish(Number(remove.dataset.remove));
-      return;
-    }
-    const qty = event.target.closest('[data-qty]');
-    if (qty) {
-      state.qty = Math.min(MAX_QTY, Math.max(1, state.qty + Number(qty.dataset.qty)));
-      save(); syncMenu(); renderCart();
-      return;
-    }
-    const cutlery = event.target.closest('[data-cutlery]');
-    if (cutlery) {
-      state.cutlery = Math.min(MAX_QTY, Math.max(0, state.cutlery + Number(cutlery.dataset.cutlery)));
-      save(); syncMenu(); renderCart();
+    const step = event.target.closest('[data-item][data-delta]');
+    if (step) {
+      const { item, delta } = step.dataset;
+      const change = Number(delta);
+      const cartBody = step.closest('#cart-body');
+      const top = cartBody?.scrollTop;
+      if (item === 'drink' || item === 'cutlery') {
+        const key = item === 'drink' ? 'drinkQty' : 'cutlery';
+        const count = Math.min(MAX_QTY, Math.max(0, state[key] + change));
+        if (item === 'drink' && !count) setDrink('none');
+        else {
+          state[key] = count;
+          syncMenu();
+          save();
+        }
+      } else changeDish(item, change, step);
+      if (cartBody) {
+        cartBody.scrollTop = top;
+        const controls = `[data-item="${item}"]`;
+        const focus = $(`${controls}[data-delta="${delta}"]:enabled`, cartBody)
+          || $(`${controls}:enabled`, cartBody)
+          || (item === 'drink' ? $('[data-drink="none"]', cartBody) : $('#cart-title'));
+        focus.focus({ preventScroll: true });
+      } else if (!quantity(item)) {
+        $('.dish-add', step.closest('.dish')).focus({ preventScroll: true });
+      } else if (step.disabled) {
+        $('[data-delta]:enabled', step.closest('.stepper')).focus({ preventScroll: true });
+      }
       return;
     }
     if (event.target.closest('#cart-next')) {
-      if (isComplete()) { state.stage = 'address'; renderCart(); }
-      else { const first = state.picked.indexOf(null); closeSheet('cart'); setTimeout(() => goToCourse(first, 760), 220); }
+      if (isComplete()) {
+        state.stage = 'address';
+        renderCart();
+        $('#cart-title').focus({ preventScroll: true });
+      } else {
+        closeSheet('cart');
+        $('#menu-title').focus({ preventScroll: true });
+        smoothScrollTo($('#menu'), 760);
+      }
       return;
     }
     if (event.target.closest('[data-back="cart"]')) { state.stage = 'cart'; renderCart(); return; }
@@ -1057,6 +1109,7 @@ function bind() {
     const date = event.target.value;
     state.deliveryDate = date;
     syncDeliveryCalendar(dates);
+    save();
     $('#menu-delivery-error').textContent = dates.includes(date)
       ? ''
       : 'Прежняя дата уже недоступна. Проверьте новую дату доставки.';

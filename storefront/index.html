@@ -4,26 +4,26 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>3 блюда на ваш вкус | Питание Москва</title>
-<meta name="description" content="Готовый обед из трёх блюд за 390 ₽: суп, горячее и салат на выбор. Бесплатная доставка по Москве с 12:00 до 13:00. Заказ до 20:00 на следующий день.">
+<meta name="description" content="Супы, горячее и салаты на выбор. Порция 130 ₽, минимальный заказ 390 ₽. Бесплатная доставка по Москве с 12:00 до 13:00. Заказ до 20:00 на следующий день.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="assets/favicon.svg?v=4" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Питание Москва">
-<meta property="og:title" content="Три блюда на ваш вкус. 390 ₽">
+<meta property="og:title" content="Питание Москва. Обед от 390 ₽">
 <meta property="og:description" content="Горячий обед к 13:00 в офис. Заказ до 20:00, доставка на завтра, 0 ₽. Без подписки.">
 <meta property="og:image" content="assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Обед из супа, горячего и салата в контейнерах с приборами">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Три блюда на ваш вкус. 390 ₽">
+<meta name="twitter:title" content="Питание Москва. Обед от 390 ₽">
 <meta name="twitter:description" content="Горячий обед к 13:00 в офис. Заказ до 20:00, доставка на завтра, 0 ₽.">
 <meta name="twitter:image" content="assets/og-image.png">
 <link rel="preload" href="assets/fonts/golos-cyr.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/golos-lat.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://crm.justfood.pro" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=28">
+<link rel="stylesheet" href="css/styles.css?v=29">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -32,9 +32,9 @@
       "@type": "Restaurant",
       "@id": "#restaurant",
       "name": "Питание Москва",
-      "description": "Доставка готовых обедов из трёх блюд по Москве: суп, горячее и салат. Один обед стоит 390 ₽, доставка бесплатная.",
+      "description": "Доставка супов, горячих блюд и салатов по Москве. Порция стоит 130 ₽, минимальный заказ 390 ₽, доставка бесплатная.",
       "servesCuisine": ["Русская", "Домашняя"],
-      "priceRange": "390 ₽",
+      "priceRange": "от 390 ₽ за заказ",
       "telephone": "+7-495-120-45-67",
       "address": {"@type": "PostalAddress", "addressLocality": "Москва", "addressCountry": "RU"},
       "areaServed": {"@type": "City", "name": "Москва"},
@@ -129,7 +129,7 @@
     <button class="cart-btn" id="header-cart" aria-haspopup="dialog" aria-controls="cart">
       <svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>
       <span class="cart-btn-label">Мой обед</span>
-      <b id="header-count">0/3</b>
+      <b id="header-count">0</b>
     </button>
   </div>
 </header>
@@ -143,7 +143,7 @@
         <p class="hero-note"><q>Исполняем три желания: первое, второе и третье.</q></p>
         <p class="lede">Горячий обед к 13:00 в офис. Заказ до 20:00, доставка на завтра, 0 ₽.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="#menu">Собрать обед за 390 ₽<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          <a class="btn btn-primary" href="#menu">Собрать обед<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
           <a class="link-arrow" href="#how">Как это работает<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </div>
       </div>
@@ -157,7 +157,7 @@
 
   <section class="band" aria-label="Условия доставки">
     <div class="wrap band-grid">
-      <div class="band-item">
+        <div class="band-item">
         <svg class="icon" aria-hidden="true"><use href="#i-truck"/></svg>
         <div><p class="band-label">Доставка 0 ₽</p><p class="band-text">Москва, 12:00–13:00</p></div>
       </div>
@@ -167,7 +167,7 @@
       </div>
       <div class="band-item">
         <svg class="icon" aria-hidden="true"><use href="#i-coins"/></svg>
-        <div><p class="band-label">390 ₽ за обед</p><p class="band-text">Примерно 130 ₽ за блюдо</p></div>
+        <div><p class="band-label">Минимальный заказ 390 ₽</p><p class="band-text">130 ₽ за порцию</p></div>
       </div>
     </div>
   </section>
@@ -176,14 +176,12 @@
     <div class="wrap">
       <div class="section-head menu-head">
         <div>
-          <h2 id="menu-title">Соберите обед</h2>
-          <p>Выберите суп, горячее и салат. Три блюда стоят 390 ₽. Фото показывают пример подачи.</p>
+          <h2 id="menu-title" tabindex="-1">Соберите обед</h2>
+          <p>Выбирайте любые блюда и количество порций. 130 ₽ за порцию · минимальный заказ 390 ₽.</p>
         </div>
-        <div class="progress" aria-label="Выбрано блюд">
-          <div class="progress-top"><span class="mono" id="progress-text">0 / 3</span><span class="mono progress-hint">блюда</span></div>
-          <div class="progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" id="progress-bar">
-            <i></i><i></i><i></i>
-          </div>
+        <div class="progress">
+          <div class="progress-top" aria-live="polite"><span class="mono" id="progress-text">0 ₽</span><span class="progress-hint" id="progress-hint">До минимального заказа ещё 390 ₽</span></div>
+          <progress class="progress-track" id="progress-bar" max="390" value="0" aria-label="Сумма до минимального заказа, в рублях"></progress>
         </div>
       </div>
       <div class="menu-delivery">
@@ -202,7 +200,7 @@
         </aside>
         <div class="courses" id="courses"></div>
       </div>
-      <noscript><p class="noscript">Для выбора блюд нужен JavaScript. Меню: суп, горячее и салат, 390 ₽ за обед.</p></noscript>
+      <noscript><p class="noscript">Для выбора блюд нужен JavaScript. Порция стоит 130 ₽, минимальный заказ 390 ₽.</p></noscript>
     </div>
   </section>
 
@@ -215,7 +213,7 @@
       <ol class="how-steps">
         <li>
           <span class="step-num mono">01</span>
-          <div><h3>Выбираете три блюда</h3><p>Суп, горячее и салат. Можно менять до оформления.</p></div>
+          <div><h3>Выбираете блюда и порции</h3><p>Любые супы, горячие блюда и салаты. Минимальная сумма заказа 390 ₽.</p></div>
         </li>
         <li>
           <span class="step-num mono">02</span>
@@ -279,7 +277,7 @@
         <h2 id="closing-title">Соберите обед на завтра</h2>
         <p>Приём до 20:00. Доставка бесплатная, оплата не нужна.</p>
       </div>
-      <a class="btn btn-primary" href="#menu">Собрать обед за 390 ₽<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="btn btn-primary" href="#menu">Собрать обед<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
   </section>
 </main>
@@ -288,7 +286,7 @@
   <div class="wrap footer-top">
     <div class="footer-brand">
       <a class="footer-wordmark" href="#top">Питание Москва</a>
-      <p>Обеды к перерыву. Три блюда, один слот, 390 ₽.</p>
+      <p>Обеды к перерыву. Порция 130 ₽, заказ от 390 ₽.</p>
     </div>
     <div class="footer-col">
       <p class="mono footer-label">Связаться</p>
@@ -319,13 +317,13 @@
       <div class="orderbar-courier" id="bar-courier" aria-hidden="true"></div>
       <div class="orderbar-thumbs" id="bar-thumbs" role="group" aria-label="Выбранные позиции"></div>
       <div class="orderbar-copy">
-        <b id="bar-count">0 из 3</b>
-        <span id="bar-hint">Соберите обед</span>
+        <b id="bar-count">0 порций</b>
+        <span id="bar-hint">До минимального заказа ещё 390 ₽</span>
       </div>
     </div>
     <div class="orderbar-price">
-      <span class="mono" id="bar-label">за обед</span>
-      <b id="bar-total">390 ₽</b>
+      <span class="mono" id="bar-label">итого</span>
+      <b id="bar-total">0 ₽</b>
     </div>
     <button class="btn btn-primary orderbar-btn" id="bar-cta" aria-haspopup="dialog" aria-controls="cart">Мой обед<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></button>
   </div>
@@ -364,6 +362,6 @@
   <button type="button" id="toast-undo">Вернуть</button>
 </div>
 
-<script type="module" src="js/app.js?v=13"></script>
+<script type="module" src="js/app.js?v=14"></script>
 </body>
 </html>
