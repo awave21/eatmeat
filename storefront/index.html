@@ -23,7 +23,7 @@
 <link rel="preload" href="assets/fonts/golos-cyr.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/golos-lat.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://crm.justfood.pro" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=29">
+<link rel="stylesheet" href="css/styles.css?v=32">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -66,7 +66,7 @@
         {"@type": "Question", "name": "Когда привезёте обед?", "acceptedAnswer": {"@type": "Answer", "text": "В выбранный день с 12:00 до 13:00. Ближайшая дата — завтра при заказе до 20:00, после 20:00 — послезавтра."}},
         {"@type": "Question", "name": "Можно ли менять состав?", "acceptedAnswer": {"@type": "Answer", "text": "Да, до оформления. В корзине можно заменить блюдо, добавить напиток или приборы."}},
         {"@type": "Question", "name": "Где посмотреть состав и аллергены?", "acceptedAnswer": {"@type": "Answer", "text": "Нажмите «Состав и аллергены» на карточке блюда. Там указаны вес, калорийность и аллергены."}},
-        {"@type": "Question", "name": "Это настоящий заказ?", "acceptedAnswer": {"@type": "Answer", "text": "Нет, это концепт. Заказ сохраняется только в браузере, оплата и доставка не подключены."}}
+        {"@type": "Question", "name": "Где сохраняется заказ?", "acceptedAnswer": {"@type": "Answer", "text": "Заказ сохраняется в вашем браузере. Сайт не передаёт его на кухню и не принимает оплату."}}
       ]
     }
   ]
@@ -89,7 +89,6 @@
   <symbol id="i-phone" viewBox="0 0 256 256"><path d="M222.37,158.46l-47.11-21.11-.13-.06a16,16,0,0,0-15.17,1.4,8.12,8.12,0,0,0-.75.56L134.87,160c-15.42-7.49-31.34-23.29-38.83-38.51l20.78-24.71c.2-.25.39-.5.57-.77a16,16,0,0,0,1.32-15.06l0-.12L97.54,33.64a16,16,0,0,0-16.62-9.52A56.26,56.26,0,0,0,32,80c0,79.4,64.6,144,144,144a56.26,56.26,0,0,0,55.88-48.92A16,16,0,0,0,222.37,158.46ZM176,208A128.14,128.14,0,0,1,48,80,40.2,40.2,0,0,1,82.87,40a.61.61,0,0,0,0,.12l21,47L83.2,111.86a6.13,6.13,0,0,0-.57.77,16,16,0,0,0-1,15.7c9.06,18.53,27.73,37.06,46.46,46.11a16,16,0,0,0,15.75-1.14,8.44,8.44,0,0,0,.74-.56L168.89,152l47,21.05h0s.08,0,.11,0A40.21,40.21,0,0,1,176,208Z"/></symbol>
   <symbol id="i-telegram" viewBox="0 0 256 256"><path d="M228.88,26.19a9,9,0,0,0-9.16-1.57L17.06,103.93a14.22,14.22,0,0,0,2.43,27.21L72,141.45V200a15.92,15.92,0,0,0,10,14.83,15.91,15.91,0,0,0,17.51-3.73l25.32-26.26L165,220a15.88,15.88,0,0,0,10.51,4,16.3,16.3,0,0,0,5-.79,15.85,15.85,0,0,0,10.67-11.63L231.77,35A9,9,0,0,0,228.88,26.19Zm-61.14,36L78.15,126.35l-49.6-9.73ZM88,200V152.52l24.79,21.74Zm87.53,8L92.85,135.5l119-85.29Z"/></symbol>
   <symbol id="i-pin" viewBox="0 0 256 256"><path d="M128,64a40,40,0,1,0,40,40A40,40,0,0,0,128,64Zm0,64a24,24,0,1,1,24-24A24,24,0,0,1,128,128Zm0-112a88.1,88.1,0,0,0-88,88c0,31.4,14.51,64.68,42,96.25a254.19,254.19,0,0,0,41.45,38.3,8,8,0,0,0,9.18,0A254.19,254.19,0,0,0,174,200.25c27.45-31.57,42-64.85,42-96.25A88.1,88.1,0,0,0,128,16Zm0,206c-16.53-13-72-60.75-72-118a72,72,0,0,1,144,0C200,161.23,144.53,209,128,222Z"/></symbol>
-  <symbol id="i-quotes" viewBox="0 0 256 256"><path d="M100,56H40A16,16,0,0,0,24,72v64a16,16,0,0,0,16,16h60v8a32,32,0,0,1-32,32,8,8,0,0,0,0,16,48.05,48.05,0,0,0,48-48V72A16,16,0,0,0,100,56Zm0,80H40V72h60ZM216,56H156a16,16,0,0,0-16,16v64a16,16,0,0,0,16,16h60v8a32,32,0,0,1-32,32,8,8,0,0,0,0,16,48.05,48.05,0,0,0,48-48V72A16,16,0,0,0,216,56Zm0,80H156V72h60Z"/></symbol>
   <symbol id="i-coins" viewBox="0 0 256 256"><path d="M184,89.57V84c0-25.08-37.83-44-88-44S8,58.92,8,84v40c0,20.89,26.25,37.49,64,42.46V172c0,25.08,37.83,44,88,44s88-18.92,88-44V132C248,111.3,222.58,94.68,184,89.57ZM232,132c0,13.22-30.79,28-72,28-3.73,0-7.43-.13-11.08-.37C170.49,151.77,184,139,184,124V105.74C213.87,110.19,232,122.27,232,132ZM72,150.25V126.46A183.74,183.74,0,0,0,96,128a183.74,183.74,0,0,0,24-1.54v23.79A163,163,0,0,1,96,152,163,163,0,0,1,72,150.25Zm96-40.32V124c0,8.39-12.41,17.4-32,22.87V123.5C148.91,120.37,159.84,115.71,168,109.93ZM96,56c41.21,0,72,14.78,72,28s-30.79,28-72,28S24,97.22,24,84,54.79,56,96,56ZM24,124V109.93c8.16,5.78,19.09,10.44,32,13.57v23.37C36.41,141.4,24,132.39,24,124Zm64,48v-4.17c2.63.1,5.29.17,8,.17,3.88,0,7.67-.13,11.39-.35A121.92,121.92,0,0,0,120,171.41v23.46C100.41,189.4,88,180.39,88,172Zm48,26.25V174.4a179.48,179.48,0,0,0,24,1.6,183.74,183.74,0,0,0,24-1.54v23.79a165.45,165.45,0,0,1-48,0Zm64-3.38V171.5c12.91-3.13,23.84-7.79,32-13.57V172C232,180.39,219.59,189.4,200,194.87Z"/></symbol>
   <symbol id="i-prohibit" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm88,104a87.56,87.56,0,0,1-20.41,56.28L71.72,60.4A88,88,0,0,1,216,128ZM40,128A87.56,87.56,0,0,1,60.41,71.72L184.28,195.6A88,88,0,0,1,40,128Z"/></symbol>
 </svg>
@@ -124,7 +123,6 @@
       <a href="#menu">Меню</a>
       <a href="#how">Как это работает</a>
       <a href="#faq">Доставка</a>
-      <a href="#reviews">Отзывы</a>
     </nav>
     <button class="cart-btn" id="header-cart" aria-haspopup="dialog" aria-controls="cart">
       <svg class="icon" aria-hidden="true"><use href="#i-bag"/></svg>
@@ -217,7 +215,7 @@
         </li>
         <li>
           <span class="step-num mono">02</span>
-          <div><h3>Оформляете до 20:00</h3><p>Оставляете адрес и телефон. Оплата не нужна, это демо.</p></div>
+          <div><h3>Оформляете до 20:00</h3><p>Указываете адрес и телефон для заказа.</p></div>
         </li>
         <li>
           <span class="step-num mono">03</span>
@@ -227,46 +225,18 @@
     </div>
   </section>
 
-  <section class="reviews" id="reviews" aria-labelledby="reviews-title">
-    <div class="wrap">
-      <div class="section-head">
-        <div>
-          <h2 id="reviews-title">Что говорят</h2>
-          <p>Демонстрационные отзывы. Имена и компании изменены.</p>
-        </div>
-      </div>
-      <div class="quotes">
-        <figure class="quote quote-lg">
-          <svg class="quote-icon" aria-hidden="true"><use href="#i-quotes"/></svg>
-          <blockquote>Берём на команду из шести человек. К 13:00 всё на ресепшене, ещё ни разу не опоздали.</blockquote>
-          <figcaption><b>Марина</b><span class="mono">Пресня, офис на Лесной</span></figcaption>
-        </figure>
-        <figure class="quote">
-          <svg class="quote-icon" aria-hidden="true"><use href="#i-quotes"/></svg>
-          <blockquote>Наконец не надо выбирать между супом и вторым. Три блюда, и обед закрыт.</blockquote>
-          <figcaption><b>Илья</b><span class="mono">Офис на Белорусской</span></figcaption>
-        </figure>
-        <figure class="quote">
-          <svg class="quote-icon" aria-hidden="true"><use href="#i-quotes"/></svg>
-          <blockquote>Порции хватает. После борща и курицы не тянет на печеньки.</blockquote>
-          <figcaption><b>Оля</b><span class="mono">ЦАО, Хамовники</span></figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
   <section class="faq" id="faq" aria-labelledby="faq-title">
     <div class="wrap faq-grid">
       <div class="faq-intro">
         <h2 id="faq-title">Вопросы</h2>
-        <p>Коротко о доставке, составе и демо. Если остались вопросы, напишите в Telegram.</p>
+        <p>Коротко о доставке и составе. Если остались вопросы, напишите в Telegram.</p>
         <a class="link-arrow" href="https://t.me/pitanie_msk">Написать в Telegram<svg class="icon" aria-hidden="true"><use href="#i-telegram"/></svg></a>
       </div>
       <div class="faq-list">
         <article><h3>Когда привезёте обед?</h3><p>В выбранный день с 12:00 до 13:00. Ближайшая дата — завтра при заказе до 20:00, после 20:00 — послезавтра.</p></article>
         <article><h3>Можно ли менять состав?</h3><p>Да, до оформления. В корзине можно заменить блюдо, добавить напиток или приборы.</p></article>
         <article><h3>Где посмотреть состав и аллергены?</h3><p>Нажмите «Состав и аллергены» на карточке блюда. Там указаны вес, калорийность и аллергены.</p></article>
-        <article><h3>Это настоящий заказ?</h3><p>Нет, это концепт. Заказ сохраняется только в браузере, оплата и доставка не подключены.</p></article>
+        <article><h3>Где сохраняется заказ?</h3><p>Заказ сохраняется в вашем браузере. Сайт не передаёт его на кухню и не принимает оплату.</p></article>
       </div>
     </div>
   </section>
@@ -275,7 +245,7 @@
     <div class="wrap closing-inner">
       <div>
         <h2 id="closing-title">Соберите обед на завтра</h2>
-        <p>Приём до 20:00. Доставка бесплатная, оплата не нужна.</p>
+        <p>Приём до 20:00. Доставка бесплатная.</p>
       </div>
       <a class="btn btn-primary" href="#menu">Собрать обед<svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
@@ -303,7 +273,7 @@
   </div>
   <div class="wrap footer-bottom">
     <p>© 2026 Питание Москва</p>
-    <p class="footer-note">Концепт. Заказы сохраняются только в браузере. Контакты демонстрационные.</p>
+    <p class="footer-note">Заказы сохраняются в браузере.</p>
     <div class="palette">
       <a class="palette-link" href="palette.html">Сравнить варианты палитры</a>
     </div>
@@ -338,7 +308,7 @@
         <li data-step="done"><span>3</span>Готово</li>
       </ol>
       <div class="orderbar-courier cart-courier" id="cart-courier" aria-hidden="true"></div>
-      <span class="basket-slot" id="cart-drink-slot" aria-hidden="true"></span>
+      <span class="basket-slot" id="cart-drink-slot" aria-hidden="true" hidden></span>
       <button class="icon-btn" type="button" data-close="cart" aria-label="Закрыть"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
     </div>
     <div class="sheet-body" id="cart-body"></div>
@@ -362,6 +332,6 @@
   <button type="button" id="toast-undo">Вернуть</button>
 </div>
 
-<script type="module" src="js/app.js?v=14"></script>
+<script type="module" src="js/app.js?v=18"></script>
 </body>
 </html>

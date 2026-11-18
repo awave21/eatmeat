@@ -463,24 +463,6 @@ h3{font-size:19px;line-height:1.28;letter-spacing:-.018em;font-weight:600}
 .how-steps h3{font-size:17px}
 .how-steps p{font-size:14px;color:var(--muted);margin-top:4px;line-height:1.55;max-width:44ch}
 
-/* ---------- Guarantee ---------- */
-
-/* ---------- Reviews ---------- */
-.reviews{padding:clamp(48px,5.4vw,84px) 0}
-.quotes{display:grid;grid-template-columns:1.18fr 1fr 1fr;gap:clamp(14px,1.8vw,22px);margin-top:30px;align-items:start}
-.quote{
-  display:flex;flex-direction:column;gap:14px;
-  padding:24px;border-radius:var(--r-media);
-  background:var(--surface);box-shadow:inset 0 0 0 1px rgba(21,22,26,.06);
-}
-.quote-lg{padding:30px;background:var(--accent-wash);box-shadow:inset 0 0 0 1px rgba(var(--accent-rgb),.16)}
-.quote-icon{width:22px;height:22px;color:var(--accent);opacity:.85}
-.quote blockquote{font-size:15.5px;line-height:1.5;letter-spacing:-.01em;color:var(--ink)}
-.quote-lg blockquote{font-size:20px;line-height:1.4;letter-spacing:-.02em}
-.quote figcaption{margin-top:auto;padding-top:10px;display:flex;flex-direction:column;gap:1px}
-.quote figcaption b{font-size:13.5px;font-weight:500}
-.quote figcaption span{font-size:12px;color:var(--muted)}
-
 /* ---------- FAQ ---------- */
 .faq{padding:0 0 clamp(48px,5.4vw,84px)}
 .faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,4.4vw,72px);align-items:start;border-top:1px solid var(--line);padding-top:clamp(32px,4vw,52px)}
@@ -606,6 +588,16 @@ button.basket-slot:focus-visible .basket-remove{background:var(--danger)}
 }
 .sheet-foot[hidden]{display:none}
 .sheet-foot .btn{width:100%}
+.checkout-actions{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px}
+.checkout-actions .btn{min-height:44px;justify-content:center}
+.checkout-actions .btn-ghost{padding-inline:12px}
+@media (max-width:420px){
+  .checkout-actions{grid-template-columns:1fr}
+}
+.cutlery-reminder{padding-top:10px;border-top:1px solid var(--line)}
+.cutlery-reminder p{margin-bottom:10px;font-size:15px;font-weight:500}
+.cutlery-reminder-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:8px}
+.cutlery-reminder-actions .btn{min-height:44px;padding-inline:12px;justify-content:center}
 .sheet-title{font-size:26px;letter-spacing:-.035em;line-height:1.1}
 .sheet-sub{font-size:13.5px;color:var(--muted);margin-top:6px;line-height:1.5}
 
@@ -685,7 +677,6 @@ button.basket-slot:focus-visible .basket-remove{background:var(--danger)}
   font-size:14px;color:var(--ink);align-items:center;
 }
 .summary .total b{font-size:26px;font-weight:600;letter-spacing:-.04em}
-.summary .total-note{font-size:12px;color:var(--muted)}
 .foot-line{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:12px}
 .foot-sum{display:flex;align-items:baseline;gap:8px}
 .foot-sum span{font-size:12px;color:var(--muted)}
@@ -702,6 +693,7 @@ button.basket-slot:focus-visible .basket-remove{background:var(--danger)}
 
 /* forms */
 .form{display:flex;flex-direction:column;gap:14px}
+#address-form{margin-top:18px}
 .menu-delivery{padding-top:var(--space-4);border-bottom:1px solid var(--line)}
 .menu-delivery .delivery-calendar{max-width:540px;border-bottom:0}
 .delivery-calendar{min-width:0;margin:0;padding:0 0 14px;border:0;border-bottom:1px solid var(--line)}
@@ -740,12 +732,13 @@ button.basket-slot:focus-visible .basket-remove{background:var(--danger)}
 textarea.input{min-height:78px;resize:vertical;line-height:1.5}
 .field-error{font-size:12px;color:var(--danger);display:flex;align-items:center;gap:5px}
 .field-error:empty{display:none}
-.form-note{font-size:12px;color:var(--muted);line-height:1.55}
-.check-line{display:flex;align-items:flex-start;gap:10px;font-size:12.5px;line-height:1.5;color:var(--ink-soft);cursor:pointer}
-.check-line input{width:18px;height:18px;margin:1px 0 0;accent-color:var(--accent);flex:none}
 .city-line{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-soft)}
 .city-line .icon{width:15px;height:15px;color:var(--accent)}
-.form-split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.form-split{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.address-details{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:420px){
+  .address-details{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 details.extras{border-top:1px solid var(--line);padding-top:12px;margin-top:2px}
 details.extras summary{
   display:flex;align-items:center;justify-content:space-between;gap:10px;
@@ -756,17 +749,6 @@ details.extras summary .icon{width:15px;height:15px;color:var(--muted);transitio
 details.extras[open] summary .icon{transform:rotate(180deg)}
 details.extras summary span{color:var(--muted)}
 .extras-body{display:flex;flex-direction:column;gap:12px;padding-top:6px}
-
-/* recap */
-.recap{
-  display:flex;gap:12px;align-items:flex-start;
-  padding:13px 14px;border-radius:var(--r-control);
-  background:var(--accent-wash);border:1px solid rgba(var(--accent-rgb),.16);
-  margin-bottom:18px;
-}
-.recap .icon{width:18px;height:18px;color:var(--accent);margin-top:2px}
-.recap-main{font-size:13px;font-weight:500}
-.recap small{display:block;font-size:12px;color:var(--muted);margin-top:2px;line-height:1.45}
 
 /* success */
 .success{text-align:center;padding:14px 0 0}
@@ -916,8 +898,6 @@ details.extras summary span{color:var(--muted)}
   .menu-layout{grid-template-columns:168px minmax(0,1fr);gap:26px}
   .drink-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
   .dish-name{font-size:15.5px}
-  .quotes{grid-template-columns:1fr 1fr}
-  .quote-lg{grid-column:1 / -1}
 }
 
 @media (max-width:900px){
@@ -956,7 +936,6 @@ details.extras summary span{color:var(--muted)}
   .dishes{grid-template-columns:repeat(2,minmax(0,1fr))}
   .drink-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
   .dish-name{font-size:15px}
-  .quote-lg blockquote{font-size:18px}
 }
 
 @media (640px < width <= 900px){
@@ -1017,10 +996,6 @@ details.extras summary span{color:var(--muted)}
   .how-steps li{grid-template-columns:38px minmax(0,1fr);gap:10px;padding:16px 0}
   .how-steps h3{font-size:15.5px}
   .how-steps p{font-size:13px}
-  .quotes{grid-template-columns:1fr;gap:10px;margin-top:20px}
-  .quote{padding:18px;border-radius:14px}
-  .quote-lg{padding:20px}
-  .quote-lg blockquote{font-size:17px}
   .faq-grid{padding-top:30px}
   .footer{padding-bottom:104px}
   .footer-top{grid-template-columns:1fr;gap:22px;padding-bottom:24px}

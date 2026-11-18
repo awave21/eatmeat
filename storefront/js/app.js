@@ -61,7 +61,9 @@ const state = {
   drink: null,
   drinkQty: 0,
   cutlery: 0,
+  cutleryReminderSeen: false,
   deliveryDate: null,
+  addressDraft: null,
   order: null,
   stage: 'cart',
 };
@@ -217,10 +219,11 @@ const plural = (n, one, few, many) => {
 
 /* ---------- persistence ---------- */
 function save() {
+  if (!pickedCount() && !state.drinkQty && !state.cutlery) state.cutleryReminderSeen = false;
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify({
       version: 2, quantities: state.quantities, drink: state.drink, drinkQty: state.drinkQty,
-      cutlery: state.cutlery, deliveryDate: state.deliveryDate,
+      cutlery: state.cutlery, deliveryDate: state.deliveryDate, cutleryReminderSeen: state.cutleryReminderSeen,
     }));
   } catch { /* storage disabled */ }
 }
@@ -234,6 +237,7 @@ function restore() {
         if (Object.hasOwn(dishesById, id) && validQuantity(count)) state.quantities[id] = count;
       }
       if (deliveryChoices().includes(raw.deliveryDate)) state.deliveryDate = raw.deliveryDate;
+      state.cutleryReminderSeen = raw.cutleryReminderSeen === true;
     } else if (Array.isArray(raw.picked)) {
       const count = validQuantity(raw.qty) ? raw.qty : 1;
       COURSES.forEach((course, cat) => {
@@ -473,6 +477,7 @@ function flyToBasket(key, selection, photo) {
   const cart = photo.closest('#cart[open]');
   const slotSelector = cart && isDrink ? '#cart-drink-slot' : `[data-dish-slot="${key}"]`;
   const slot = $(slotSelector);
+  if (cart && isDrink && slot) slot.hidden = false;
   if (!slot?.offsetWidth) return;
   const courier = cart ? $('#cart-courier') : $('#bar-courier');
   const sourceRect = photo.getBoundingClientRect();
@@ -616,6 +621,7 @@ function openSheet(id, trigger) {
 function closeSheet(id) {
   const dlg = document.getElementById(id);
   if (!dlg.open) return;
+  if (id === 'cart') state.addressDraft = null;
   dlg.close();
   if (!$('#cart').open && !$('#detail').open) {
     document.body.classList.remove('is-locked');
@@ -633,9 +639,9 @@ function renderCart() {
   const steps = $('#cart-steps');
   $('#cart-courier').hidden = state.stage !== 'cart';
   const drinkSlot = $('#cart-drink-slot');
-  drinkSlot.hidden = state.stage !== 'cart';
+  drinkSlot.hidden = state.stage !== 'cart' || !state.drink;
   drinkSlot.className = basketSlotClass('drink', state.drink);
-  drinkSlot.innerHTML = drinkSlotContent();
+  drinkSlot.innerHTML = state.drink ? drinkSlotContent() : '';
   $$('li', steps).forEach((li) => {
     const order = ['cart', 'address', 'done'];
     const current = order.indexOf(state.stage);
@@ -651,6 +657,11 @@ function renderCart() {
     foot.innerHTML = cartFoot();
   } else if (state.stage === 'address') {
     body.innerHTML = addressStage();
+    if (state.addressDraft) {
+      const form = $('#address-form');
+      for (const [name, value] of state.addressDraft.fields) form.elements.namedItem(name).value = value;
+      $('.extras', form).open = state.addressDraft.extras;
+    }
     foot.hidden = false;
     foot.innerHTML = addressFoot();
     bindPhone();
@@ -713,20 +724,31 @@ function cartStage() {
       ${state.cutlery > 0 ? `<span>Приборы · ${state.cutlery} наб. <b>${sum.cutlery} ₽</b></span>` : ''}
       <span class="free">Доставка <b>0 ₽</b></span>
       <span class="total">Итого <b>${sum.total} ₽</b></span>
-      <span class="total-note">Оплата не нужна, это демо.</span>
     </div>`;
 }
 
-function cartFoot() {
+function cartFoot(showCutleryReminder = false) {
   const sum = totals();
   const complete = isComplete();
   return `<div class="foot-line">
       <div class="foot-sum"><span>Итого</span><b>${sum.total} ₽</b></div>
       <span class="mono" style="font-size:11px;color:var(--muted)">доставка 0 ₽</span>
     </div>
-    <button class="btn btn-primary" type="button" id="cart-next" ${complete ? '' : 'aria-describedby="cart-minimum"'}>
+    ${showCutleryReminder ? `<div class="cutlery-reminder">
+      <p id="cutlery-reminder-title" tabindex="-1">Добавить приборы к обеду?</p>
+      <div class="cutlery-reminder-actions">
+        <button class="btn btn-primary" type="button" data-cutlery-reminder="add">Добавить набор за ${CUTLERY_PRICE} ₽</button>
+        <button class="btn btn-ghost" type="button" data-cutlery-reminder="skip">Без приборов</button>
+      </div>
+    </div>` : `<button class="btn btn-primary" type="button" id="cart-next" ${complete ? '' : 'aria-describedby="cart-minimum"'}>
       ${complete ? 'Указать адрес' : 'Вернуться к меню'}${icon('arrow')}
-    </button>`;
+    </button>`}`;
+}
+
+function openAddress() {
+  state.stage = 'address';
+  syncMenu();
+  $('#cart-title').focus({ preventScroll: true });
 }
 
 function orderLines(items, drink, cutlery) {
@@ -741,17 +763,8 @@ const dishItems = () => selectedDishes().map(({ id }) => ({ id, quantity: quanti
 const drinkItem = () => state.drink ? { id: state.drink, quantity: state.drinkQty } : null;
 
 function addressStage() {
-  const sum = totals();
-  return `<button class="link-arrow" type="button" data-back="cart" style="margin-bottom:12px">К составу обеда</button>
-    <h2 class="sheet-title" id="cart-title" tabindex="-1">Куда привезти?</h2>
-    <p class="sheet-sub">Адрес и телефон нужны курьеру. Это демо, данные никуда не отправляются.</p>
-    <div class="recap">
-      ${icon('truck')}
-      <span class="recap-main">Ваш заказ · ${sum.total} ₽
-        <small id="checkout-delivery">${deliveryWindowLabel()}</small>
-        ${orderLines(dishItems(), drinkItem(), state.cutlery).map(([name, count]) => `<small>${esc(name)} · ${count}</small>`).join('')}
-      </span>
-    </div>
+  return `<h2 class="sheet-title" id="cart-title" tabindex="-1">Куда привезти?</h2>
+    <p class="sheet-sub">Заказ сохраняется в этом браузере.</p>
     <form class="form" id="address-form" novalidate>
       <p class="field-error" id="e-delivery" role="alert"></p>
       <div class="field">
@@ -759,9 +772,34 @@ function addressStage() {
         <span class="city-line">${icon('pin')}Москва, доставка по городу</span>
       </div>
       <div class="field">
-        <label for="f-address">Улица и дом <span class="opt">(обязательно)</span></label>
-        <input class="input" id="f-address" name="address" autocomplete="street-address" placeholder="Лесная, 12" minlength="5" maxlength="200" aria-describedby="e-address">
+        <label for="f-address">Улица <span class="opt">(обязательно)</span></label>
+        <input class="input" id="f-address" name="street" placeholder="Лесная" maxlength="200" required aria-describedby="e-address">
         <span class="field-error" id="e-address"></span>
+      </div>
+      <div class="form-split">
+        <div class="field">
+          <label for="f-house">Дом <span class="opt">(обязательно)</span></label>
+          <input class="input" id="f-house" name="house" placeholder="12А" maxlength="24" required aria-describedby="e-house">
+          <span class="field-error" id="e-house"></span>
+        </div>
+        <div class="field">
+          <label for="f-building">Корпус</label>
+          <input class="input" id="f-building" name="building" placeholder="2" maxlength="24">
+        </div>
+      </div>
+      <div class="form-split address-details">
+        <div class="field">
+          <label for="f-entry">Подъезд</label>
+          <input class="input" id="f-entry" name="entry" placeholder="3" maxlength="24">
+        </div>
+        <div class="field">
+          <label for="f-floor">Этаж</label>
+          <input class="input" id="f-floor" name="floor" placeholder="5" maxlength="24">
+        </div>
+        <div class="field">
+          <label for="f-flat">Офис / квартира</label>
+          <input class="input" id="f-flat" name="flat" placeholder="42" maxlength="30">
+        </div>
       </div>
       <div class="field">
         <label for="f-name">Ваше имя <span class="opt">(обязательно)</span></label>
@@ -776,24 +814,20 @@ function addressStage() {
       <details class="extras">
         <summary>Детали для курьера <span>необязательно</span>${icon('caret')}</summary>
         <div class="extras-body">
-          <div class="form-split">
-            <div class="field"><label for="f-flat">Квартира / офис</label><input class="input" id="f-flat" name="flat" maxlength="30" placeholder="42"></div>
-            <div class="field"><label for="f-entry">Подъезд, этаж</label><input class="input" id="f-entry" name="entry" maxlength="40" placeholder="2, 5"></div>
-          </div>
           <div class="field"><label for="f-comment">Комментарий курьеру</label><textarea class="input" id="f-comment" name="comment" maxlength="400" placeholder="Домофон, ориентир или пожелания"></textarea></div>
         </div>
       </details>
-      <label class="check-line"><input type="checkbox" id="f-consent">Понимаю, что это демо: использую вымышленные данные, оплата и доставка не подключены.</label>
-      <span class="field-error" id="e-consent"></span>
     </form>`;
 }
 
 function addressFoot() {
   return `<div class="foot-line">
       <div class="foot-sum"><span>Итого</span><b>${totals().total} ₽</b></div>
-      <span class="mono" style="font-size:11px;color:var(--muted)">демо</span>
     </div>
-    <button class="btn btn-primary" type="submit" form="address-form" id="submit-order">Подтвердить заказ${icon('arrow')}</button>`;
+    <div class="checkout-actions">
+      <button class="btn btn-ghost" type="button" data-back="cart">Назад к составу</button>
+      <button class="btn btn-primary" type="submit" form="address-form" id="submit-order">Сохранить заказ${icon('arrow')}</button>
+    </div>`;
 }
 
 function doneStage() {
@@ -801,7 +835,7 @@ function doneStage() {
   return `<div class="success">
     <span class="success-mark">${icon('check')}</span>
     <h2 id="cart-title" tabindex="-1">Заказ сохранён</h2>
-    <p>Демонстрационный заказ. Кухня и курьер его не получат.</p>
+    <p>Заказ сохранён в этом браузере. На кухню он не отправлен.</p>
     <div class="receipt">
       <p class="receipt-label">Номер заказа</p>
       <p class="receipt-code">${code}</p>
@@ -810,7 +844,6 @@ function doneStage() {
         `<div class="receipt-row"><span>${esc(name)}</span><b>${count}</b></div>`).join('')}
       <div class="receipt-row receipt-total"><span>Итого</span><b>${total} ₽</b></div>
     </div>
-    <p class="form-note">Данные никуда не отправлены и хранятся только в этом браузере.</p>
     <button class="btn btn-primary" type="button" data-close-cart style="margin-top:16px">Вернуться к меню${icon('arrow')}</button>
   </div>`;
 }
@@ -822,27 +855,24 @@ function fieldError(input, message) {
   input.setAttribute('aria-invalid', message ? 'true' : 'false');
 }
 
+const addressChecks = [
+  ['f-address', (value) => value.trim().length >= 2, 'Укажите улицу'],
+  ['f-house', (value) => value.trim().length > 0, 'Укажите номер дома'],
+  ['f-name', (value) => value.trim().length >= 2, 'Напишите, как к вам обращаться'],
+  ['f-phone', (value) => value.replace(/\D/g, '').length === 11, 'Введите телефон полностью: +7 и 10 цифр'],
+];
+
 function validateAddress() {
   const form = $('#address-form');
   if (!form) return false;
-  const address = $('#f-address');
-  const name = $('#f-name');
-  const phone = $('#f-phone');
-  const consent = $('#f-consent');
   let first = null;
 
-  const checks = [
-    [address, address.value.trim().length >= 5, 'Укажите улицу и дом, минимум 5 символов'],
-    [name, name.value.trim().length >= 2, 'Напишите, как к вам обращаться'],
-    [phone, phone.value.replace(/\D/g, '').length === 11, 'Введите телефон полностью: +7 и 10 цифр'],
-  ];
-  checks.forEach(([input, ok, msg]) => {
-    fieldError(input, ok ? '' : msg);
+  addressChecks.forEach(([id, check, message]) => {
+    const input = document.getElementById(id);
+    const ok = check(input.value);
+    fieldError(input, ok ? '' : message);
     if (!ok && !first) first = input;
   });
-  const consentErr = $('#e-consent');
-  consentErr.textContent = consent.checked ? '' : 'Отметьте, что понимаете: это демо';
-  if (!consent.checked && !first) first = consent;
 
   if (first) {
     first.focus();
@@ -854,19 +884,11 @@ function validateAddress() {
 function bindFormChecks() {
   const form = $('#address-form');
   if (!form) return;
-  const rules = {
-    'f-address': (v) => v.trim().length >= 5,
-    'f-name': (v) => v.trim().length >= 2,
-    'f-phone': (v) => v.replace(/\D/g, '').length === 11,
-  };
   form.addEventListener('input', (event) => {
     const input = event.target;
-    const rule = rules[input.id];
-    if (!rule) return;
-    if (input.getAttribute('aria-invalid') === 'true' && rule(input.value)) fieldError(input, '');
-  });
-  $('#f-consent').addEventListener('change', (event) => {
-    if (event.target.checked) $('#e-consent').textContent = '';
+    if (input.getAttribute('aria-invalid') !== 'true') return;
+    const entry = addressChecks.find(([id]) => id === input.id);
+    if (entry?.[1](input.value)) fieldError(input, '');
   });
 }
 
@@ -900,7 +922,7 @@ function submitOrder() {
   const dates = deliveryChoices();
   if (!dates.includes(state.deliveryDate)) {
     syncDeliveryCalendar(dates);
-    $('#checkout-delivery').textContent = deliveryWindowLabel();
+    save();
     $('#e-delivery').textContent = `Прежняя дата уже недоступна. Ближайшая доставка — ${dateLabel(state.deliveryDate)}. Проверьте дату перед подтверждением.`;
     return;
   }
@@ -914,6 +936,9 @@ function submitOrder() {
     total: totals().total,
   };
   state.order = payload;
+  state.addressDraft = null;
+  state.cutleryReminderSeen = false;
+  save();
   try { sessionStorage.setItem('pm-last-order', JSON.stringify(payload)); } catch { /* ignore */ }
   state.stage = 'done';
   renderCart();
@@ -970,7 +995,7 @@ function scrollSpy() {
 }
 
 function reveals() {
-  const targets = $$('.hero-copy, .hero-meal-art, .band, .course, .how-intro, .steps li, .quotes > *, .faq-intro, .faq-list article, .closing-inner');
+  const targets = $$('.hero-copy, .hero-meal-art, .band, .course, .how-intro, .steps li, .faq-intro, .faq-list article, .closing-inner');
   if (!('IntersectionObserver' in window) || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   targets.forEach((el, i) => {
     el.classList.add('reveal');
@@ -1075,11 +1100,24 @@ function bind() {
       }
       return;
     }
+    const cutleryAnswer = event.target.closest('[data-cutlery-reminder]');
+    if (cutleryAnswer) {
+      if (cutleryAnswer.dataset.cutleryReminder === 'add') {
+        state.cutlery = 1;
+        save();
+      }
+      openAddress();
+      return;
+    }
     if (event.target.closest('#cart-next')) {
       if (isComplete()) {
-        state.stage = 'address';
-        renderCart();
-        $('#cart-title').focus({ preventScroll: true });
+        if (state.cutlery || state.cutleryReminderSeen) openAddress();
+        else {
+          state.cutleryReminderSeen = true;
+          save();
+          $('#cart-foot').innerHTML = cartFoot(true);
+          $('#cutlery-reminder-title').focus({ preventScroll: true });
+        }
       } else {
         closeSheet('cart');
         $('#menu-title').focus({ preventScroll: true });
@@ -1087,7 +1125,14 @@ function bind() {
       }
       return;
     }
-    if (event.target.closest('[data-back="cart"]')) { state.stage = 'cart'; renderCart(); return; }
+    if (event.target.closest('[data-back="cart"]')) {
+      const form = $('#address-form');
+      state.addressDraft = { fields: new FormData(form), extras: $('.extras', form).open };
+      state.stage = 'cart';
+      renderCart();
+      $('#cart-title').focus({ preventScroll: true });
+      return;
+    }
     if (event.target.closest('[data-close-cart]')) { closeSheet('cart'); return; }
 
     const close = event.target.closest('[data-close]');
