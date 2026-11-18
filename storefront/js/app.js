@@ -219,11 +219,10 @@ const plural = (n, one, few, many) => {
 
 /* ---------- persistence ---------- */
 function save() {
-  if (!pickedCount() && !state.drinkQty && !state.cutlery) state.cutleryReminderSeen = false;
   try {
     localStorage.setItem(STORE_KEY, JSON.stringify({
       version: 2, quantities: state.quantities, drink: state.drink, drinkQty: state.drinkQty,
-      cutlery: state.cutlery, deliveryDate: state.deliveryDate, cutleryReminderSeen: state.cutleryReminderSeen,
+      cutlery: state.cutlery, deliveryDate: state.deliveryDate,
     }));
   } catch { /* storage disabled */ }
 }
@@ -237,7 +236,6 @@ function restore() {
         if (Object.hasOwn(dishesById, id) && validQuantity(count)) state.quantities[id] = count;
       }
       if (deliveryChoices().includes(raw.deliveryDate)) state.deliveryDate = raw.deliveryDate;
-      state.cutleryReminderSeen = raw.cutleryReminderSeen === true;
     } else if (Array.isArray(raw.picked)) {
       const count = validQuantity(raw.qty) ? raw.qty : 1;
       COURSES.forEach((course, cat) => {
@@ -620,7 +618,11 @@ function openSheet(id, trigger) {
   const dlg = document.getElementById(id);
   if (dlg.open) return;
   lastTrigger = trigger || document.activeElement;
-  if (id === 'cart') { state.stage = 'cart'; renderCart(); }
+  if (id === 'cart') {
+    state.stage = 'cart';
+    state.cutleryReminderSeen = false;
+    renderCart();
+  }
   dlg.showModal();
   document.body.classList.add('is-locked');
   $('#orderbar').classList.add('hidden');
@@ -950,7 +952,6 @@ function submitOrder() {
   };
   state.order = payload;
   state.addressDraft = null;
-  state.cutleryReminderSeen = false;
   save();
   try { sessionStorage.setItem('pm-last-order', JSON.stringify(payload)); } catch { /* ignore */ }
   state.stage = 'done';
@@ -1124,7 +1125,6 @@ function bind() {
         if (state.cutlery || state.cutleryReminderSeen) openAddress();
         else {
           state.cutleryReminderSeen = true;
-          save();
           $('#cart-foot').innerHTML = cartFoot(true);
           $('#cutlery-reminder-title').focus({ preventScroll: true });
         }
