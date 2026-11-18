@@ -23,7 +23,7 @@
 <link rel="preload" href="assets/fonts/golos-cyr.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/golos-lat.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preconnect" href="https://crm.justfood.pro" crossorigin>
-<link rel="stylesheet" href="css/styles.css?v=32">
+<link rel="stylesheet" href="css/styles.css?v=33">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -303,7 +303,10 @@
   <div class="sheet-inner">
     <div class="sheet-head">
       <ol class="steps" id="cart-steps" aria-label="Шаги заказа">
-        <li data-step="cart"><span>1</span>Состав</li>
+        <li data-step="cart">
+          <div class="step-label"><span>1</span>Состав</div>
+          <button class="step-label" type="button" data-back="cart" aria-label="Вернуться к составу" hidden><span aria-hidden="true">1</span>Состав</button>
+        </li>
         <li data-step="address"><span>2</span>Адрес</li>
         <li data-step="done"><span>3</span>Готово</li>
       </ol>
@@ -332,6 +335,6 @@
   <button type="button" id="toast-undo">Вернуть</button>
 </div>
 
-<script type="module" src="js/app.js?v=18"></script>
+<script type="module" src="js/app.js?v=20"></script>
 </body>
 </html>

@@ -444,7 +444,8 @@ function basketSlotClass(key, selection) {
 function orderbarSlot(key, selection, content, name, count) {
   const attrs = `data-dish-slot="${key}" class="${basketSlotClass(key, selection)}"`;
   if (selection === null) return `<span ${attrs} aria-hidden="true">${content}</span>`;
-  return `<button type="button" ${attrs} data-remove-slot="${key}" aria-label="Убрать из обеда: ${esc(name)}">
+  const action = key === 'drink' ? 'Убрать один напиток' : 'Убрать одну порцию';
+  return `<button type="button" ${attrs} data-remove-slot="${key}" aria-label="${action}: ${esc(name)}">
     ${content}<span class="basket-count" aria-hidden="true">${count}</span><span class="basket-remove" aria-hidden="true">${icon('x')}</span>
   </button>`;
 }
@@ -586,6 +587,15 @@ function setDrink(id, trigger, count = 1) {
   }
 }
 
+function changeDrinkQuantity(delta) {
+  if (!state.drink) return;
+  const count = Math.min(MAX_QTY, Math.max(0, state.drinkQty + delta));
+  if (!count) { setDrink('none'); return; }
+  state.drinkQty = count;
+  syncMenu();
+  save();
+}
+
 /* ---------- toast ---------- */
 function showToast(text, undo) {
   const el = $('#toast');
@@ -642,6 +652,9 @@ function renderCart() {
   drinkSlot.hidden = state.stage !== 'cart' || !state.drink;
   drinkSlot.className = basketSlotClass('drink', state.drink);
   drinkSlot.innerHTML = state.drink ? drinkSlotContent() : '';
+  const canGoBack = state.stage === 'address';
+  $('button[data-back="cart"]', steps).hidden = !canGoBack;
+  $('div.step-label', steps).hidden = canGoBack;
   $$('li', steps).forEach((li) => {
     const order = ['cart', 'address', 'done'];
     const current = order.indexOf(state.stage);
@@ -825,7 +838,7 @@ function addressFoot() {
       <div class="foot-sum"><span>Итого</span><b>${totals().total} ₽</b></div>
     </div>
     <div class="checkout-actions">
-      <button class="btn btn-ghost" type="button" data-back="cart">Назад к составу</button>
+      <button class="checkout-back" type="button" data-back="cart">Назад</button>
       <button class="btn btn-primary" type="submit" form="address-form" id="submit-order">Сохранить заказ${icon('arrow')}</button>
     </div>`;
 }
@@ -1060,10 +1073,11 @@ function bind() {
     if (removeSlot) {
       const restoreFocus = document.activeElement === removeSlot;
       const key = removeSlot.dataset.removeSlot;
-      if (key === 'drink') setDrink('none');
-      else removeDish(categoryThumb(Number(key))?.id);
+      if (key === 'drink') changeDrinkQuantity(-1);
+      else changeDish(categoryThumb(Number(key))?.id, -1);
       if (restoreFocus) {
-        const nextButton = $('#bar-thumbs [data-remove-slot]') || $('#bar-cta');
+        const nextButton = $(`#bar-thumbs [data-remove-slot="${key}"]`)
+          || $('#bar-thumbs [data-remove-slot]') || $('#bar-cta');
         nextButton.focus({ preventScroll: true });
       }
       return;
@@ -1076,15 +1090,11 @@ function bind() {
       const change = Number(delta);
       const cartBody = step.closest('#cart-body');
       const top = cartBody?.scrollTop;
-      if (item === 'drink' || item === 'cutlery') {
-        const key = item === 'drink' ? 'drinkQty' : 'cutlery';
-        const count = Math.min(MAX_QTY, Math.max(0, state[key] + change));
-        if (item === 'drink' && !count) setDrink('none');
-        else {
-          state[key] = count;
-          syncMenu();
-          save();
-        }
+      if (item === 'drink') changeDrinkQuantity(change);
+      else if (item === 'cutlery') {
+        state.cutlery = Math.min(MAX_QTY, Math.max(0, state.cutlery + change));
+        syncMenu();
+        save();
       } else changeDish(item, change, step);
       if (cartBody) {
         cartBody.scrollTop = top;

@@ -590,10 +590,8 @@ button.basket-slot:focus-visible .basket-remove{background:var(--danger)}
 .sheet-foot .btn{width:100%}
 .checkout-actions{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px}
 .checkout-actions .btn{min-height:44px;justify-content:center}
-.checkout-actions .btn-ghost{padding-inline:12px}
-@media (max-width:420px){
-  .checkout-actions{grid-template-columns:1fr}
-}
+.checkout-back{min-height:44px;padding-inline:12px;color:var(--accent);font-size:14px;font-weight:500}
+.checkout-back:hover,.steps button.step-label:hover{text-decoration:underline;text-underline-offset:3px}
 .cutlery-reminder{padding-top:10px;border-top:1px solid var(--line)}
 .cutlery-reminder p{margin-bottom:10px;font-size:15px;font-weight:500}
 .cutlery-reminder-actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:8px}
@@ -607,6 +605,9 @@ button.basket-slot:focus-visible .basket-remove{background:var(--danger)}
   display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);
   transition:color var(--dur-2) var(--ease);
 }
+.step-label{display:inline-flex;align-items:center;gap:6px;min-height:44px}
+.step-label[hidden]{display:none}
+.steps button.step-label{padding:0;color:var(--accent);font-weight:500}
 .steps li span{
   display:grid;place-items:center;width:20px;height:20px;border-radius:6px;
   background:var(--paper-deep);font-family:'JetBrains Mono',monospace;font-size:12px;
